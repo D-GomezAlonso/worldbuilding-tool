@@ -1,2 +1,1 @@
-# worldbuilding-tool
- 
+# Worldbuilding tool
