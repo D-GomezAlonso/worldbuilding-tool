@@ -1,4 +1,8 @@
 export type SiteConfig = typeof siteConfig;
+import { BsFillHouseFill } from "react-icons/bs";
+import { BsPinMapFill } from "react-icons/bs";
+import { BsFillPersonFill } from "react-icons/bs";
+import { BsLayoutTextWindow } from "react-icons/bs";
 
 export const siteConfig = {
   name: "Next.js + NextUI",
@@ -7,18 +11,22 @@ export const siteConfig = {
     {
       label: "Home",
       href: "/",
+      Icon: BsFillHouseFill,
     },
     {
       label: "Places",
       href: "/places",
+      Icon: BsPinMapFill,
     },
     {
       label: "Characters",
       href: "/characters",
+      Icon: BsFillPersonFill,
     },
     {
       label: "Blog",
       href: "/blog",
+      Icon: BsLayoutTextWindow,
     },
   ],
   navMenuItems: [

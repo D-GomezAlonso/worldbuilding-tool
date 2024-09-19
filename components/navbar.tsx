@@ -25,12 +25,12 @@ export const Navbar = () => (
             <NextLink
               className={clsx(
                 linkStyles({ color: "foreground" }),
-                "data-[active=true]:text-primary data-[active=true]:font-medium"
+                "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
               )}
               color="foreground"
               href={item.href}
             >
-              {item.label}
+              <item.Icon/> {item.label}
             </NextLink>
           </NavbarItem>
         ))}

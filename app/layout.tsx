@@ -7,6 +7,7 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
+import { Divider } from "@nextui-org/divider";
 
 export const metadata: Metadata = {
   title: {
@@ -43,9 +44,8 @@ export default function RootLayout({
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-row h-screen">
             <Navbar />
-            <main className="container mx-auto pt-16 px-6 flex-grow bg-red-300">
-              {children}
-            </main>
+            <Divider orientation="vertical" />
+            <main className="container flex-grow ">{children}</main>
           </div>
         </Providers>
       </body>
