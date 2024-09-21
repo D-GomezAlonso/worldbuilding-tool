@@ -45,7 +45,9 @@ export default function RootLayout({
           <div className="relative flex flex-row h-screen">
             <Navbar />
             <Divider orientation="vertical" />
-            <main className="container flex-grow ">{children}</main>
+            <main className="flex flex-grow">
+              {children}
+            </main>
           </div>
         </Providers>
       </body>

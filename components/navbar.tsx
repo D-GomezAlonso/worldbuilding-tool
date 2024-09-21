@@ -1,3 +1,4 @@
+"use client";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -9,40 +10,101 @@ import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
+import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import { BsPlus } from "react-icons/bs";
+import { BsChevronRight } from "react-icons/bs";
+import React, { useCallback } from "react";
+import { IconType } from "react-icons";
 
-export const Navbar = () => (
-  <NextUINavbar
-    maxWidth="sm"
-    classNames={{
-      base: "flex flex-col w-auto",
-      wrapper: "flex flex-col w-auto h-full py-24",
-    }}
-  >
-    <NavbarContent>
-      <ul className="flex flex-col h-full gap-4 justify-start ml-2">
-        {siteConfig.navItems.map((item) => (
-          <NavbarItem key={item.href}>
-            <NextLink
-              className={clsx(
-                linkStyles({ color: "foreground" }),
-                "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
-              )}
-              color="foreground"
-              href={item.href}
-            >
-              <item.Icon/> {item.label}
-            </NextLink>
-          </NavbarItem>
-        ))}
-      </ul>
-    </NavbarContent>
-    <NavbarContent
-      className="hidden sm:flex basis-1/5 sm:basis-full"
-      justify="end"
+export const Navbar = () => {
+  const [selectedKeys, setSelectedKeys] = React.useState(
+    new Set<string | number>([])
+  );
+  const [isAll, setIsAll] = React.useState(false);
+
+  const handleAccordionClick = useCallback(
+    (item: { label: string; href: string; Icon: IconType }, index: number) => {
+      const key = `${item.label}-${index}`;
+      const copySet = new Set(selectedKeys);
+
+      if (copySet.has(key)) {
+        copySet.delete(`${item.label}-${index}`);
+      } else {
+        copySet.add(`${item.label}-${index}`);
+      }
+      setSelectedKeys(copySet);
+    },
+    [selectedKeys, setSelectedKeys]
+  );
+
+  return (
+    <NextUINavbar
+      maxWidth="sm"
+      classNames={{
+        base: "flex flex-col w-auto dark:bg-gray-navbar",
+        wrapper: "flex flex-col w-auto h-full py-24 items-start ",
+      }}
     >
-      <NavbarItem className="hidden sm:flex gap-2">
-        <ThemeSwitch />
-      </NavbarItem>
-    </NavbarContent>
-  </NextUINavbar>
-);
+      <h1 className="text-xl font-bold">New Project</h1>
+      <NavbarContent className="p-0">
+        <ul className="flex flex-col h-full gap-4 justify-start p-0">
+          <Accordion
+            selectedKeys={isAll ? "all" : selectedKeys}
+            selectionMode="multiple"
+            className="group px-0"
+            itemClasses={{
+              base: "group",
+              startContent: "group-data-[open=true]/:rotate-90 transition",
+            }}
+          >
+            {siteConfig.navItems.map((item, index) => (
+              <AccordionItem
+                className="p-0 m-0"
+                key={`${item.label}-${index}`}
+                aria-label={`${item.label}-${index}`}
+                startContent={
+                  <BsChevronRight
+                    onClick={() => handleAccordionClick(item, index)}
+                  />
+                }
+                indicator={
+                  <NavbarItem key={item.href} className="flex align-middle">
+                    <NextLink
+                      className={clsx(
+                        linkStyles({ color: "foreground" }),
+                        "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
+                      )}
+                      color="foreground"
+                      href={item.href}
+                    >
+                      <BsPlus />
+                    </NextLink>
+                  </NavbarItem>
+                }
+                disableIndicatorAnimation
+                title={
+                  <div
+                    onClick={() => handleAccordionClick(item, index)}
+                    className="flex items-center gap-3 min-w-40"
+                  >
+                    <item.Icon /> {item.label}
+                  </div>
+                }
+              >
+                Default content
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </ul>
+      </NavbarContent>
+      <NavbarContent
+        className="hidden sm:flex basis-1/5 sm:basis-full"
+        justify="end"
+      >
+        <NavbarItem className="hidden sm:flex gap-2">
+          <ThemeSwitch />
+        </NavbarItem>
+      </NavbarContent>
+    </NextUINavbar>
+  );
+};

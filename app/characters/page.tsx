@@ -42,7 +42,7 @@ export default function CharactersPage() {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="flex flex-row bg-gray-950 px-16">
+      <div className="flex flex-row px-16 dark:bg-gray-navbar">
         <Button onClick={addNewPanel} color="primary">
           Add Panel
         </Button>
@@ -50,7 +50,7 @@ export default function CharactersPage() {
       <Divider></Divider>
       <DndContext onDragEnd={handleDragEnd}>
         <div
-          className="w-full h-full p-5 relative overflow-hidden flex"
+          className="w-full h-full p-5 relative overflow-hidden flex dark:bg-gray-background"
           ref={setNodeRef}
         >
           {notes.map((note) => (
