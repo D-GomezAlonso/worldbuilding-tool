@@ -48,7 +48,7 @@ export const Navbar = () => {
       <NavbarContent className="p-0">
         <ul className="flex flex-col h-full gap-4 justify-start p-0">
           <Accordion
-            selectedKeys={ selectedKeys}
+            selectedKeys={selectedKeys}
             selectionMode="multiple"
             className="group px-0"
             itemClasses={{
