@@ -4,6 +4,7 @@ import { Panel } from "./components/Panel";
 import { Divider } from "@nextui-org/divider";
 import React, { useState } from "react";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
+import { Toolbar } from "@/components/Toolbar";
 
 const notesData = [
   {
@@ -42,11 +43,7 @@ export default function CharactersPage() {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="flex flex-row px-16 dark:bg-gray-navbar">
-        <Button onClick={addNewPanel} color="primary">
-          Add Panel
-        </Button>
-      </div>
+      <Toolbar addNewPanel={addNewPanel} />
       <Divider></Divider>
       <DndContext onDragEnd={handleDragEnd}>
         <div
