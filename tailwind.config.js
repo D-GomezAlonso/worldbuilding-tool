@@ -16,6 +16,7 @@ module.exports = {
       colors: {
         "gray-navbar": "#1f1f1f",
         "gray-background": "#121212",
+        "gray-toolbar": "#292929",
       },
       keyframes: {
         wiggle: {

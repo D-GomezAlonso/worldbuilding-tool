@@ -20,7 +20,6 @@ export const Navbar = () => {
   const [selectedKeys, setSelectedKeys] = React.useState(
     new Set<string | number>([])
   );
-  const [isAll, setIsAll] = React.useState(false);
 
   const handleAccordionClick = useCallback(
     (item: { label: string; href: string; Icon: IconType }, index: number) => {
@@ -49,7 +48,7 @@ export const Navbar = () => {
       <NavbarContent className="p-0">
         <ul className="flex flex-col h-full gap-4 justify-start p-0">
           <Accordion
-            selectedKeys={isAll ? "all" : selectedKeys}
+            selectedKeys={ selectedKeys}
             selectionMode="multiple"
             className="group px-0"
             itemClasses={{
