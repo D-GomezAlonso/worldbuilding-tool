@@ -3,13 +3,16 @@ import { useDraggable } from "@dnd-kit/core";
 import { Card, CardFooter, CardHeader } from "@nextui-org/card";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
-import { CSSProperties, useCallback, useState } from "react";
+import { CSSProperties, useCallback, useMemo, useState } from "react";
 import { BsArrowsMove } from "react-icons/bs";
 import { BsPlusLg } from "react-icons/bs";
 import { PanelWrapper } from "../PanelWrapper";
 import { Button } from "@nextui-org/button";
 import { CardBodyList } from "./CardBodyList";
 import { ListItem } from "./types";
+import { useFieldArray, useFormContext } from "react-hook-form";
+import { ProjectFormType } from "@/form-utils/defaultValues";
+import { uuid } from "uuidv4";
 
 const baseItem = [
   {
@@ -22,65 +25,26 @@ const baseItem = [
 
 export const Panel = ({
   id,
+  panelIndex,
   styles,
 }: {
   id: string;
+  panelIndex: number;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: id,
   });
-  const [lastIndex, setLastIndex] = useState(0);
-  const [listItems, setListItems] = useState<ListItem[]>(baseItem);
+  const { control } = useFormContext<ProjectFormType>();
 
-  const addListItem = useCallback(() => {
-    setListItems([
-      ...listItems,
-      {
-        title: "",
-        description: "",
-        id: `${lastIndex + 1}`,
-        list: "0",
-      },
-    ]);
+  const { append } = useFieldArray({
+    control,
+    name: `characters.0.panels.${panelIndex}.entries`,
+  });
 
-    setLastIndex(lastIndex + 1);
-  }, [listItems, setListItems, lastIndex, setLastIndex]);
-
-  const deleteListItem = useCallback(
-    (index: string) => {
-      const filteredList = listItems.filter((item) => item.id !== index);
-      setListItems(filteredList);
-    },
-    [listItems, setListItems]
-  );
-
-  const copyListItem = useCallback(
-    (index: string) => {
-      const item = listItems.find((item) => item.id === index);
-      if (item) {
-        const copiedItem = { ...item };
-        copiedItem.id = `${lastIndex + 1}`;
-        const newList = [...listItems, copiedItem];
-        setListItems(newList);
-        setLastIndex(lastIndex + 1);
-      }
-    },
-    [listItems, setListItems, lastIndex, setLastIndex]
-  );
-
-  const onItemChange = useCallback(
-    (fieldName: "title" | "description", index: string, newValue: string) => {
-      const itemIndex = listItems.findIndex((item) => item.id === index);
-
-      if (itemIndex !== -1) {
-        const listItemsCopy = [...listItems];
-        listItemsCopy[itemIndex][fieldName] = newValue;
-        setListItems(listItemsCopy);
-      }
-    },
-    [listItems, setListItems]
-  );
+  const addListItem = () => {
+    append({ title: "", description: "", id: uuid() });
+  };
 
   return (
     <PanelWrapper
@@ -91,7 +55,7 @@ export const Panel = ({
       transform={transform}
     >
       <Card className="max-w-sm min-h-96 top-0 left-0">
-        <CardHeader>
+        <CardHeader className="z-0">
           <Input
             defaultValue="Header"
             classNames={{
@@ -101,13 +65,7 @@ export const Panel = ({
           />
         </CardHeader>
         <Divider />
-        <CardBodyList
-          listItems={listItems}
-          setListItems={setListItems}
-          deleteListItem={deleteListItem}
-          copyListItem={copyListItem}
-          onChange={onItemChange}
-        />
+        <CardBodyList panelIndex={panelIndex} />
         <CardFooter className="flex justify-between">
           <Button isIconOnly onClick={addListItem}>
             <BsPlusLg />

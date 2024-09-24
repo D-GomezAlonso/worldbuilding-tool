@@ -11,16 +11,19 @@ export const siteConfig = {
       label: "Places",
       href: "/places",
       Icon: BsPinMapFill,
+      formRef: "places",
     },
     {
       label: "Characters",
       href: "/characters",
       Icon: BsFillPersonFill,
+      formRef: "characters",
     },
     {
       label: "Blog",
       href: "/blog",
       Icon: BsLayoutTextWindow,
+      formRef: "blogs",
     },
   ],
   navMenuItems: [

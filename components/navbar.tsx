@@ -14,6 +14,7 @@ import { BsPlus } from "react-icons/bs";
 import { BsChevronRight } from "react-icons/bs";
 import React, { useCallback } from "react";
 import { IconType } from "react-icons";
+import { useFormContext } from "react-hook-form";
 
 export const Navbar = () => {
   const [selectedKeys, setSelectedKeys] = React.useState(
@@ -34,6 +35,8 @@ export const Navbar = () => {
     },
     [selectedKeys, setSelectedKeys]
   );
+
+  const { watch } = useFormContext();
 
   return (
     <NextUINavbar
@@ -89,7 +92,15 @@ export const Navbar = () => {
                   </div>
                 }
               >
-                Default content
+                {watch(item.formRef) ? (
+                  <ul>
+                    {watch(item.formRef).map((value: { name: string }) => (
+                      <li>{value.name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  `No ${item.label} entry`
+                )}
               </AccordionItem>
             ))}
           </Accordion>

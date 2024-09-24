@@ -25,36 +25,32 @@ import {
   sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
-import {
-  createContext,
-  CSSProperties,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, CSSProperties, useId, useMemo, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { SortableOverlay } from "./SorableOverlay";
 import React from "react";
+import { ProjectFormType } from "@/form-utils/defaultValues";
+import { useFieldArray, useFormContext } from "react-hook-form";
+import { uuid } from "uuidv4";
 
 type CardBodyListProps = {
-  listItems: ListItem[];
-  setListItems: (listItems: ListItem[]) => void;
-  onChange: (
-    fieldName: "title" | "description",
-    index: string,
-    newValue: string
-  ) => void;
-  copyListItem: (index: string) => void;
-  deleteListItem: (index: string) => void;
+  panelIndex: number;
 };
 
-export const CardBodyList = ({
-  listItems,
-  setListItems,
-  copyListItem,
-  deleteListItem,
-  onChange,
-}: CardBodyListProps) => {
+export const CardBodyList = ({ panelIndex }: CardBodyListProps) => {
   const [active, setActive] = useState<Active | null>(null);
+
+  const { watch, control, setValue } = useFormContext<ProjectFormType>();
+
+  const { append, update, remove } = useFieldArray({
+    control,
+    name: `characters.0.panels.${panelIndex}.entries`,
+  });
+
+  const listItems = useMemo(
+    () => watch(`characters.0.panels.${panelIndex}.entries`),
+    [watch(`characters.0.panels.${panelIndex}.entries`)]
+  );
 
   const activeItem = useMemo(
     () => listItems.find((item) => item.id === active?.id),
@@ -67,6 +63,37 @@ export const CardBodyList = ({
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  const onChange = (
+    fieldName: "title" | "description",
+    id: string,
+    value: string
+  ) => {
+    const itemIndex = listItems.findIndex((item) => item.id === id);
+
+    if (itemIndex !== -1) {
+      const item = listItems[itemIndex];
+      item[fieldName] = value;
+      update(itemIndex, item);
+    }
+  };
+
+  const copyListItem = (id: string) => {
+    const item = listItems.find((item) => item.id === id);
+    if (item) {
+      const newId = uuid();
+      const copiedItem = { ...item, id: newId };
+      copiedItem.id = `${newId}`;
+      append(copiedItem);
+    }
+  };
+
+  const deleteListItem = (id: string) => {
+    const index = listItems.findIndex((item) => item.id === id);
+    if (index) {
+      remove(index);
+    }
+  };
 
   const renderItem = (item: ListItem) => (
     <BodyEntry
@@ -92,7 +119,10 @@ export const CardBodyList = ({
             );
             const overIndex = listItems.findIndex(({ id }) => id === over.id);
 
-            setListItems(arrayMove(listItems, activeIndex, overIndex));
+            setValue(
+              `characters.0.panels.${panelIndex}.entries`,
+              arrayMove(listItems, activeIndex, overIndex)
+            );
           }
           setActive(null);
         }}
@@ -135,8 +165,8 @@ export const BodyEntry = ({
 }: ListItem & {
   onChange: (
     fieldName: "title" | "description",
-    index: string,
-    newValue: string
+    id: string,
+    value: string
   ) => void;
   copyListItem: (index: string) => void;
   deleteListItem: (index: string) => void;
@@ -150,6 +180,7 @@ export const BodyEntry = ({
     transform,
     transition,
   } = useSortable({ id });
+
   const context = useMemo(
     () => ({
       attributes,
@@ -158,6 +189,7 @@ export const BodyEntry = ({
     }),
     [attributes, listeners, setActivatorNodeRef]
   );
+
   const style: CSSProperties = {
     opacity: isDragging ? 0.4 : undefined,
     transform: CSS.Translate.toString(transform),
