@@ -15,6 +15,7 @@ import { BsChevronRight } from "react-icons/bs";
 import React, { useCallback } from "react";
 import { IconType } from "react-icons";
 import { useFormContext } from "react-hook-form";
+import { ProjectFormType } from "@/form-utils/defaultValues";
 
 export const Navbar = () => {
   const [selectedKeys, setSelectedKeys] = React.useState(
@@ -93,10 +94,26 @@ export const Navbar = () => {
                 }
               >
                 {watch(item.formRef) ? (
-                  <ul>
-                    {watch(item.formRef).map((value: { name: string }) => (
-                      <li>{value.name}</li>
-                    ))}
+                  <ul className="ml-7">
+                    {watch(item.formRef).map(
+                      (value: { name: string; id: string }) => (
+                        <NavbarItem
+                          key={value.id}
+                          className="flex align-middle"
+                        >
+                          <NextLink
+                            className={clsx(
+                              linkStyles({ color: "foreground" }),
+                              "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
+                            )}
+                            color="foreground"
+                            href={`${item.href}/${value.id}`}
+                          >
+                            - {value.name}
+                          </NextLink>
+                        </NavbarItem>
+                      )
+                    )}
                   </ul>
                 ) : (
                   `No ${item.label} entry`

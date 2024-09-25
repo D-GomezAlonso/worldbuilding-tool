@@ -1,24 +1,27 @@
 "use client";
 import { Panel } from "./components/Panel";
 import { Divider } from "@nextui-org/divider";
-import React, { useEffect, useId, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { Toolbar } from "@/components/Toolbar";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { ProjectFormType } from "@/form-utils/defaultValues";
 
-export default function CharactersPage() {
+export default function CharactersPage({ params }: { params: { id: string } }) {
   const { setNodeRef } = useDroppable({ id: "character-panel" });
   const { watch, control, setValue } = useFormContext<ProjectFormType>();
 
+  const characterIndex = watch("characters").findIndex(
+    (character) => character.id === params.id
+  );
+
+  const fieldName: `characters.${number}.panels` = `characters.${characterIndex}.panels`;
+
   const { append } = useFieldArray({
     control,
-    name: "characters.0.panels",
+    name: fieldName,
   });
-  const panels = useMemo(
-    () => watch("characters.0.panels"),
-    [watch("characters.0.panels")]
-  );
+  const panels = useMemo(() => watch(fieldName), [watch(fieldName)]);
 
   const addNewPanel = () => {
     append({
@@ -37,13 +40,9 @@ export default function CharactersPage() {
         if (x.id === note.id) return note;
         return x;
       });
-      setValue("characters.0.panels", _notes);
+      setValue(fieldName, _notes);
     }
   }
-
-  useEffect(() => {
-    console.log(watch("characters.0.panels"));
-  }, [watch("characters.0.panels")]);
 
   return (
     <div className="flex flex-col w-full h-full">

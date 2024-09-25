@@ -2,6 +2,7 @@ export const formDefaultValues: ProjectFormType = {
   characters: [
     {
       name: "Character 1",
+      id: "1",
       panels: [
         {
           id: "1",
@@ -25,6 +26,7 @@ export type ProjectFormType = {
 
 export type Character = {
   name: string;
+  id: string;
   panels: Panel[];
 };
 

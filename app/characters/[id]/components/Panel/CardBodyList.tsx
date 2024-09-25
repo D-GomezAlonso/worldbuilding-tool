@@ -274,7 +274,11 @@ function OptionsButton({
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
-        <Button isIconOnly className="bg-transparent min-h-0 min-w-0" size="sm">
+        <Button
+          isIconOnly
+          className="bg-transparent min-h-0 min-w-0 z-0"
+          size="sm"
+        >
           <BsThreeDotsVertical className="min-h-4 min-w-4" />
         </Button>
       </DropdownTrigger>
