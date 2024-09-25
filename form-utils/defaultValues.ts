@@ -41,3 +41,21 @@ export type PanelEntry = {
   description: string;
   id: string;
 };
+
+export const createCharacter = (name: string, id: string) => ({
+  name,
+  id,
+  panels: [
+    {
+      id: "1",
+      position: { x: 0, y: 0 },
+      entries: [
+        {
+          title: "",
+          description: "",
+          id: "1",
+        },
+      ],
+    },
+  ],
+});

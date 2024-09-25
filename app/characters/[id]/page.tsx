@@ -1,7 +1,7 @@
 "use client";
 import { Panel } from "./components/Panel";
 import { Divider } from "@nextui-org/divider";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { Toolbar } from "@/components/Toolbar";
 import { useFieldArray, useFormContext } from "react-hook-form";
@@ -57,7 +57,7 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
             <Panel
               key={note.id}
               id={note.id}
-              panelIndex={index}
+              fieldName={`${fieldName}.${index}.entries`}
               styles={{
                 position: "absolute",
                 left: `${note.position.x}px`,

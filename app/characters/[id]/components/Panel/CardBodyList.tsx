@@ -27,30 +27,27 @@ import {
 } from "@dnd-kit/sortable";
 import { createContext, CSSProperties, useId, useMemo, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
-import { SortableOverlay } from "./SorableOverlay";
+import { SortableOverlay } from "./SortableOverlay";
 import React from "react";
 import { ProjectFormType } from "@/form-utils/defaultValues";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { uuid } from "uuidv4";
 
 type CardBodyListProps = {
-  panelIndex: number;
+  fieldName: `characters.${number}.panels.${number}.entries`;
 };
 
-export const CardBodyList = ({ panelIndex }: CardBodyListProps) => {
+export const CardBodyList = ({ fieldName }: CardBodyListProps) => {
   const [active, setActive] = useState<Active | null>(null);
 
   const { watch, control, setValue } = useFormContext<ProjectFormType>();
 
   const { append, update, remove } = useFieldArray({
     control,
-    name: `characters.0.panels.${panelIndex}.entries`,
+    name: fieldName,
   });
 
-  const listItems = useMemo(
-    () => watch(`characters.0.panels.${panelIndex}.entries`),
-    [watch(`characters.0.panels.${panelIndex}.entries`)]
-  );
+  const listItems = useMemo(() => watch(fieldName), [watch(fieldName)]);
 
   const activeItem = useMemo(
     () => listItems.find((item) => item.id === active?.id),
@@ -119,10 +116,7 @@ export const CardBodyList = ({ panelIndex }: CardBodyListProps) => {
             );
             const overIndex = listItems.findIndex(({ id }) => id === over.id);
 
-            setValue(
-              `characters.0.panels.${panelIndex}.entries`,
-              arrayMove(listItems, activeIndex, overIndex)
-            );
+            setValue(fieldName, arrayMove(listItems, activeIndex, overIndex));
           }
           setActive(null);
         }}

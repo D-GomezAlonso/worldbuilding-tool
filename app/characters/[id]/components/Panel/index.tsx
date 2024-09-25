@@ -9,27 +9,17 @@ import { BsPlusLg } from "react-icons/bs";
 import { PanelWrapper } from "../PanelWrapper";
 import { Button } from "@nextui-org/button";
 import { CardBodyList } from "./CardBodyList";
-import { ListItem } from "./types";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { ProjectFormType } from "@/form-utils/defaultValues";
 import { uuid } from "uuidv4";
 
-const baseItem = [
-  {
-    title: "",
-    description: "",
-    id: "0",
-    list: "0",
-  },
-];
-
 export const Panel = ({
   id,
-  panelIndex,
+  fieldName,
   styles,
 }: {
   id: string;
-  panelIndex: number;
+  fieldName: `characters.${number}.panels.${number}.entries`;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -39,7 +29,7 @@ export const Panel = ({
 
   const { append } = useFieldArray({
     control,
-    name: `characters.0.panels.${panelIndex}.entries`,
+    name: fieldName,
   });
 
   const addListItem = () => {
@@ -65,7 +55,7 @@ export const Panel = ({
           />
         </CardHeader>
         <Divider />
-        <CardBodyList panelIndex={panelIndex} />
+        <CardBodyList fieldName={fieldName} />
         <CardFooter className="flex justify-between">
           <Button isIconOnly onClick={addListItem}>
             <BsPlusLg />

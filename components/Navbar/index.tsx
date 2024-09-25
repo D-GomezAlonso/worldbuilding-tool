@@ -15,12 +15,17 @@ import { BsChevronRight } from "react-icons/bs";
 import React, { useCallback } from "react";
 import { IconType } from "react-icons";
 import { useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils/defaultValues";
+import { createCharacter } from "@/form-utils/defaultValues";
+import { uuid } from "uuidv4";
+import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
+  const { watch, setValue } = useFormContext();
+
   const [selectedKeys, setSelectedKeys] = React.useState(
     new Set<string | number>([])
   );
+  const router = useRouter();
 
   const handleAccordionClick = useCallback(
     (item: { label: string; href: string; Icon: IconType }, index: number) => {
@@ -37,7 +42,13 @@ export const Navbar = () => {
     [selectedKeys, setSelectedKeys]
   );
 
-  const { watch } = useFormContext();
+  const createNewItem = (itemName: string, id: string) => {
+    if (itemName === "characters") {
+      const currentValue = watch(itemName);
+      const test = createCharacter("Paco Sanz", id);
+      setValue("characters", [...currentValue, test]);
+    }
+  };
 
   return (
     <NextUINavbar
@@ -69,20 +80,29 @@ export const Navbar = () => {
                     onClick={() => handleAccordionClick(item, index)}
                   />
                 }
-                indicator={
-                  <NavbarItem key={item.href} className="flex align-middle">
-                    <NextLink
-                      className={clsx(
-                        linkStyles({ color: "foreground" }),
-                        "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
-                      )}
-                      color="foreground"
-                      href={item.href}
+                indicator={() => {
+                  return (
+                    <NavbarItem
+                      key={item.href}
+                      className="flex align-middle"
+                      onClick={() => {
+                        const id = uuid();
+                        createNewItem("characters", id);
+                        router.push(`${item.href}/${id}`);
+                      }}
                     >
-                      <BsPlus />
-                    </NextLink>
-                  </NavbarItem>
-                }
+                      <p
+                        className={clsx(
+                          linkStyles({ color: "foreground" }),
+                          "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
+                        )}
+                        color="foreground"
+                      >
+                        <BsPlus />
+                      </p>
+                    </NavbarItem>
+                  );
+                }}
                 disableIndicatorAnimation
                 title={
                   <div
