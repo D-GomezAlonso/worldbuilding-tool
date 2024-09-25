@@ -3,14 +3,12 @@ import { CSSProperties } from "react";
 import { Transform } from "../types";
 
 export const PanelWrapper = ({
-  id,
   styles,
   attributes,
   setNodeRef,
   transform,
   children,
 }: {
-  id: string;
   styles: CSSProperties;
   attributes: DraggableAttributes;
   setNodeRef: (element: HTMLElement | null) => void;

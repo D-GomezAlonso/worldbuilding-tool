@@ -19,7 +19,7 @@ export const Panel = ({
   styles,
 }: {
   id: string;
-  fieldName: `characters.${number}.panels.${number}.entries`;
+  fieldName: `characters.${number}.panels.listPanels.${number}.entries`;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -38,14 +38,13 @@ export const Panel = ({
 
   return (
     <PanelWrapper
-      id={id}
       setNodeRef={setNodeRef}
       styles={styles}
       attributes={attributes}
       transform={transform}
     >
       <Card className="max-w-sm min-h-96 top-0 left-0">
-        <CardHeader className="z-0">
+        <CardHeader className="z-0 flex gap-4">
           <Input
             defaultValue="Header"
             classNames={{
@@ -53,6 +52,9 @@ export const Panel = ({
               input: "text-xl font-bold",
             }}
           />
+          <div {...listeners}>
+            <BsArrowsMove className="cursor-grab active:cursor-grabbing" />
+          </div>
         </CardHeader>
         <Divider />
         <CardBodyList fieldName={fieldName} />
@@ -60,9 +62,6 @@ export const Panel = ({
           <Button isIconOnly onClick={addListItem}>
             <BsPlusLg />
           </Button>
-          <div {...listeners}>
-            <BsArrowsMove className="cursor-grab active:cursor-grabbing" />
-          </div>
         </CardFooter>
       </Card>
     </PanelWrapper>

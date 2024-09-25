@@ -6,6 +6,12 @@ import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { Toolbar } from "@/components/Toolbar";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { ProjectFormType } from "@/form-utils/defaultValues";
+import {
+  createSnapModifier,
+  restrictToParentElement,
+} from "@dnd-kit/modifiers";
+import { TextPanel } from "./components/TextPanel";
+import { uuid } from "uuidv4";
 
 export default function CharactersPage({ params }: { params: { id: string } }) {
   const { setNodeRef } = useDroppable({ id: "character-panel" });
@@ -15,49 +21,101 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
     (character) => character.id === params.id
   );
 
-  const fieldName: `characters.${number}.panels` = `characters.${characterIndex}.panels`;
+  const listPanelsName: `characters.${number}.panels.listPanels` = `characters.${characterIndex}.panels.listPanels`;
+  const textPanelsName: `characters.${number}.panels.textPanels` = `characters.${characterIndex}.panels.textPanels`;
 
-  const { append } = useFieldArray({
+  const { append: appendListPanel } = useFieldArray({
     control,
-    name: fieldName,
+    name: listPanelsName,
   });
-  const panels = useMemo(() => watch(fieldName), [watch(fieldName)]);
+  const { append: appendTextPanel } = useFieldArray({
+    control,
+    name: textPanelsName,
+  });
 
-  const addNewPanel = () => {
-    append({
-      id: `${panels.length + 1}`,
-      position: { x: 0, y: 0 },
-      entries: [{ title: "", description: "", id: "1" }],
-    });
+  const listPanels = useMemo(
+    () => watch(listPanelsName),
+    [watch(listPanelsName)]
+  );
+  const textPanels = useMemo(
+    () => watch(textPanelsName),
+    [watch(textPanelsName)]
+  );
+
+  const addNewPanel = (panelType: "list" | "text") => {
+    switch (panelType) {
+      case "list":
+        appendListPanel({
+          id: uuid(),
+          position: { x: 0, y: 0 },
+          entries: [{ title: "", description: "", id: uuid() }],
+        });
+      case "text":
+        appendTextPanel({
+          id: uuid(),
+          position: { x: 0, y: 0 },
+          entry: "",
+        });
+    }
   };
 
   function handleDragEnd(e: DragEndEvent) {
-    const note = panels.find((x) => x.id === e.active.id);
-    if (note) {
-      note.position.x += e.delta.x;
-      note.position.y += e.delta.y;
-      const _notes = panels.map((x) => {
-        if (x.id === note.id) return note;
+    const listPanel = listPanels.find((x) => x.id === e.active.id);
+    if (listPanel) {
+      listPanel.position.x += e.delta.x;
+      listPanel.position.y += e.delta.y;
+      const _notes = listPanels.map((x) => {
+        if (x.id === listPanel.id) return listPanel;
         return x;
       });
-      setValue(fieldName, _notes);
+      setValue(listPanelsName, _notes);
+    }
+
+    const textPanel = textPanels.find((x) => x.id === e.active.id);
+    if (textPanel) {
+      textPanel.position.x += e.delta.x;
+      textPanel.position.y += e.delta.y;
+      const _notes = textPanels.map((x) => {
+        if (x.id === textPanel.id) return textPanel;
+        return x;
+      });
+      setValue(textPanelsName, _notes);
     }
   }
+
+  const gridSize = 5;
+  const snapToGridModifier = createSnapModifier(gridSize);
 
   return (
     <div className="flex flex-col w-full h-full">
       <Toolbar addNewPanel={addNewPanel} />
       <Divider></Divider>
-      <DndContext onDragEnd={handleDragEnd}>
+      <DndContext
+        onDragEnd={handleDragEnd}
+        modifiers={[snapToGridModifier, restrictToParentElement]}
+      >
         <div
           className="w-full h-full p-5 relative overflow-hidden flex dark:bg-gray-background"
           ref={setNodeRef}
         >
-          {panels.map((note, index) => (
+          {listPanels.map((note, index) => (
             <Panel
               key={note.id}
               id={note.id}
-              fieldName={`${fieldName}.${index}.entries`}
+              fieldName={`${listPanelsName}.${index}.entries`}
+              styles={{
+                position: "absolute",
+                left: `${note.position.x}px`,
+                top: `${note.position.y}px`,
+              }}
+            />
+          ))}
+
+          {textPanels.map((note, index) => (
+            <TextPanel
+              key={note.id}
+              id={note.id}
+              fieldName={`${textPanelsName}.${index}`}
               styles={{
                 position: "absolute",
                 left: `${note.position.x}px`,

@@ -13,10 +13,24 @@ import {
 import { BsFillPlusSquareFill } from "react-icons/bs";
 import { BsChevronDown } from "react-icons/bs";
 import { BsListUl } from "react-icons/bs";
+import { BsType } from "react-icons/bs";
 
-export const Toolbar = ({ addNewPanel }: { addNewPanel: () => void }) => {
+export const Toolbar = ({
+  addNewPanel,
+}: {
+  addNewPanel: (panelType: "list" | "text") => void;
+}) => {
   const panelDropdownItems = [
-    { key: "list", label: "List panel", icon: BsListUl, event: addNewPanel },
+    {
+      key: "list" as "list",
+      label: "List panel",
+      icon: BsListUl,
+    },
+    {
+      key: "text" as "text",
+      label: "Text panel",
+      icon: BsType,
+    },
   ];
 
   return (
@@ -51,7 +65,7 @@ export const Toolbar = ({ addNewPanel }: { addNewPanel: () => void }) => {
           }}
         >
           {(item) => (
-            <DropdownItem key={item.key} onClick={item.event}>
+            <DropdownItem key={item.key} onClick={() => addNewPanel(item.key)}>
               <item.icon className="min-w-4 min-h-4" />
               <span>{item.label}</span>
             </DropdownItem>
