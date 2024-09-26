@@ -12,6 +12,7 @@ import {
 } from "@dnd-kit/modifiers";
 import { TextPanel } from "./components/TextPanel";
 import { uuid } from "uuidv4";
+import { ImagePanel } from "./components/ImagePanel";
 
 export default function CharactersPage({ params }: { params: { id: string } }) {
   const { setNodeRef } = useDroppable({ id: "character-panel" });
@@ -23,6 +24,7 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
 
   const listPanelsName: `characters.${number}.panels.listPanels` = `characters.${characterIndex}.panels.listPanels`;
   const textPanelsName: `characters.${number}.panels.textPanels` = `characters.${characterIndex}.panels.textPanels`;
+  const imagePanelsName: `characters.${number}.panels.imagePanels` = `characters.${characterIndex}.panels.imagePanels`;
 
   const { append: appendListPanel } = useFieldArray({
     control,
@@ -31,6 +33,10 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
   const { append: appendTextPanel } = useFieldArray({
     control,
     name: textPanelsName,
+  });
+  const { append: appendImagePanel } = useFieldArray({
+    control,
+    name: imagePanelsName,
   });
 
   const listPanels = useMemo(
@@ -41,8 +47,12 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
     () => watch(textPanelsName),
     [watch(textPanelsName)]
   );
+  const imagePanels = useMemo(
+    () => watch(imagePanelsName),
+    [watch(imagePanelsName)]
+  );
 
-  const addNewPanel = (panelType: "list" | "text") => {
+  const addNewPanel = (panelType: "list" | "text" | "image") => {
     switch (panelType) {
       case "list":
         appendListPanel({
@@ -52,6 +62,12 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
         });
       case "text":
         appendTextPanel({
+          id: uuid(),
+          position: { x: 0, y: 0 },
+          entry: "",
+        });
+      case "image":
+        appendImagePanel({
           id: uuid(),
           position: { x: 0, y: 0 },
           entry: "",
@@ -80,6 +96,17 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
         return x;
       });
       setValue(textPanelsName, _notes);
+    }
+
+    const imagePanel = imagePanels.find((x) => x.id === e.active.id);
+    if (imagePanel) {
+      imagePanel.position.x += e.delta.x;
+      imagePanel.position.y += e.delta.y;
+      const _notes = imagePanels.map((x) => {
+        if (x.id === imagePanel.id) return imagePanel;
+        return x;
+      });
+      setValue(imagePanelsName, _notes);
     }
   }
 
@@ -110,12 +137,23 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
               }}
             />
           ))}
-
           {textPanels.map((note, index) => (
             <TextPanel
               key={note.id}
               id={note.id}
               fieldName={`${textPanelsName}.${index}`}
+              styles={{
+                position: "absolute",
+                left: `${note.position.x}px`,
+                top: `${note.position.y}px`,
+              }}
+            />
+          ))}
+          {imagePanels.map((note, index) => (
+            <ImagePanel
+              key={note.id}
+              id={note.id}
+              fieldName={`${imagePanelsName}.${index}`}
               styles={{
                 position: "absolute",
                 left: `${note.position.x}px`,

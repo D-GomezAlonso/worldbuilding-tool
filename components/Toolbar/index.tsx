@@ -14,11 +14,13 @@ import { BsFillPlusSquareFill } from "react-icons/bs";
 import { BsChevronDown } from "react-icons/bs";
 import { BsListUl } from "react-icons/bs";
 import { BsType } from "react-icons/bs";
+import { BsFillImageFill } from "react-icons/bs";
+
 
 export const Toolbar = ({
   addNewPanel,
 }: {
-  addNewPanel: (panelType: "list" | "text") => void;
+  addNewPanel: (panelType: "list" | "text" | "image") => void;
 }) => {
   const panelDropdownItems = [
     {
@@ -30,6 +32,11 @@ export const Toolbar = ({
       key: "text" as "text",
       label: "Text panel",
       icon: BsType,
+    },
+    {
+      key: "image" as "image",
+      label: "Image panel",
+      icon: BsFillImageFill,
     },
   ];
 

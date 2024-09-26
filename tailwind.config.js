@@ -27,6 +27,16 @@ module.exports = {
       animation: {
         wiggle: "wiggle 0.5s ease-in-out",
       },
+      boxShadow: {
+        "image-panel": "0px 150px 5px -100px rgba(0, 0, 0, 0.6) inset",
+      },
+      backgroundImage: {
+        "radial-gradient":
+          "linear-gradient(rgb(18, 18, 18) 0%, rgba(16, 16, 16, 0) 25%, rgba(24, 24, 24, 0) 75%, rgb(18, 18, 18) 100%)",
+      },
+      backgroundSize: {
+        radial: "5PX",
+      },
     },
   },
   darkMode: "class",

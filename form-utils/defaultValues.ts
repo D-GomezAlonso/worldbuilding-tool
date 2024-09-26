@@ -1,3 +1,5 @@
+import { ImagePanel } from "@/app/characters/[id]/components/ImagePanel";
+
 export const formDefaultValues: ProjectFormType = {
   characters: [
     {
@@ -18,6 +20,7 @@ export const formDefaultValues: ProjectFormType = {
           },
         ],
         textPanels: [] as TextPanel[],
+        imagePanels: [] as ImagePanel[],
       },
     },
   ],
@@ -30,7 +33,11 @@ export type ProjectFormType = {
 export type Character = {
   name: string;
   id: string;
-  panels: { listPanels: ListPanel[]; textPanels: TextPanel[] };
+  panels: {
+    listPanels: ListPanel[];
+    textPanels: TextPanel[];
+    imagePanels: ImagePanel[];
+  };
 };
 
 export type ListPanel = {
@@ -40,6 +47,12 @@ export type ListPanel = {
 };
 
 export type TextPanel = {
+  entry: string;
+  id: string;
+  position: { x: number; y: number };
+};
+
+export type ImagePanel = {
   entry: string;
   id: string;
   position: { x: number; y: number };
@@ -69,5 +82,6 @@ export const createCharacter = (name: string, id: string) => ({
       },
     ],
     textPanels: [],
+    imagePanel: [],
   },
 });
