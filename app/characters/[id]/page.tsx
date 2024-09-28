@@ -4,17 +4,19 @@ import React, { useMemo } from "react";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { Toolbar } from "@/components/Toolbar";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils/defaultValues";
+import { createNewPanel, ProjectFormType } from "@/form-utils";
 import {
   createSnapModifier,
   restrictToParentElement,
 } from "@dnd-kit/modifiers";
-import { uuid } from "uuidv4";
 import { Panel } from "./components/Panel";
 
 export default function CharactersPage({ params }: { params: { id: string } }) {
   const { setNodeRef } = useDroppable({ id: "character-panel" });
   const { watch, control, setValue } = useFormContext<ProjectFormType>();
+
+  const gridSize = 5;
+  const snapToGridModifier = createSnapModifier(gridSize);
 
   const characterIndex = watch("characters").findIndex(
     (character) => character.id === params.id
@@ -29,30 +31,8 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
 
   const panels = useMemo(() => watch(panelsName), [watch(panelsName)]);
 
-  const addNewPanel = (panelType: "list" | "text" | "image") => {
-    const common = { id: uuid(), position: { x: 0, y: 0 } };
-
-    switch (panelType) {
-      case "list":
-        append({
-          ...common,
-          entries: [{ title: "", description: "", id: uuid() }],
-        });
-        break;
-      case "text":
-        append({
-          ...common,
-          text: "",
-        });
-        break;
-      case "image":
-        append({
-          ...common,
-          image: "",
-        });
-        break;
-    }
-  };
+  const addNewPanel = (panelType: "list" | "text" | "image") =>
+    append(createNewPanel(panelType));
 
   function handleDragEnd(e: DragEndEvent) {
     const panel = panels.find((x) => x.id === e.active.id);
@@ -66,9 +46,6 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
       setValue(panelsName, _notes);
     }
   }
-
-  const gridSize = 5;
-  const snapToGridModifier = createSnapModifier(gridSize);
 
   return (
     <div className="flex flex-col w-full h-full">

@@ -1,4 +1,11 @@
-import { ImagePanel } from "@/app/characters/[id]/components/ImagePanel";
+import { uuid } from "uuidv4";
+import {
+  AnyPanel,
+  ImagePanel,
+  ListPanel,
+  ProjectFormType,
+  TextPanel,
+} from "./types";
 
 export const formDefaultValues: ProjectFormType = {
   characters: [
@@ -22,39 +29,6 @@ export const formDefaultValues: ProjectFormType = {
   ],
 };
 
-export type ProjectFormType = {
-  characters: Character[];
-};
-
-export type Character = {
-  name: string;
-  id: string;
-  panels: (ListPanel | TextPanel | ImagePanel)[];
-};
-
-export interface Panel {
-  id: string;
-  position: { x: number; y: number };
-}
-
-export interface ListPanel extends Panel {
-  entries: PanelEntry[];
-}
-
-export interface TextPanel extends Panel {
-  text: string;
-}
-
-export interface ImagePanel extends Panel {
-  image: string;
-}
-
-export type PanelEntry = {
-  title: string;
-  description: string;
-  id: string;
-};
-
 export const createCharacter = (name: string, id: string) => ({
   name,
   id,
@@ -73,8 +47,6 @@ export const createCharacter = (name: string, id: string) => ({
   ],
 });
 
-export type AnyPanel = ListPanel | TextPanel | ImagePanel;
-
 export const isListPanel = (panel: AnyPanel): panel is ListPanel => {
   return (panel as ListPanel).entries !== undefined;
 };
@@ -85,4 +57,41 @@ export const isTextPanel = (panel: AnyPanel): panel is TextPanel => {
 
 export const isImagePanel = (panel: AnyPanel): panel is ImagePanel => {
   return (panel as ImagePanel).image !== undefined;
+};
+
+export const createListPanel = (): ListPanel => {
+  return {
+    id: uuid(),
+    position: { x: 0, y: 0 },
+    entries: [{ title: "", description: "", id: uuid() }],
+  };
+};
+
+export const createTextPanel = (): TextPanel => {
+  return {
+    id: uuid(),
+    position: { x: 0, y: 0 },
+    text: "",
+  };
+};
+
+export const createImagePanel = (): ImagePanel => {
+  return {
+    id: uuid(),
+    position: { x: 0, y: 0 },
+    image: "",
+  };
+};
+
+export const createNewPanel = (
+  panelType: "list" | "text" | "image"
+): AnyPanel => {
+  switch (panelType) {
+    case "list":
+      return createListPanel();
+    case "text":
+      return createTextPanel();
+    case "image":
+      return createImagePanel();
+  }
 };
