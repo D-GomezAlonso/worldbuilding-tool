@@ -1,69 +1,31 @@
-"use client";
-import { useDraggable } from "@dnd-kit/core";
-import { Card, CardFooter, CardHeader } from "@nextui-org/card";
-import { Divider } from "@nextui-org/divider";
-import { Input } from "@nextui-org/input";
-import { CSSProperties, useCallback, useMemo, useState } from "react";
-import { BsArrowsMove } from "react-icons/bs";
-import { BsPlusLg } from "react-icons/bs";
-import { PanelWrapper } from "../PanelWrapper";
-import { Button } from "@nextui-org/button";
-import { CardBodyList } from "./CardBodyList";
-import { useFieldArray, useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils/defaultValues";
-import { uuid } from "uuidv4";
+import {
+  isImagePanel,
+  isListPanel,
+  isTextPanel,
+} from "@/form-utils/defaultValues";
+import { CSSProperties } from "react";
+import { useFormContext } from "react-hook-form";
+import { TextPanel } from "../TextPanel";
+import { ListPanel } from "../ListPanel";
+import { ImagePanel } from "../ImagePanel";
 
-export const Panel = ({
-  id,
-  fieldName,
-  styles,
-}: {
+type PanelProps = {
   id: string;
-  fieldName: `characters.${number}.panels.${number}.entries`;
+  fieldName: `characters.${number}.panels.${number}`;
   styles: CSSProperties;
-}) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: id,
-  });
-  const { control } = useFormContext<ProjectFormType>();
+};
 
-  const { append } = useFieldArray({
-    control,
-    name: fieldName,
-  });
+export const Panel = ({ id, fieldName, styles }: PanelProps) => {
+  const { watch } = useFormContext();
+  const formField = watch(fieldName);
 
-  const addListItem = () => {
-    append({ title: "", description: "", id: uuid() });
-  };
+  const props = { id, fieldName, styles };
 
   return (
-    <PanelWrapper
-      setNodeRef={setNodeRef}
-      styles={styles}
-      attributes={attributes}
-      transform={transform}
-    >
-      <Card className="max-w-sm min-h-96 top-0 left-0">
-        <CardHeader className="z-0 flex gap-4">
-          <Input
-            defaultValue="Header"
-            classNames={{
-              inputWrapper: "bg-transparent",
-              input: "text-xl font-bold",
-            }}
-          />
-          <div {...listeners}>
-            <BsArrowsMove className="cursor-grab active:cursor-grabbing" />
-          </div>
-        </CardHeader>
-        <Divider />
-        <CardBodyList fieldName={fieldName} />
-        <CardFooter className="flex justify-between">
-          <Button isIconOnly onClick={addListItem}>
-            <BsPlusLg />
-          </Button>
-        </CardFooter>
-      </Card>
-    </PanelWrapper>
+    <>
+      {isListPanel(formField) && <ListPanel {...props} />}
+      {isTextPanel(formField) && <TextPanel {...props} />}
+      {isImagePanel(formField) && <ImagePanel {...props} />}
+    </>
   );
 };
