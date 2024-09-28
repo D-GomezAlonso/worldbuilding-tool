@@ -15,7 +15,7 @@ export const TextPanel = ({
   styles,
 }: {
   id: string;
-  fieldName: `characters.${number}.panels.textPanels.${number}`;
+  fieldName: `characters.${number}.panels.${number}`;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -61,9 +61,9 @@ export const TextPanel = ({
               input: "flex-1 min-h-full",
             }}
             onInput={(e) =>
-              setValue(`${fieldName}.entry`, e.currentTarget.value)
+              setValue(`${fieldName}.text`, e.currentTarget.value)
             }
-            value={watch(`${fieldName}.entry`)}
+            value={watch(`${fieldName}.text`)}
           />
         </CardBody>
       </Card>

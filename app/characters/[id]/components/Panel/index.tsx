@@ -19,7 +19,7 @@ export const Panel = ({
   styles,
 }: {
   id: string;
-  fieldName: `characters.${number}.panels.listPanels.${number}.entries`;
+  fieldName: `characters.${number}.panels.${number}.entries`;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({

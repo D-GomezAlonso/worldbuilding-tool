@@ -16,7 +16,7 @@ export const ImagePanel = ({
   styles,
 }: {
   id: string;
-  fieldName: `characters.${number}.panels.imagePanels.${number}`;
+  fieldName: `characters.${number}.panels.${number}`;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -70,7 +70,7 @@ export const ImagePanel = ({
                 img: "object-cover w-full h-full z-5",
               }}
               src={
-                watch(`${fieldName}.entry`) ||
+                watch(`${fieldName}.image`) ||
                 "https://via.placeholder.com/300x300"
               }
             />
@@ -84,7 +84,7 @@ export const ImagePanel = ({
             name="myImage"
             className="opacity-0 p-2 w-full h-full z-20 cursor-pointer"
             onChange={(e) => {
-              setValue(`${fieldName}.entry`, fileToString(e));
+              setValue(`${fieldName}.image`, fileToString(e));
             }}
           />
           <div className="flex items-center gap-2 absolute left-3 z-10">

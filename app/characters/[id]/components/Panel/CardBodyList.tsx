@@ -34,7 +34,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { uuid } from "uuidv4";
 
 type CardBodyListProps = {
-  fieldName: `characters.${number}.panels.listPanels.${number}.entries`;
+  fieldName: `characters.${number}.panels.${number}.entries`;
 };
 
 export const CardBodyList = ({ fieldName }: CardBodyListProps) => {

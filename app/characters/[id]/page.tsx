@@ -5,7 +5,12 @@ import React, { useMemo } from "react";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { Toolbar } from "@/components/Toolbar";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils/defaultValues";
+import {
+  isImagePanel,
+  isListPanel,
+  isTextPanel,
+  ProjectFormType,
+} from "@/form-utils/defaultValues";
 import {
   createSnapModifier,
   restrictToParentElement,
@@ -22,96 +27,66 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
     (character) => character.id === params.id
   );
 
-  const listPanelsName: `characters.${number}.panels.listPanels` = `characters.${characterIndex}.panels.listPanels`;
-  const textPanelsName: `characters.${number}.panels.textPanels` = `characters.${characterIndex}.panels.textPanels`;
-  const imagePanelsName: `characters.${number}.panels.imagePanels` = `characters.${characterIndex}.panels.imagePanels`;
+  const panelsName: `characters.${number}.panels` = `characters.${characterIndex}.panels`;
 
-  const { append: appendListPanel } = useFieldArray({
+  const { append } = useFieldArray({
     control,
-    name: listPanelsName,
-  });
-  const { append: appendTextPanel } = useFieldArray({
-    control,
-    name: textPanelsName,
-  });
-  const { append: appendImagePanel } = useFieldArray({
-    control,
-    name: imagePanelsName,
+    name: panelsName,
   });
 
-  const listPanels = useMemo(
-    () => watch(listPanelsName),
-    [watch(listPanelsName)]
-  );
-  const textPanels = useMemo(
-    () => watch(textPanelsName),
-    [watch(textPanelsName)]
-  );
-  const imagePanels = useMemo(
-    () => watch(imagePanelsName),
-    [watch(imagePanelsName)]
-  );
+  const panels = useMemo(() => watch(panelsName), [watch(panelsName)]);
 
   const addNewPanel = (panelType: "list" | "text" | "image") => {
     switch (panelType) {
       case "list":
-        appendListPanel({
+        append({
           id: uuid(),
           position: { x: 0, y: 0 },
           entries: [{ title: "", description: "", id: uuid() }],
         });
         break;
       case "text":
-        appendTextPanel({
+        append({
           id: uuid(),
           position: { x: 0, y: 0 },
-          entry: "",
+          text: "",
         });
         break;
       case "image":
-        appendImagePanel({
+        append({
           id: uuid(),
           position: { x: 0, y: 0 },
-          entry: "",
+          image: "",
         });
         break;
     }
   };
 
   function handleDragEnd(e: DragEndEvent) {
-    const listPanel = listPanels.find((x) => x.id === e.active.id);
-    if (listPanel) {
-      listPanel.position.x += e.delta.x;
-      listPanel.position.y += e.delta.y;
-      const _notes = listPanels.map((x) => {
-        if (x.id === listPanel.id) return listPanel;
+    const panel = panels.find((x) => x.id === e.active.id);
+    if (panel) {
+      panel.position.x += e.delta.x;
+      panel.position.y += e.delta.y;
+      const _notes = panels.map((x) => {
+        if (x.id === panel.id) return panel;
         return x;
       });
-      setValue(listPanelsName, _notes);
-    }
-
-    const textPanel = textPanels.find((x) => x.id === e.active.id);
-    if (textPanel) {
-      textPanel.position.x += e.delta.x;
-      textPanel.position.y += e.delta.y;
-      const _notes = textPanels.map((x) => {
-        if (x.id === textPanel.id) return textPanel;
-        return x;
-      });
-      setValue(textPanelsName, _notes);
-    }
-
-    const imagePanel = imagePanels.find((x) => x.id === e.active.id);
-    if (imagePanel) {
-      imagePanel.position.x += e.delta.x;
-      imagePanel.position.y += e.delta.y;
-      const _notes = imagePanels.map((x) => {
-        if (x.id === imagePanel.id) return imagePanel;
-        return x;
-      });
-      setValue(imagePanelsName, _notes);
+      setValue(panelsName, _notes);
     }
   }
+
+  const listPanels = useMemo(
+    () => panels.filter((panel) => isListPanel(panel)),
+    [panels]
+  );
+  const textPanels = useMemo(
+    () => panels.filter((panel) => isTextPanel(panel)),
+    [panels]
+  );
+  const imagePanels = useMemo(
+    () => panels.filter((panel) => isImagePanel(panel)),
+    [panels]
+  );
 
   const gridSize = 5;
   const snapToGridModifier = createSnapModifier(gridSize);
@@ -132,7 +107,7 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
             <Panel
               key={note.id}
               id={note.id}
-              fieldName={`${listPanelsName}.${index}.entries`}
+              fieldName={`${panelsName}.${index}.entries`}
               styles={{
                 position: "absolute",
                 left: `${note.position.x}px`,
@@ -144,7 +119,7 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
             <TextPanel
               key={note.id}
               id={note.id}
-              fieldName={`${textPanelsName}.${index}`}
+              fieldName={`${panelsName}.${index}`}
               styles={{
                 position: "absolute",
                 left: `${note.position.x}px`,
@@ -156,7 +131,7 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
             <ImagePanel
               key={note.id}
               id={note.id}
-              fieldName={`${imagePanelsName}.${index}`}
+              fieldName={`${panelsName}.${index}`}
               styles={{
                 position: "absolute",
                 left: `${note.position.x}px`,
