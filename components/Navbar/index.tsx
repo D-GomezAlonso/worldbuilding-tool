@@ -4,28 +4,27 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/navbar";
-import { link as linkStyles } from "@nextui-org/theme";
-import NextLink from "next/link";
-import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
-import { BsPlus } from "react-icons/bs";
 import { BsChevronRight } from "react-icons/bs";
-import React, { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { IconType } from "react-icons";
 import { useFormContext } from "react-hook-form";
 import { createCharacter } from "@/form-utils/defaultValues";
 import { uuid } from "uuidv4";
 import { useRouter } from "next/navigation";
+import { Indicator } from "./Indicator";
+import { AccordionItemBody } from "./AccordionItemBody";
 
 export const Navbar = () => {
   const { watch, setValue } = useFormContext();
+  const [activeId, setActiveId] = useState("");
+  const router = useRouter();
 
-  const [selectedKeys, setSelectedKeys] = React.useState(
+  const [selectedKeys, setSelectedKeys] = useState(
     new Set<string | number>([])
   );
-  const router = useRouter();
 
   const handleAccordionClick = useCallback(
     (item: { label: string; href: string; Icon: IconType }, index: number) => {
@@ -45,9 +44,16 @@ export const Navbar = () => {
   const createNewItem = (itemName: string, id: string) => {
     if (itemName === "characters") {
       const currentValue = watch(itemName);
-      const test = createCharacter("New Character", id);
-      setValue("characters", [...currentValue, test]);
+      const newCharacter = createCharacter("New Character", id);
+      setValue("characters", [...currentValue, newCharacter]);
     }
+  };
+
+  const createAndNavigate = (href: string) => {
+    const id = uuid();
+    createNewItem("characters", id);
+    router.push(`${href}/${id}`);
+    setActiveId(`${href}/${id}`);
   };
 
   return (
@@ -80,29 +86,12 @@ export const Navbar = () => {
                     onClick={() => handleAccordionClick(item, index)}
                   />
                 }
-                indicator={() => {
-                  return (
-                    <NavbarItem
-                      key={item.href}
-                      className="flex align-middle"
-                      onClick={() => {
-                        const id = uuid();
-                        createNewItem("characters", id);
-                        router.push(`${item.href}/${id}`);
-                      }}
-                    >
-                      <p
-                        className={clsx(
-                          linkStyles({ color: "foreground" }),
-                          "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
-                        )}
-                        color="foreground"
-                      >
-                        <BsPlus />
-                      </p>
-                    </NavbarItem>
-                  );
-                }}
+                indicator={
+                  <Indicator
+                    item={item}
+                    onClick={() => createAndNavigate(item.href)}
+                  />
+                }
                 disableIndicatorAnimation
                 title={
                   <div
@@ -113,31 +102,12 @@ export const Navbar = () => {
                   </div>
                 }
               >
-                {watch(item.formRef) ? (
-                  <ul className="ml-7">
-                    {watch(item.formRef).map(
-                      (value: { name: string; id: string }) => (
-                        <NavbarItem
-                          key={value.id}
-                          className="flex align-middle"
-                        >
-                          <NextLink
-                            className={clsx(
-                              linkStyles({ color: "foreground" }),
-                              "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
-                            )}
-                            color="foreground"
-                            href={`${item.href}/${value.id}`}
-                          >
-                            - {value.name}
-                          </NextLink>
-                        </NavbarItem>
-                      )
-                    )}
-                  </ul>
-                ) : (
-                  `No ${item.label} entry`
-                )}
+                <AccordionItemBody
+                  activeId={activeId}
+                  setActiveId={setActiveId}
+                  formRef={item.formRef}
+                  item={item}
+                />
               </AccordionItem>
             ))}
           </Accordion>

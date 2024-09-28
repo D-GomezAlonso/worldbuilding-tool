@@ -17,6 +17,9 @@ module.exports = {
         "gray-navbar": "#1f1f1f",
         "gray-background": "#121212",
         "gray-toolbar": "#292929",
+        "navbar-selected": "#31281f",
+        "navbar-hover": "#313131",
+        "navbar-accordion-line": "rgba(255, 255, 255, 0.15)",
       },
       keyframes: {
         wiggle: {
@@ -25,7 +28,6 @@ module.exports = {
         },
         gradient: {
           "0%": {
-            
             "background-position": "0% 50%",
           },
           "50%": {
