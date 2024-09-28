@@ -60,18 +60,21 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
           position: { x: 0, y: 0 },
           entries: [{ title: "", description: "", id: uuid() }],
         });
+        break;
       case "text":
         appendTextPanel({
           id: uuid(),
           position: { x: 0, y: 0 },
           entry: "",
         });
+        break;
       case "image":
         appendImagePanel({
           id: uuid(),
           position: { x: 0, y: 0 },
           entry: "",
         });
+        break;
     }
   };
 
@@ -149,7 +152,7 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
               }}
             />
           ))}
-          {imagePanels.map((note, index) => (
+          {imagePanels?.map((note, index) => (
             <ImagePanel
               key={note.id}
               id={note.id}

@@ -40,23 +40,22 @@ export type Character = {
   };
 };
 
-export type ListPanel = {
+export interface Panel {
+  id: string;
+  position: { x: number; y: number };
+}
+
+export interface ListPanel extends Panel {
   entries: PanelEntry[];
-  id: string;
-  position: { x: number; y: number };
-};
+}
 
-export type TextPanel = {
+export interface TextPanel extends Panel {
   entry: string;
-  id: string;
-  position: { x: number; y: number };
-};
+}
 
-export type ImagePanel = {
+export interface ImagePanel extends Panel {
   entry: string;
-  id: string;
-  position: { x: number; y: number };
-};
+}
 
 export type PanelEntry = {
   title: string;
@@ -81,7 +80,7 @@ export const createCharacter = (name: string, id: string) => ({
         ],
       },
     ],
-    textPanels: [],
-    imagePanel: [],
+    textPanels: [] as TextPanel[],
+    imagePanel: [] as ImagePanel[],
   },
 });
