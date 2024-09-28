@@ -45,7 +45,7 @@ export const Navbar = () => {
   const createNewItem = (itemName: string, id: string) => {
     if (itemName === "characters") {
       const currentValue = watch(itemName);
-      const test = createCharacter("Paco Sanz", id);
+      const test = createCharacter("New Character", id);
       setValue("characters", [...currentValue, test]);
     }
   };
