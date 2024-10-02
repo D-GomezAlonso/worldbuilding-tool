@@ -7,7 +7,7 @@ import { BsArrowsMove } from "react-icons/bs";
 import { PanelWrapper } from "../PanelWrapper";
 import { useDraggable } from "@dnd-kit/core";
 import { useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils";
+import { ProjectFormType } from "@/form-utils/defaultValues";
 
 export const TextPanel = ({
   id,
@@ -32,7 +32,7 @@ export const TextPanel = ({
     >
       <Card
         className="top-0 left-0"
-        classNames={{ base: "min-h-96 min-w-80  h-full w-full" }}
+        classNames={{ base: "resize min-h-80 min-w-80 h-96" }}
       >
         <CardHeader className="z-0 flex gap-4">
           <Input

@@ -26,7 +26,7 @@ export const PanelWrapper = ({
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       {...attributes}
-      className="resize overflow-hidden min-w-80 min-h-96 absolute top-0 left-0 focus-within:z-[2] focus-within:border-1 rounded-[14] border-orange-400"
+      className="max-w-sm min-h-96 absolute top-0 left-0 focus-within:z-[2] "
     >
       {children}
     </div>

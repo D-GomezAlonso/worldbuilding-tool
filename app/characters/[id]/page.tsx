@@ -23,6 +23,7 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
   );
 
   const panelsName: `characters.${number}.panels` = `characters.${characterIndex}.panels`;
+
   const { append } = useFieldArray({
     control,
     name: panelsName,
