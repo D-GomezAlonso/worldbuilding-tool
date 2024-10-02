@@ -30,7 +30,6 @@ export const AccordionItemBody = ({
   const { watch } = useFormContext();
   const formField = useMemo(() => watch(formRef), [watch(formRef)]);
 
-
   return (
     <ul className="ml-7 pl-3 border-l-1 border-navbar-accordion-line">
       {formField?.map((value: { name: string; id: string }) => (

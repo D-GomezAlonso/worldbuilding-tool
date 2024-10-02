@@ -1,15 +1,15 @@
 "use client";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
-import { Divider } from "@nextui-org/divider";
-import { Input, Textarea } from "@nextui-org/input";
+import { Input } from "@nextui-org/input";
 import { ChangeEvent, CSSProperties } from "react";
 import { BsArrowsMove } from "react-icons/bs";
 import { PanelWrapper } from "../PanelWrapper";
 import { useDraggable } from "@dnd-kit/core";
 import { useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils/defaultValues";
+import { ProjectFormType } from "@/form-utils";
 import { BsImage } from "react-icons/bs";
+
 export const ImagePanel = ({
   id,
   fieldName,

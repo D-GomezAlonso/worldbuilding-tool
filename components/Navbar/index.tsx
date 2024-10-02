@@ -7,7 +7,7 @@ import {
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
-import { BsChevronRight } from "react-icons/bs";
+import { BsChevronDoubleLeft, BsChevronRight } from "react-icons/bs";
 import { useCallback, useState } from "react";
 import { IconType } from "react-icons";
 import { useFormContext } from "react-hook-form";
@@ -16,10 +16,13 @@ import { uuid } from "uuidv4";
 import { useRouter } from "next/navigation";
 import { Indicator } from "./Indicator";
 import { AccordionItemBody } from "./AccordionItemBody";
+import { BsChevronDoubleRight, BsDownload, BsUpload } from "react-icons/bs";
+import { Divider } from "@nextui-org/divider";
 
 export const Navbar = () => {
   const { watch, setValue } = useFormContext();
   const [activeId, setActiveId] = useState("");
+  const [isNavbarOpen, setIsNavbarOpen] = useState(true);
   const router = useRouter();
 
   const [selectedKeys, setSelectedKeys] = useState(
@@ -61,66 +64,85 @@ export const Navbar = () => {
       maxWidth="sm"
       classNames={{
         base: "flex flex-col w-auto dark:bg-gray-navbar",
-        wrapper: "flex flex-col w-auto h-full py-24 items-start ",
+        wrapper: "flex flex-col w-auto h-full items-start px-0",
       }}
     >
-      <h1 className="text-xl font-bold">New Project</h1>
-      <NavbarContent className="p-0">
-        <ul className="flex flex-col h-full gap-4 justify-start p-0">
-          <Accordion
-            selectedKeys={selectedKeys}
-            selectionMode="multiple"
-            className="group px-0"
-            itemClasses={{
-              base: "group",
-              startContent: "group-data-[open=true]/:rotate-90 transition",
-            }}
+      <div className="flex h-full">
+        <NavbarContent
+          justify="start"
+          className="gap-4 flex flex-col pl-3 pt-3 pr-3 "
+        >
+          <NavbarItem
+            className="cursor-pointer py-1.5"
+            onClick={() => setIsNavbarOpen(!isNavbarOpen)}
           >
-            {siteConfig.navItems.map((item, index) => (
-              <AccordionItem
-                className="p-0 m-0"
-                key={`${item.label}-${index}`}
-                aria-label={`${item.label}-${index}`}
-                startContent={
-                  <BsChevronRight
-                    onClick={() => handleAccordionClick(item, index)}
-                  />
-                }
-                indicator={
-                  <Indicator
-                    item={item}
-                    onClick={() => createAndNavigate(item.href)}
-                  />
-                }
-                disableIndicatorAnimation
-                title={
-                  <div
-                    onClick={() => handleAccordionClick(item, index)}
-                    className="flex items-center gap-3 min-w-40"
-                  >
-                    <item.Icon /> {item.label}
-                  </div>
-                }
+            {isNavbarOpen ? <BsChevronDoubleRight /> : <BsChevronDoubleLeft />}
+          </NavbarItem>
+          <NavbarItem>
+            <ThemeSwitch />
+          </NavbarItem>
+          <NavbarItem className="h-7 cursor-pointer">
+            <BsUpload />
+          </NavbarItem>
+          <NavbarItem className="h-7 cursor-pointer">
+            <BsDownload />
+          </NavbarItem>
+        </NavbarContent>
+        <Divider orientation="vertical" />
+        <div
+          className={`overflow-hidden pt-3 transition-drawer ease-in-out duration-1000  ${isNavbarOpen ? "w-60  pl-3" : "w-0  pl-0"}`}
+        >
+          <h1 className="text-xl font-bold w-60">New Project</h1>
+          <NavbarContent className="p-0 w-60">
+            <ul className="flex flex-col h-full gap-4 justify-start p-0">
+              <Accordion
+                selectedKeys={selectedKeys}
+                selectionMode="multiple"
+                className="group px-0"
+                itemClasses={{
+                  base: ["group"],
+                  startContent: "group-data-[open=true]/:rotate-90 transition",
+                }}
               >
-                <AccordionItemBody
-                  activeId={activeId}
-                  setActiveId={setActiveId}
-                  formRef={item.formRef}
-                  item={item}
-                />
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </ul>
-      </NavbarContent>
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <ThemeSwitch />
-        </NavbarItem>
-      </NavbarContent>
+                {siteConfig.navItems.map((item, index) => (
+                  <AccordionItem
+                    className="p-0 m-0"
+                    key={`${item.label}-${index}`}
+                    aria-label={`${item.label}-${index}`}
+                    startContent={
+                      <BsChevronRight
+                        onClick={() => handleAccordionClick(item, index)}
+                      />
+                    }
+                    indicator={
+                      <Indicator
+                        item={item}
+                        onClick={() => createAndNavigate(item.href)}
+                      />
+                    }
+                    disableIndicatorAnimation
+                    title={
+                      <div
+                        onClick={() => handleAccordionClick(item, index)}
+                        className="flex items-center gap-3 min-w-40"
+                      >
+                        <item.Icon /> {item.label}
+                      </div>
+                    }
+                  >
+                    <AccordionItemBody
+                      activeId={activeId}
+                      setActiveId={setActiveId}
+                      formRef={item.formRef}
+                      item={item}
+                    />
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </ul>
+          </NavbarContent>
+        </div>
+      </div>
     </NextUINavbar>
   );
 };

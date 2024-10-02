@@ -21,11 +21,10 @@ module.exports = {
         "navbar-hover": "#313131",
         "navbar-accordion-line": "rgba(255, 255, 255, 0.15)",
       },
+      transitionProperty: {
+        drawer: "width, padding-left",
+      },
       keyframes: {
-        wiggle: {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(90deg)" },
-        },
         gradient: {
           "0%": {
             "background-position": "0% 50%",
@@ -39,7 +38,6 @@ module.exports = {
         },
       },
       animation: {
-        wiggle: "wiggle 0.5s ease-in-out",
         gradient: "gradient 15s ease infinite",
       },
       boxShadow: {
