@@ -18,9 +18,11 @@ import { Indicator } from "./Indicator";
 import { AccordionItemBody } from "./AccordionItemBody";
 import { BsChevronDoubleRight, BsDownload, BsUpload } from "react-icons/bs";
 import { Divider } from "@nextui-org/divider";
+import { BsGearFill } from "react-icons/bs";
+import { userDownloadFile } from "./utils";
 
 export const Navbar = () => {
-  const { watch, setValue } = useFormContext();
+  const { watch, setValue, getValues, reset } = useFormContext();
   const [activeId, setActiveId] = useState("");
   const [isNavbarOpen, setIsNavbarOpen] = useState(true);
   const router = useRouter();
@@ -86,11 +88,50 @@ export const Navbar = () => {
           <NavbarItem>
             <ThemeSwitch />
           </NavbarItem>
-          <NavbarItem className="h-7 cursor-pointer">
+          <NavbarItem className="h-7 cursor-pointer relative">
+            <input
+              type="file"
+              name="myImage"
+              className="opacity-0 p-2 w-full h-full z-20 cursor-pointer absolute"
+              onChange={(event) => {
+                const fileReader = new FileReader();
+                const { files } = event.target;
+
+                if (files) {
+                  fileReader.readAsText(files?.[0], "UTF-8");
+                  fileReader.onload = (e) => {
+                    const content = e.target?.result;
+                    if (content) {
+                      var enc = new TextDecoder("utf-8");
+                      const fileText =
+                        typeof content === "string"
+                          ? content
+                          : enc.decode(content);
+
+                      reset(JSON.parse(fileText));
+                    }
+                  };
+                }
+              }}
+            />
             <BsUpload />
           </NavbarItem>
           <NavbarItem className="h-7 cursor-pointer">
-            <BsDownload />
+            <BsDownload
+              onClick={() => {
+                const blob = [
+                  new Blob([JSON.stringify(getValues())], {
+                    type: "application/json",
+                  }),
+                ];
+
+                const file = new File(blob, "data.json");
+                userDownloadFile(file);
+              }}
+            />
+          </NavbarItem>
+          <NavbarItem className="h-7 cursor-pointer">
+            <BsGearFill />
           </NavbarItem>
         </NavbarContent>
         <Divider orientation="vertical" />
