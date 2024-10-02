@@ -108,7 +108,7 @@ export const Toolbar = ({
     const itemIndex = watch("characters").findIndex(
       ({ id }) => id === activeId
     );
-    if (itemIndex) {
+    if (itemIndex !== -1) {
       router.replace("/");
       remove(itemIndex);
     }

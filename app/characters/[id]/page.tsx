@@ -59,7 +59,7 @@ export default function CharactersPage({ params }: { params: { id: string } }) {
           className="w-full h-full p-5 relative overflow-hidden flex dark:bg-gray-background"
           ref={setNodeRef}
         >
-          {panels.map((note, index) => (
+          {panels?.map((note, index) => (
             <Panel
               key={note.id}
               id={note.id}
