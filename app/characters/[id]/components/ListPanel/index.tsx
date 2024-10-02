@@ -43,12 +43,12 @@ export const ListPanel = ({
       attributes={attributes}
       transform={transform}
     >
-      <Card className="max-w-sm min-h-96 top-0 left-0">
+      <Card className="group h-full w-full min-h-96 top-0 left-0 ">
         <CardHeader className="z-0 flex gap-4">
           <Input
             defaultValue="Header"
             classNames={{
-              inputWrapper: "bg-transparent",
+              inputWrapper: "bg-transparent  ",
               input: "text-xl font-bold",
             }}
           />
