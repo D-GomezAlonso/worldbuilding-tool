@@ -20,8 +20,11 @@ import { BsChevronDoubleRight, BsDownload, BsUpload } from "react-icons/bs";
 import { Divider } from "@nextui-org/divider";
 import { BsGearFill } from "react-icons/bs";
 import { userDownloadFile } from "./utils";
+import { useDisclosure } from "@nextui-org/modal";
+import { OptionsModal } from "./OptionsModal";
 
 export const Navbar = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { watch, setValue, getValues, reset } = useFormContext();
   const [activeId, setActiveId] = useState("");
   const [isNavbarOpen, setIsNavbarOpen] = useState(true);
@@ -74,6 +77,7 @@ export const Navbar = () => {
         wrapper: "flex flex-col w-auto h-full items-start px-0",
       }}
     >
+      <OptionsModal isOpen={isOpen} onClose={onClose} />
       <div className="flex h-full">
         <NavbarContent
           justify="start"
@@ -130,7 +134,7 @@ export const Navbar = () => {
               }}
             />
           </NavbarItem>
-          <NavbarItem className="h-7 cursor-pointer">
+          <NavbarItem className="h-7 cursor-pointer" onClick={onOpen}>
             <BsGearFill />
           </NavbarItem>
         </NavbarContent>
