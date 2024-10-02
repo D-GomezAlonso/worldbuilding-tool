@@ -3,6 +3,21 @@ import { BsPinMapFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsLayoutTextWindow } from "react-icons/bs";
 
+export const pageData = {
+  places: {
+    label: "Places",
+    href: "/places",
+  },
+  characters: {
+    label: "Characters",
+    href: "/characters",
+  },
+  blogs: {
+    label: "Blogs",
+    href: "/blogs",
+  },
+};
+
 export const siteConfig = {
   name: "Next.js + NextUI",
   description: "Make beautiful websites regardless of your design experience.",
@@ -11,19 +26,19 @@ export const siteConfig = {
       label: "Places",
       href: "/places",
       Icon: BsPinMapFill,
-      formRef: "places",
+      formRef: "places" as "places",
     },
     {
       label: "Characters",
       href: "/characters",
       Icon: BsFillPersonFill,
-      formRef: "characters",
+      formRef: "characters" as "characters",
     },
     {
-      label: "Blog",
-      href: "/blog",
+      label: "Blogs",
+      href: "/blogs",
       Icon: BsLayoutTextWindow,
-      formRef: "blogs",
+      formRef: "blogs" as "blogs",
     },
   ],
   navMenuItems: [

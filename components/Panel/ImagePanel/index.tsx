@@ -9,6 +9,7 @@ import { useDraggable } from "@dnd-kit/core";
 import { useFormContext } from "react-hook-form";
 import { ProjectFormType } from "@/form-utils";
 import { BsImage } from "react-icons/bs";
+import { FormKeys } from "../types";
 
 export const ImagePanel = ({
   id,
@@ -16,7 +17,7 @@ export const ImagePanel = ({
   styles,
 }: {
   id: string;
-  fieldName: `characters.${number}.panels.${number}`;
+  fieldName: `${FormKeys}.${number}.panels.${number}`;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({

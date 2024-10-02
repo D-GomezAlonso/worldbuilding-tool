@@ -5,13 +5,14 @@ import {
 } from "@/form-utils/defaultValues";
 import { CSSProperties } from "react";
 import { useFormContext } from "react-hook-form";
-import { TextPanel } from "../TextPanel";
-import { ListPanel } from "../ListPanel";
-import { ImagePanel } from "../ImagePanel";
+import { TextPanel } from "./TextPanel";
+import { ListPanel } from "./ListPanel";
+import { ImagePanel } from "./ImagePanel";
+import { FormKeys } from "./types";
 
 type PanelProps = {
   id: string;
-  fieldName: `characters.${number}.panels.${number}`;
+  fieldName: `${FormKeys}.${number}.panels.${number}`;
   styles: CSSProperties;
 };
 

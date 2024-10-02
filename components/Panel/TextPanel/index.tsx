@@ -7,7 +7,8 @@ import { BsArrowsMove } from "react-icons/bs";
 import { PanelWrapper } from "../PanelWrapper";
 import { useDraggable } from "@dnd-kit/core";
 import { useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils/defaultValues";
+import { ProjectFormType } from "@/form-utils/";
+import { FormKeys } from "../types";
 
 export const TextPanel = ({
   id,
@@ -15,7 +16,7 @@ export const TextPanel = ({
   styles,
 }: {
   id: string;
-  fieldName: `characters.${number}.panels.${number}`;
+  fieldName: `${FormKeys}.${number}.panels.${number}`;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({

@@ -3,7 +3,7 @@ import { NextUIProvider } from "@nextui-org/system";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
-import { formDefaultValues, ProjectFormType } from "@/form-utils/defaultValues";
+import { formDefaultValues, ProjectFormType } from "@/form-utils/";
 import { FormProvider, useForm } from "react-hook-form";
 
 export interface ProvidersProps {

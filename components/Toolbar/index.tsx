@@ -26,6 +26,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDisclosure } from "@nextui-org/modal";
 import { InputModal } from "./InputModal";
 import { useCallback, useEffect, useState } from "react";
+import { FormKeys } from "../Panel/types";
+import { pageData } from "@/config/site";
 
 const panelDropdownItems = [
   {
@@ -65,38 +67,38 @@ const baseFileDropdownItems = [
 
 export const Toolbar = ({
   addNewPanel,
+  pageKey,
 }: {
   addNewPanel: (panelType: "list" | "text" | "image") => void;
+  pageKey: FormKeys;
 }) => {
   const [activeId, setActiveId] = useState("");
   const { watch, control } = useFormContext<ProjectFormType>();
   const { append, remove, update } = useFieldArray({
     control,
-    name: "characters",
+    name: pageKey,
   });
   const router = useRouter();
   const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    const id = pathname.replace("/characters/", "");
+    const id = pathname.replace(`${pageData[pageKey].href}/`, "");
     setActiveId(id);
   }, [pathname]);
 
   const createFile = () => {
     const id = uuid();
-    append(createCharacter("New Character", id));
+    append(createCharacter(`New ${pageData[pageKey].label}`, id));
   };
 
   const renameFile = useCallback(
     (newName: string) => {
-      const itemIndex = watch("characters").findIndex(
-        ({ id }) => id === activeId
-      );
+      const itemIndex = watch(pageKey).findIndex(({ id }) => id === activeId);
 
       if (itemIndex !== -1) {
         update(itemIndex, {
-          ...watch(`characters.${itemIndex}`),
+          ...watch(`${pageKey}.${itemIndex}`),
           name: newName,
         });
       }
@@ -105,9 +107,7 @@ export const Toolbar = ({
   );
 
   const deleteFile = useCallback(() => {
-    const itemIndex = watch("characters").findIndex(
-      ({ id }) => id === activeId
-    );
+    const itemIndex = watch(pageKey).findIndex(({ id }) => id === activeId);
     if (itemIndex !== -1) {
       router.replace("/");
       remove(itemIndex);
@@ -116,7 +116,7 @@ export const Toolbar = ({
 
   const mappedFileDropdownItems = baseFileDropdownItems.map((item) => ({
     ...item,
-    label: item.label.replace("$", "Characters"),
+    label: item.label.replace("$", pageData[pageKey].label),
     onClick: () => {
       if (item.key === "create") createFile();
       if (item.key === "rename") onOpen();

@@ -44,17 +44,22 @@ export const Navbar = () => {
     [selectedKeys, setSelectedKeys]
   );
 
-  const createNewItem = (itemName: string, id: string) => {
-    if (itemName === "characters") {
-      const currentValue = watch(itemName);
-      const newCharacter = createCharacter("New Character", id);
-      setValue("characters", [...currentValue, newCharacter]);
-    }
+  const createNewItem = (
+    itemName: "characters" | "places" | "blogs",
+    id: string
+  ) => {
+    const newItemName = itemName === "characters" ? "Character" : "Place";
+    const currentValue = watch(itemName);
+    const newCharacter = createCharacter(`New ${newItemName}`, id);
+    setValue(itemName, [...currentValue, newCharacter]);
   };
 
-  const createAndNavigate = (href: string) => {
+  const createAndNavigate = (
+    href: string,
+    formRef: "characters" | "places" | "blogs"
+  ) => {
     const id = uuid();
-    createNewItem("characters", id);
+    createNewItem(formRef, id);
     router.push(`${href}/${id}`);
     setActiveId(`${href}/${id}`);
   };
@@ -117,7 +122,9 @@ export const Navbar = () => {
                     indicator={
                       <Indicator
                         item={item}
-                        onClick={() => createAndNavigate(item.href)}
+                        onClick={() =>
+                          createAndNavigate(item.href, item.formRef)
+                        }
                       />
                     }
                     disableIndicatorAnimation

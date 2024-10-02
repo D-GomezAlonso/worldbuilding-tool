@@ -41,7 +41,8 @@ export const AccordionItemBody = ({
           <NextLink
             className={clsx(
               linkStyles({ color: "foreground" }),
-              "data-[active=true]:text-primary data-[active=true]:font-medium gap-2"
+              "data-[active=true]:text-primary data-[active=true]:font-medium gap-2",
+              "w-full"
             )}
             color="foreground"
             href={`${item.href}/${value.id}`}

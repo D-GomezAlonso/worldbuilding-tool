@@ -1,6 +1,8 @@
 export type ProjectFormType = {
   name: string;
   characters: Character[];
+  places: Character[];
+  blogs: Character[];
 };
 
 export type Character = {
