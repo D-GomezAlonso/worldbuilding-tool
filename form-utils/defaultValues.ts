@@ -8,6 +8,7 @@ import {
 } from "./types";
 
 export const formDefaultValues: ProjectFormType = {
+  name:"New Project",
   characters: [
     {
       name: "Character 1",

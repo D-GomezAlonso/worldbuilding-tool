@@ -1,4 +1,5 @@
 export type ProjectFormType = {
+  name: string;
   characters: Character[];
 };
 

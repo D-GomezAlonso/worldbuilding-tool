@@ -29,7 +29,7 @@ import { createContext, CSSProperties, useId, useMemo, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { SortableOverlay } from "./SortableOverlay";
 import React from "react";
-import { ProjectFormType } from "@/form-utils/defaultValues";
+import { ProjectFormType } from "@/form-utils";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { uuid } from "uuidv4";
 

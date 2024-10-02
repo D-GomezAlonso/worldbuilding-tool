@@ -19,6 +19,13 @@ import { BsFileEarmarkTextFill } from "react-icons/bs";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsFillPersonDashFill } from "react-icons/bs";
 import { BsFillPersonLinesFill } from "react-icons/bs";
+import { useFieldArray, useFormContext } from "react-hook-form";
+import { createCharacter, ProjectFormType } from "@/form-utils";
+import { uuid } from "uuidv4";
+import { usePathname, useRouter } from "next/navigation";
+import { useDisclosure } from "@nextui-org/modal";
+import { InputModal } from "./InputModal";
+import { useCallback, useEffect, useState } from "react";
 
 const panelDropdownItems = [
   {
@@ -38,20 +45,20 @@ const panelDropdownItems = [
   },
 ];
 
-const fileDropdownItems = [
+const baseFileDropdownItems = [
   {
-    key: "newCharacter" as "newCharacter",
-    label: "New Character",
+    key: "create" as "create",
+    label: "New $",
     icon: BsFillPersonPlusFill,
   },
   {
-    key: "renameCharacter" as "renameCharacter",
-    label: "Rename Character",
+    key: "rename" as "rename",
+    label: "Rename $",
     icon: BsFillPersonLinesFill,
   },
   {
-    key: "deleteCharacter" as "deleteCharacter",
-    label: "Delete Character",
+    key: "delete" as "delete",
+    label: "Delete $",
     icon: BsFillPersonDashFill,
   },
 ];
@@ -61,8 +68,66 @@ export const Toolbar = ({
 }: {
   addNewPanel: (panelType: "list" | "text" | "image") => void;
 }) => {
+  const [activeId, setActiveId] = useState("");
+  const { watch, control } = useFormContext<ProjectFormType>();
+  const { append, remove, update } = useFieldArray({
+    control,
+    name: "characters",
+  });
+  const router = useRouter();
+  const pathname = usePathname();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    const id = pathname.replace("/characters/", "");
+    setActiveId(id);
+  }, [pathname]);
+
+  const createFile = () => {
+    const id = uuid();
+    append(createCharacter("New Character", id));
+  };
+
+  const renameFile = useCallback(
+    (newName: string) => {
+      const itemIndex = watch("characters").findIndex(
+        ({ id }) => id === activeId
+      );
+
+      if (itemIndex !== -1) {
+        update(itemIndex, {
+          ...watch(`characters.${itemIndex}`),
+          name: newName,
+        });
+      }
+    },
+    [activeId]
+  );
+
+  const deleteFile = useCallback(() => {
+    const itemIndex = watch("characters").findIndex(
+      ({ id }) => id === activeId
+    );
+    if (itemIndex) {
+      router.replace("/");
+      remove(itemIndex);
+    }
+  }, [activeId]);
+
+  const mappedFileDropdownItems = baseFileDropdownItems.map((item) => ({
+    ...item,
+    label: item.label.replace("$", "Characters"),
+    onClick: () => {
+      if (item.key === "create") createFile();
+      if (item.key === "rename") onOpen();
+      if (item.key === "delete") deleteFile();
+    },
+  }));
+
   return (
     <div className="flex flex-row dark:bg-gray-toolbar gap-2 items-center">
+      <InputModal isOpen={isOpen} onClose={onClose} renameFile={renameFile} />
+
       <NextLink
         className={clsx(
           linkStyles({ color: "foreground" }),
@@ -94,13 +159,13 @@ export const Toolbar = ({
         </DropdownTrigger>
         <DropdownMenu
           aria-label="Dynamic Actions"
-          items={fileDropdownItems}
+          items={mappedFileDropdownItems}
           itemClasses={{
             title: "flex items-center gap-2",
           }}
         >
           {(item) => (
-            <DropdownItem key={item.key}>
+            <DropdownItem key={item.key} onClick={item.onClick}>
               <item.icon className="min-w-4 min-h-4" />
               <span>{item.label}</span>
             </DropdownItem>

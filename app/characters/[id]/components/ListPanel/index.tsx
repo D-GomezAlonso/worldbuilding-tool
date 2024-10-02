@@ -10,7 +10,7 @@ import { PanelWrapper } from "../PanelWrapper";
 import { Button } from "@nextui-org/button";
 import { CardBodyList } from "./CardBodyList";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils/defaultValues";
+import { ProjectFormType } from "@/form-utils";
 import { uuid } from "uuidv4";
 
 export const ListPanel = ({

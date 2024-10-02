@@ -34,6 +34,7 @@ export const AccordionItemBody = ({
     <ul className="ml-7 pl-3 border-l-1 border-navbar-accordion-line">
       {formField?.map((value: { name: string; id: string }) => (
         <NavbarItem
+          key={value.id}
           className="flex align-middle rounded-md data-[active=true]:bg-navbar-selected hover:bg-navbar-hover"
           isActive={`${item.href}/${value.id}` === activeId}
         >
