@@ -1,8 +1,10 @@
 import { uuid } from "uuidv4";
 import {
   AnyPanel,
+  ArticlePage,
   ImagePanel,
   ListPanel,
+  PanelPage,
   ProjectFormType,
   TextPanel,
 } from "./types";
@@ -29,10 +31,11 @@ export const formDefaultValues: ProjectFormType = {
     },
   ],
   places: [],
-  blogs: [],
+  maps: [],
+  articles: [],
 };
 
-export const createCharacter = (name: string, id: string) => ({
+export const createPanelPage = (name: string, id: string): PanelPage => ({
   name,
   id,
   panels: [
@@ -48,6 +51,12 @@ export const createCharacter = (name: string, id: string) => ({
       ],
     },
   ],
+});
+
+export const createArticlelPage = (name: string, id: string): ArticlePage => ({
+  name,
+  id,
+  text: "",
 });
 
 export const isListPanel = (panel: AnyPanel): panel is ListPanel => {

@@ -32,10 +32,10 @@ import React from "react";
 import { ProjectFormType } from "@/form-utils";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { uuid } from "uuidv4";
-import { FormKeys } from "../types";
+import { FormPanelPages } from "../types";
 
 type CardBodyListProps = {
-  fieldName: `${FormKeys}.${number}.panels.${number}.entries`;
+  fieldName: `${FormPanelPages}.${number}.panels.${number}.entries`;
 };
 
 export const CardBodyList = ({ fieldName }: CardBodyListProps) => {

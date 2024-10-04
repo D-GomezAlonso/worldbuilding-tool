@@ -12,7 +12,7 @@ import { CardBodyList } from "./CardBodyList";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { ProjectFormType } from "@/form-utils";
 import { uuid } from "uuidv4";
-import { FormKeys } from "../types";
+import { FormPanelPages } from "../types";
 
 export const ListPanel = ({
   id,
@@ -20,7 +20,7 @@ export const ListPanel = ({
   styles,
 }: {
   id: string;
-  fieldName: `${FormKeys}.${number}.panels.${number}`;
+  fieldName: `${FormPanelPages}.${number}.panels.${number}`;
   styles: CSSProperties;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({

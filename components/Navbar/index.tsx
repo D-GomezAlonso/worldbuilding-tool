@@ -11,7 +11,10 @@ import { BsChevronDoubleLeft, BsChevronRight } from "react-icons/bs";
 import { useCallback, useState } from "react";
 import { IconType } from "react-icons";
 import { useFormContext } from "react-hook-form";
-import { createCharacter } from "@/form-utils/defaultValues";
+import {
+  createArticlelPage,
+  createPanelPage,
+} from "@/form-utils/defaultValues";
 import { uuid } from "uuidv4";
 import { useRouter } from "next/navigation";
 import { Indicator } from "./Indicator";
@@ -19,7 +22,7 @@ import { AccordionItemBody } from "./AccordionItemBody";
 import { BsChevronDoubleRight, BsDownload, BsUpload } from "react-icons/bs";
 import { Divider } from "@nextui-org/divider";
 import { BsGearFill } from "react-icons/bs";
-import { userDownloadFile } from "./utils";
+import { toSingularCapitalised, userDownloadFile } from "./utils";
 import { useDisclosure } from "@nextui-org/modal";
 import { OptionsModal } from "./OptionsModal";
 
@@ -50,18 +53,22 @@ export const Navbar = () => {
   );
 
   const createNewItem = (
-    itemName: "characters" | "places" | "blogs",
+    itemName: "characters" | "places" | "maps" | "articles",
     id: string
   ) => {
-    const newItemName = itemName === "characters" ? "Character" : "Place";
     const currentValue = watch(itemName);
-    const newCharacter = createCharacter(`New ${newItemName}`, id);
-    setValue(itemName, [...currentValue, newCharacter]);
+
+    const newPage =
+      itemName !== "articles"
+        ? createPanelPage(`New ${toSingularCapitalised(itemName)}`, id)
+        : createArticlelPage(`New ${toSingularCapitalised(itemName)}`, id);
+
+    setValue(itemName, [...currentValue, newPage]);
   };
 
   const createAndNavigate = (
     href: string,
-    formRef: "characters" | "places" | "blogs"
+    formRef: "characters" | "places" | "maps" | "articles"
   ) => {
     const id = uuid();
     createNewItem(formRef, id);

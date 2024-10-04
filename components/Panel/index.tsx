@@ -8,11 +8,11 @@ import { useFormContext } from "react-hook-form";
 import { TextPanel } from "./TextPanel";
 import { ListPanel } from "./ListPanel";
 import { ImagePanel } from "./ImagePanel";
-import { FormKeys } from "./types";
+import { FormPanelPages } from "./types";
 
 type PanelProps = {
   id: string;
-  fieldName: `${FormKeys}.${number}.panels.${number}`;
+  fieldName: `${FormPanelPages}.${number}.panels.${number}`;
   styles: CSSProperties;
 };
 

@@ -2,6 +2,7 @@ export type SiteConfig = typeof siteConfig;
 import { BsPinMapFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsLayoutTextWindow } from "react-icons/bs";
+import { BsMap } from "react-icons/bs";
 
 export const pageData = {
   places: {
@@ -35,10 +36,16 @@ export const siteConfig = {
       formRef: "characters" as "characters",
     },
     {
-      label: "Blogs",
-      href: "/blogs",
+      label: "Maps",
+      href: "/maps",
+      Icon: BsMap,
+      formRef: "maps" as "maps",
+    },
+    {
+      label: "Articles",
+      href: "/articles",
       Icon: BsLayoutTextWindow,
-      formRef: "blogs" as "blogs",
+      formRef: "articles" as "articles",
     },
   ],
   navMenuItems: [

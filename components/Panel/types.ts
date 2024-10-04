@@ -5,4 +5,4 @@ export declare type Transform = {
   scaleY: number;
 };
 
-export type FormKeys = "characters" | "places" | "blogs";
+export type FormPanelPages = "characters" | "places" | "maps"  ;

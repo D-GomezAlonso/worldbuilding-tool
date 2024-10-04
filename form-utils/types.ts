@@ -1,11 +1,18 @@
 export type ProjectFormType = {
   name: string;
-  characters: Character[];
-  places: Character[];
-  blogs: Character[];
+  characters: PanelPage[];
+  places: PanelPage[];
+  maps: PanelPage[];
+  articles: ArticlePage[];
 };
 
-export type Character = {
+export type ArticlePage = {
+  name: string;
+  id: string;
+  text: string;
+};
+
+export type PanelPage = {
   name: string;
   id: string;
   panels: (ListPanel | TextPanel | ImagePanel)[];

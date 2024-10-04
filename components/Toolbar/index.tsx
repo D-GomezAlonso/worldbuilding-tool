@@ -26,7 +26,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDisclosure } from "@nextui-org/modal";
 import { InputModal } from "./InputModal";
 import { useCallback, useEffect, useState } from "react";
-import { FormKeys } from "../Panel/types";
+import { FormPanelPages } from "../Panel/types";
 import { pageData } from "@/config/site";
 
 const panelDropdownItems = [
@@ -70,7 +70,7 @@ export const Toolbar = ({
   pageKey,
 }: {
   addNewPanel: (panelType: "list" | "text" | "image") => void;
-  pageKey: FormKeys;
+  pageKey: FormPanelPages;
 }) => {
   const [activeId, setActiveId] = useState("");
   const { watch, control } = useFormContext<ProjectFormType>();

@@ -10,9 +10,15 @@ import {
   restrictToParentElement,
 } from "@dnd-kit/modifiers";
 import { Panel } from "@/components/Panel";
-import { FormKeys } from "@/components/Panel/types";
+import { FormPanelPages } from "@/components/Panel/types";
 
-export default function PanelPage({ params, pageKey }: { params: { id: string }, pageKey: FormKeys }) {
+export default function PanelPage({
+  params,
+  pageKey,
+}: {
+  params: { id: string };
+  pageKey: FormPanelPages;
+}) {
   const { setNodeRef } = useDroppable({ id: `${pageKey}-panel` });
   const { watch, control, setValue } = useFormContext<ProjectFormType>();
 
@@ -23,7 +29,7 @@ export default function PanelPage({ params, pageKey }: { params: { id: string },
     (character) => character.id === params.id
   );
 
-  const panelsName: `${FormKeys}.${number}.panels` = `${pageKey}.${characterIndex}.panels`;
+  const panelsName: `${FormPanelPages}.${number}.panels` = `${pageKey}.${characterIndex}.panels`;
 
   const { append } = useFieldArray({
     control,
@@ -51,7 +57,7 @@ export default function PanelPage({ params, pageKey }: { params: { id: string },
   return (
     <div className="flex flex-col w-full h-full">
       <Toolbar addNewPanel={addNewPanel} pageKey={pageKey} />
-      <Divider></Divider>
+      <Divider/>
       <DndContext
         onDragEnd={handleDragEnd}
         modifiers={[snapToGridModifier, restrictToParentElement]}
