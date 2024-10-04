@@ -232,6 +232,7 @@ export const BodyEntry = ({
             </div>
           </div>
           <Textarea
+            spellCheck={false}
             variant="flat"
             placeholder="Enter your description..."
             value={description}

@@ -54,12 +54,17 @@ export const TextPanel = ({
             fullWidth
             disableAnimation
             disableAutosize
+            spellCheck={false}
             placeholder="Entry your text in this text panel!"
             classNames={{
-              base: "flex-1",
-              mainWrapper: "flex-1",
-              inputWrapper: "flex-1",
-              input: "flex-1 min-h-full",
+              base: "flex-1 group",
+              mainWrapper: "flex-1 ",
+              inputWrapper: [
+                "flex-1 bg-transparent",
+                "data-[hover=true]/:bg-transparent ",
+                "group-data-[focus=true]/:!bg-transparent",
+              ],
+              input: "flex-1 min-h-full ",
             }}
             onInput={(e) =>
               setValue(`${fieldName}.text`, e.currentTarget.value)
