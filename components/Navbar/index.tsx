@@ -25,6 +25,7 @@ import { BsGearFill } from "react-icons/bs";
 import { toSingularCapitalised, userDownloadFile } from "./utils";
 import { useDisclosure } from "@nextui-org/modal";
 import { OptionsModal } from "./OptionsModal";
+import { Input } from "@nextui-org/input";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -68,12 +69,14 @@ export const Navbar = () => {
 
   const createAndNavigate = (
     href: string,
-    formRef: "characters" | "places" | "maps" | "articles"
+    formRef: "characters" | "places" | "maps" | "articles" | "relationships"
   ) => {
-    const id = uuid();
-    createNewItem(formRef, id);
-    router.push(`${href}/${id}`);
-    setActiveId(`${href}/${id}`);
+    if (formRef !== "relationships") {
+      const id = uuid();
+      createNewItem(formRef, id);
+      router.push(`${href}/${id}`);
+      setActiveId(`${href}/${id}`);
+    }
   };
 
   return (
@@ -149,7 +152,24 @@ export const Navbar = () => {
         <div
           className={`overflow-hidden pt-3 transition-drawer ease-in-out duration-1000  ${isNavbarOpen ? "w-60  pl-3" : "w-0  pl-0"}`}
         >
-          <h1 className="text-xl font-bold w-60">New Project</h1>
+          <Input
+            defaultValue="New Project"
+            variant="flat"
+            classNames={{
+              base: "w-56 pr-3",
+              inputWrapper: [
+                "bg-transparent",
+                "dark:bg-transparent",
+                "hover:bg-transparent",
+                "dark:hover:bg-transparent",
+                "group-data-[focus=true]/:bg-transparent",
+                "dark:group-data-[focus=true]/:bg-transparent",
+                "!cursor-text",
+              ],
+              innerWrapper: "bg-transparent",
+              input: "text-xl  font-bold bg-transparent hover:bg-transparent",
+            }}
+          />
           <NavbarContent className="p-0 w-60">
             <ul className="flex flex-col h-full gap-4 justify-start p-0">
               <Accordion

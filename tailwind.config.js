@@ -49,6 +49,10 @@ module.exports = {
         "radial-gradient":
           "linear-gradient(rgb(18, 18, 18) 0%, rgba(16, 16, 16, 0) 25%, rgba(24, 24, 24, 0) 75%, rgb(18, 18, 18) 100%)",
       },
+      translate: {
+        label:
+          "transform: translate(var(0), var(calc(calc(50% + var(.875rem) / 2 - 3.5px) * -1);)) rotate(var(0)) skewX(var(0)) skewY(var(0)) scaleX(var(0.85)) scaleY(var(0.85));",
+      },
       backgroundSize: {
         radial: "5PX",
       },

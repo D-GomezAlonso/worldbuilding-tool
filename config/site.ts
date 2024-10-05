@@ -1,8 +1,11 @@
 export type SiteConfig = typeof siteConfig;
-import { BsPinMapFill } from "react-icons/bs";
-import { BsFillPersonFill } from "react-icons/bs";
-import { BsLayoutTextWindow } from "react-icons/bs";
-import { BsMap } from "react-icons/bs";
+import {
+  BsPinMapFill,
+  BsFillPersonFill,
+  BsLayoutTextWindow,
+  BsMap,
+  BsFillPeopleFill,
+} from "react-icons/bs";
 
 export const pageData = {
   places: {
@@ -46,6 +49,12 @@ export const siteConfig = {
       href: "/articles",
       Icon: BsLayoutTextWindow,
       formRef: "articles" as "articles",
+    },
+    {
+      label: "Relationships",
+      href: "/relationships",
+      Icon:   BsFillPeopleFill,
+      formRef: "relationships" as "relationships",
     },
   ],
   navMenuItems: [

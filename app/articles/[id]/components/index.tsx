@@ -8,6 +8,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { $getRoot, $getSelection, EditorState, LexicalEditor } from "lexical";
 import { ToolbarPlugin } from "./RichTextEditor/ToolbarPlugin";
+import { Tab, Tabs } from "@nextui-org/tabs";
 
 export const RichTextEditor = () => {
   const theme = {};
@@ -42,7 +43,9 @@ export const RichTextEditor = () => {
           <ToolbarPlugin />
           <div className="editor-inner flex-1 p-2">
             <RichTextPlugin
-              contentEditable={<ContentEditable className="h-full outline-none" />}
+              contentEditable={
+                <ContentEditable className="h-full outline-none" />
+              }
               ErrorBoundary={LexicalErrorBoundary}
             />
             <OnChangePlugin onChange={onChange} />
