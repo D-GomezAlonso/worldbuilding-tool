@@ -1,5 +1,3 @@
-import { ProjectFormType } from "@/form-utils";
-import { Input, Textarea } from "@nextui-org/input";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -8,10 +6,12 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { $getRoot, $getSelection, EditorState, LexicalEditor } from "lexical";
 import { ToolbarPlugin } from "./RichTextEditor/ToolbarPlugin";
+import ExampleTheme from "./RichTextEditor/ExampleTheme";
+import "./styles.css"
+
+const placeholder = "Enter some rich text...";
 
 export const RichTextEditor = () => {
-  const theme = {};
-
   function onChange(
     editorState: EditorState,
     editor: LexicalEditor,
@@ -31,7 +31,8 @@ export const RichTextEditor = () => {
 
   const initialConfig = {
     namespace: "MyEditor",
-    theme,
+    nodes: [],
+    theme: ExampleTheme,
     onError,
   };
 
@@ -43,7 +44,13 @@ export const RichTextEditor = () => {
           <div className="editor-inner flex-1 p-2">
             <RichTextPlugin
               contentEditable={
-                <ContentEditable className="h-full outline-none" />
+                <ContentEditable
+                  className="editor-input h-full outline-none"
+                  aria-placeholder={placeholder}
+                  placeholder={
+                    <div className="editor-placeholder">{placeholder}</div>
+                  }
+                />
               }
               ErrorBoundary={LexicalErrorBoundary}
             />

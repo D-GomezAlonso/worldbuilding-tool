@@ -34,6 +34,7 @@ import {
   CAN_UNDO_COMMAND,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
+  LexicalEditor,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
@@ -66,15 +67,31 @@ export const ToolbarPlugin = () => {
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({ editorState }: any) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           $updateToolbar();
         });
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
-        (_payload: any) => {
+        (_payload, _newEditor) => {
           $updateToolbar();
+          return false;
+        },
+        LowPriority
+      ),
+      editor.registerCommand(
+        CAN_UNDO_COMMAND,
+        (payload) => {
+          setCanUndo(payload);
+          return false;
+        },
+        LowPriority
+      ),
+      editor.registerCommand(
+        CAN_REDO_COMMAND,
+        (payload) => {
+          setCanRedo(payload);
           return false;
         },
         LowPriority
@@ -85,10 +102,22 @@ export const ToolbarPlugin = () => {
   return (
     <div>
       <div className="flex flex-row items-center gap-1">
-        <Button variant="light" isIconOnly>
+        <Button
+          variant="light"
+          isIconOnly
+          onClick={() => {
+            editor.dispatchCommand(UNDO_COMMAND, undefined);
+          }}
+        >
           <BsArrowCounterclockwise className={iconStyle} />
         </Button>
-        <Button variant="light" isIconOnly>
+        <Button
+          variant="light"
+          isIconOnly
+          onClick={() => {
+            editor.dispatchCommand(REDO_COMMAND, undefined);
+          }}
+        >
           <BsArrowClockwise className={iconStyle} />
         </Button>
         <Divider orientation="vertical" className="h-8 max-h-8" />
@@ -126,14 +155,14 @@ export const ToolbarPlugin = () => {
         </Button>
 
         <Divider orientation="vertical" className="h-8 max-h-8" />
-        <AlignDropdown />
+        <AlignDropdown editor={editor}/>
       </div>
       <Divider />
     </div>
   );
 };
 
-const AlignDropdown = () => {
+const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -144,16 +173,52 @@ const AlignDropdown = () => {
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        <DropdownItem startContent={<BsTextLeft className={iconStyle} />}>
+        <DropdownItem
+          startContent={
+            <BsTextLeft
+              className={iconStyle}
+              onClick={() => {
+                editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+              }}
+            />
+          }
+        >
           Left Align
         </DropdownItem>
-        <DropdownItem startContent={<BsTextCenter className={iconStyle} />}>
+        <DropdownItem
+          startContent={
+            <BsTextCenter
+              className={iconStyle}
+              onClick={() => {
+                editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+              }}
+            />
+          }
+        >
           Center Align
         </DropdownItem>
-        <DropdownItem startContent={<BsTextRight className={iconStyle} />}>
+        <DropdownItem
+          startContent={
+            <BsTextRight
+              className={iconStyle}
+              onClick={() => {
+                editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+              }}
+            />
+          }
+        >
           Right Align
         </DropdownItem>
-        <DropdownItem startContent={<BsJustify className={iconStyle} />}>
+        <DropdownItem
+          startContent={
+            <BsJustify
+              className={iconStyle}
+              onClick={() => {
+                editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
+              }}
+            />
+          }
+        >
           Justify
         </DropdownItem>
       </DropdownMenu>
