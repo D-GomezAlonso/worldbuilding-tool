@@ -8,7 +8,6 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { $getRoot, $getSelection, EditorState, LexicalEditor } from "lexical";
 import { ToolbarPlugin } from "./RichTextEditor/ToolbarPlugin";
-import { Tab, Tabs } from "@nextui-org/tabs";
 
 export const RichTextEditor = () => {
   const theme = {};

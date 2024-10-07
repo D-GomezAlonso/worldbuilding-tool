@@ -56,6 +56,9 @@ module.exports = {
       backgroundSize: {
         radial: "5PX",
       },
+      fontSize: {
+        fieldHeader: "1.05rem"
+      }
     },
   },
   darkMode: "class",

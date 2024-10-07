@@ -1,16 +1,9 @@
 "use client";
 import { Divider } from "@nextui-org/divider";
-import React, { useEffect } from "react";
+import React from "react";
 import { useFormContext } from "react-hook-form";
 import { ProjectFormType } from "@/form-utils";
-import { Input, Textarea } from "@nextui-org/input";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import { $getRoot, $getSelection, EditorState, LexicalEditor } from "lexical";
+import { Input } from "@nextui-org/input";
 import { RichTextEditor } from "./components";
 import { Tab, Tabs } from "@nextui-org/tabs";
 
@@ -33,7 +26,7 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
           variant="underlined"
         />
 
-        <div className="flex flex-col flex-1 bg-gray-navbar px-6 pt-6 text-x">
+        <div className="flex flex-col flex-1 dark:bg-gray-navbar px-6 pt-6 text-x">
           <Tabs
             variant="underlined"
             aria-label="Tabs variants"
@@ -55,18 +48,7 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
                   label="SUBHEADING"
                   classNames={{ label: "text-lg font-bold" }}
                 />
-                <div className="h-56">
-                  <label
-                    className="ml-1.5 text-base font-bold"
-                    style={{
-                      transform:
-                        "translate(0, calc(calc(50% + .875rem / 2 - 3.5px) * -1)) rotate(0) skewX(0) skewY(0) scaleX(0.85) scaleY(0.85)",
-                    }}
-                  >
-                    CREDITS
-                  </label>
-                  <RichTextEditor />
-                </div>
+                <EditorWithLabel label="CREDITS" />
               </div>
             </Tab>
             <Tab title="Sidebar">
@@ -78,7 +60,10 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
               </div>
             </Tab>
             <Tab title="Footer" className="flex-1">
-              <RichTextEditor />
+              <div className="flex-1 flex flex-col gap-6 py-5">
+                <EditorWithLabel label="FOOTNOTES" />
+                <EditorWithLabel label="AUTHOR'S NOTES" />
+              </div>
             </Tab>
           </Tabs>
         </div>
@@ -90,7 +75,7 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
 const EditorWithLabel = ({ label }: { label: string }) => {
   return (
     <div className="h-72 flex flex-col ">
-      <label className="ml-1.5 text-base font-bold">{label}</label>
+      <h1 className="ml-1.5 text-fieldHeader font-bold mb-2">{label}</h1>
       <div className="flex-1">
         <RichTextEditor />
       </div>
