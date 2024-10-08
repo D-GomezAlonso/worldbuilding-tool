@@ -1,18 +1,23 @@
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import { $getRoot, $getSelection, EditorState, LexicalEditor } from "lexical";
+import {
+  $getRoot,
+  $getSelection,
+  EditorState,
+  LexicalEditor,
+  ParagraphNode,
+} from "lexical";
 import { ToolbarPlugin } from "./RichTextEditor/ToolbarPlugin";
 import ExampleTheme from "./RichTextEditor/ExampleTheme";
 import "./styles.css";
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { HeadingNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-
-const placeholder = "Enter some rich text...";
 
 export const RichTextEditor = () => {
   function onChange(
@@ -34,7 +39,7 @@ export const RichTextEditor = () => {
 
   const initialConfig = {
     namespace: "MyEditor",
-    nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode],
+    nodes: [HeadingNode, ListNode, ListItemNode, ParagraphNode],
     theme: ExampleTheme,
     onError,
   };
@@ -54,6 +59,7 @@ export const RichTextEditor = () => {
             <OnChangePlugin onChange={onChange} />
             <HistoryPlugin />
             <ListPlugin />
+            <AutoFocusPlugin />
           </div>
         </div>
       </LexicalComposer>

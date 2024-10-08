@@ -32,6 +32,7 @@ import {
   $isRangeSelection,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
+  ElementFormatType,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   LexicalEditor,
@@ -88,6 +89,7 @@ export const ToolbarPlugin = () => {
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [blockType, setBlockType] = useState("paragraph");
   const [selectedElementKey, setSelectedElementKey] = useState<string>();
+  const [elementFormat, setElementFormat] = useState<ElementFormatType>("left");
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -99,7 +101,9 @@ export const ToolbarPlugin = () => {
           : anchorNode.getTopLevelElementOrThrow();
       const elementKey = element.getKey();
       const elementDOM = editor.getElementByKey(elementKey);
+
       if (elementDOM !== null) {
+        console.log("asdd");
         setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType(anchorNode, ListNode);
