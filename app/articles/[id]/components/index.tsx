@@ -7,7 +7,10 @@ import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { $getRoot, $getSelection, EditorState, LexicalEditor } from "lexical";
 import { ToolbarPlugin } from "./RichTextEditor/ToolbarPlugin";
 import ExampleTheme from "./RichTextEditor/ExampleTheme";
-import "./styles.css"
+import "./styles.css";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { ListItemNode, ListNode } from "@lexical/list";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 
 const placeholder = "Enter some rich text...";
 
@@ -31,7 +34,7 @@ export const RichTextEditor = () => {
 
   const initialConfig = {
     namespace: "MyEditor",
-    nodes: [],
+    nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode],
     theme: ExampleTheme,
     onError,
   };
@@ -44,18 +47,13 @@ export const RichTextEditor = () => {
           <div className="editor-inner flex-1 p-2">
             <RichTextPlugin
               contentEditable={
-                <ContentEditable
-                  className="editor-input h-full outline-none"
-                  aria-placeholder={placeholder}
-                  placeholder={
-                    <div className="editor-placeholder">{placeholder}</div>
-                  }
-                />
+                <ContentEditable className="editor-input h-full outline-none" />
               }
               ErrorBoundary={LexicalErrorBoundary}
             />
             <OnChangePlugin onChange={onChange} />
             <HistoryPlugin />
+            <ListPlugin />
           </div>
         </div>
       </LexicalComposer>

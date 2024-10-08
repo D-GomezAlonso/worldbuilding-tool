@@ -21,7 +21,6 @@
 .other ul {
   padding: 0;
   margin: 0;
-  list-style-type: none;
 }
 
 h1 {
@@ -180,10 +179,6 @@ h1 {
 
 .editor-listitem {
   margin: 8px 32px 8px 32px;
-}
-
-.editor-nested-listitem {
-  list-style-type: none;
 }
 
 pre::-webkit-scrollbar {
