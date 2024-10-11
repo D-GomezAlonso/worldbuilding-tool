@@ -12,14 +12,23 @@ import {
   LexicalEditor,
   ParagraphNode,
 } from "lexical";
-import { ToolbarPlugin } from "./RichTextEditor/ToolbarPlugin";
-import ExampleTheme from "./RichTextEditor/ExampleTheme";
+import { ToolbarPlugin } from "./ToolbarPlugin";
+import ExampleTheme from "./ExampleTheme";
 import "./styles.css";
 import { HeadingNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { Fields } from "../../page";
 
-export const RichTextEditor = () => {
+type RichTextEditorProps = {
+  updateFieldValue: (field: Fields, value: string) => void;
+  fieldName: Fields;
+};
+
+export const RichTextEditor = ({
+  updateFieldValue,
+  fieldName,
+}: RichTextEditorProps) => {
   function onChange(
     editorState: EditorState,
     editor: LexicalEditor,
@@ -27,9 +36,7 @@ export const RichTextEditor = () => {
   ) {
     editorState.read(() => {
       const root = $getRoot();
-      const selection = $getSelection();
-
-      console.log(root, selection);
+      updateFieldValue(fieldName, root.getTextContent());
     });
   }
 

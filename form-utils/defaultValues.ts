@@ -56,7 +56,15 @@ export const createPanelPage = (name: string, id: string): PanelPage => ({
 export const createArticlelPage = (name: string, id: string): ArticlePage => ({
   name,
   id,
-  text: "",
+  content: "",
+  subheading: "",
+  credits: "",
+  sidebarTop: "",
+  sidebarTopContent: "",
+  sidebarBottom: "",
+  sidebarBottomContent: "",
+  footnotes: "",
+  authorNotes: "",
 });
 
 export const isListPanel = (panel: AnyPanel): panel is ListPanel => {

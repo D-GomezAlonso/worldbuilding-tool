@@ -9,6 +9,10 @@ import { Image } from "@nextui-org/image";
 export default function ViewPage({ params }: { params: { id: string } }) {
   const { watch, setValue } = useFormContext<ProjectFormType>();
 
+  const articleIndex = watch("articles").findIndex(
+    (value) => value.id === params.id
+  );
+
   return (
     <div className="flex flex-col w-full h-full items-center bg-[#c6c3be] relative overflow-y-scroll">
       <div className="w-3/4 shadow-2xl">
@@ -28,9 +32,9 @@ export default function ViewPage({ params }: { params: { id: string } }) {
         >
           <div className="flex flex-col gap-3">
             <h1 className="text-3xl font-serif font-bold text-[#350006]">
-              TEST ARTICLE
+              {watch(`articles.${articleIndex}.name`)}
             </h1>
-            <h3 className="text-xl font-serif text-[#350006] ">
+            <h3 className="text-xl font-serif text-[#350006]">
               Where the roses fade
             </h3>
           </div>

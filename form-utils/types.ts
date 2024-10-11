@@ -9,7 +9,15 @@ export type ProjectFormType = {
 export type ArticlePage = {
   name: string;
   id: string;
-  text: string;
+  content: string;
+  subheading: string;
+  credits: string;
+  sidebarTop: string;
+  sidebarTopContent: string;
+  sidebarBottom: string;
+  sidebarBottomContent: string;
+  footnotes: string;
+  authorNotes: string;
 };
 
 export type PanelPage = {

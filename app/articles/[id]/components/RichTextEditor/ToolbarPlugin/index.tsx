@@ -103,7 +103,6 @@ export const ToolbarPlugin = () => {
       const elementDOM = editor.getElementByKey(elementKey);
 
       if (elementDOM !== null) {
-        console.log("asdd");
         setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType(anchorNode, ListNode);
