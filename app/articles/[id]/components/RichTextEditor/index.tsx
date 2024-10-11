@@ -1,17 +1,10 @@
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import {
-  $getRoot,
-  $getSelection,
-  EditorState,
-  LexicalEditor,
-  ParagraphNode,
-} from "lexical";
+import { EditorState, LexicalEditor, ParagraphNode } from "lexical";
 import { ToolbarPlugin } from "./ToolbarPlugin";
 import ExampleTheme from "./ExampleTheme";
 import "./styles.css";
@@ -19,6 +12,7 @@ import { HeadingNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { Fields } from "../../page";
+import { $generateHtmlFromNodes } from "@lexical/html";
 
 type RichTextEditorProps = {
   updateFieldValue: (field: Fields, value: string) => void;
@@ -34,9 +28,10 @@ export const RichTextEditor = ({
     editor: LexicalEditor,
     tags: Set<string>
   ) {
-    editorState.read(() => {
-      const root = $getRoot();
-      updateFieldValue(fieldName, root.getTextContent());
+    editor.update(() => {
+      const htmlString = $generateHtmlFromNodes(editor, null);
+      updateFieldValue(fieldName, htmlString);
+      console.log(htmlString);
     });
   }
 
@@ -66,7 +61,6 @@ export const RichTextEditor = ({
             <OnChangePlugin onChange={onChange} />
             <HistoryPlugin />
             <ListPlugin />
-            <AutoFocusPlugin />
           </div>
         </div>
       </LexicalComposer>

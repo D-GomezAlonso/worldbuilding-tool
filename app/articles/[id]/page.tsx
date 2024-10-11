@@ -1,6 +1,6 @@
 "use client";
 import { Divider } from "@nextui-org/divider";
-import React, { useEffect } from "react";
+import React from "react";
 import { useFormContext } from "react-hook-form";
 import { ProjectFormType } from "@/form-utils";
 import { Input } from "@nextui-org/input";
@@ -33,11 +33,6 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
       setValue(`articles.${articleIndex}.${field}`, value);
     }
   };
-
-  useEffect(
-    () => console.log(watch(`articles.${articleIndex}`)),
-    [watch(`articles.${articleIndex}.content`)]
-  );
 
   return (
     <div className="flex flex-col w-full h-full ">
@@ -76,6 +71,10 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
                   placeholder="Write your subheading"
                   label="SUBHEADING"
                   classNames={{ label: "text-lg font-bold" }}
+                  value={watch(`articles.${articleIndex}.subheading`) ?? ""}
+                  onChange={(e) =>
+                    onChange("subheading", e.currentTarget.value)
+                  }
                 />
                 <EditorWithLabel
                   label="CREDITS"
