@@ -6,8 +6,11 @@ import { ProjectFormType } from "@/form-utils";
 import { Input } from "@nextui-org/input";
 import { RichTextEditor } from "./components";
 import { Tab, Tabs } from "@nextui-org/tabs";
+import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 
 export default function ArticlesPage({ params }: { params: { id: string } }) {
+  const router = useRouter();
   const { watch, setValue } = useFormContext<ProjectFormType>();
 
   const articleIndex = watch("articles").findIndex(
@@ -19,13 +22,17 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
       <Divider></Divider>
 
       <div className="w-full h-full p-5 relative  flex flex-col gap-5 dark:bg-gray-background overflow-scroll">
-        <Input
-          size="lg"
-          classNames={{ input: "text-3xl" }}
-          placeholder="Article Title"
-          variant="underlined"
-        />
-
+        <div className="flex gap-10 items-center">
+          <Input
+            size="lg"
+            classNames={{ input: "text-3xl" }}
+            placeholder="Article Title"
+            variant="underlined"
+          />
+          <Button onClick={() => router.push(`${params.id}/view`)}>
+            Go to View Mode
+          </Button>
+        </div>
         <div className="flex flex-col flex-1 dark:bg-gray-navbar px-6 pt-6 text-x">
           <Tabs
             variant="underlined"
