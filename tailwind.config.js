@@ -20,6 +20,7 @@ module.exports = {
         "navbar-selected": "#31281f",
         "navbar-hover": "#313131",
         "navbar-accordion-line": "rgba(255, 255, 255, 0.15)",
+        "article-red": "#350006",
       },
       transitionProperty: {
         drawer: "width, padding-left",
@@ -57,8 +58,8 @@ module.exports = {
         radial: "5PX",
       },
       fontSize: {
-        fieldHeader: "1.05rem"
-      }
+        fieldHeader: "1.05rem",
+      },
     },
   },
   darkMode: "class",

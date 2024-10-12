@@ -16,9 +16,9 @@ export const pageData = {
     label: "Characters",
     href: "/characters",
   },
-  blogs: {
-    label: "Blogs",
-    href: "/blogs",
+  maps: {
+    label: "Maps",
+    href: "/maps",
   },
 };
 

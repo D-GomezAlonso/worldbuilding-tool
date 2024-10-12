@@ -252,6 +252,9 @@ export const ToolbarPlugin = () => {
 };
 
 const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
+  const alignCommand = (alignment: "right" | "left" | "center" | "justify") =>
+    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment);
+
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -266,9 +269,7 @@ const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
           startContent={
             <BsTextLeft
               className={iconStyle}
-              onClick={() => {
-                editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
-              }}
+              onClick={() => alignCommand("left")}
             />
           }
         >
@@ -278,9 +279,7 @@ const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
           startContent={
             <BsTextCenter
               className={iconStyle}
-              onClick={() => {
-                editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
-              }}
+              onClick={() => alignCommand("center")}
             />
           }
         >
@@ -290,9 +289,7 @@ const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
           startContent={
             <BsTextRight
               className={iconStyle}
-              onClick={() => {
-                editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-              }}
+              onClick={() => alignCommand("right")}
             />
           }
         >
@@ -302,9 +299,7 @@ const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
           startContent={
             <BsJustify
               className={iconStyle}
-              onClick={() => {
-                editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
-              }}
+              onClick={() => alignCommand("justify")}
             />
           }
         >

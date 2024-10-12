@@ -17,7 +17,6 @@ export type ArticlePage = {
   sidebarBottom: string;
   sidebarBottomContent: string;
   footnotes: string;
-  authorNotes: string;
 };
 
 export type PanelPage = {

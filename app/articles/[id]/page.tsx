@@ -18,7 +18,6 @@ export type Fields =
   | "sidebarBottom"
   | "sidebarBottomContent"
   | "footnotes"
-  | "authorNotes";
 
 export default function ArticlesPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -113,11 +112,6 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
                   fieldName="footnotes"
                   updateFieldValue={onChange}
                   label="FOOTNOTES"
-                />
-                <EditorWithLabel
-                  updateFieldValue={onChange}
-                  fieldName="authorNotes"
-                  label="AUTHOR'S NOTES"
                 />
               </div>
             </Tab>

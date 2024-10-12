@@ -24,14 +24,13 @@ export const RichTextEditor = ({
   fieldName,
 }: RichTextEditorProps) => {
   function onChange(
-    editorState: EditorState,
+    _editorState: EditorState,
     editor: LexicalEditor,
-    tags: Set<string>
+    _tags: Set<string>
   ) {
     editor.update(() => {
       const htmlString = $generateHtmlFromNodes(editor, null);
       updateFieldValue(fieldName, htmlString);
-      console.log(htmlString);
     });
   }
 

@@ -64,7 +64,6 @@ export const createArticlelPage = (name: string, id: string): ArticlePage => ({
   sidebarBottom: "",
   sidebarBottomContent: "",
   footnotes: "",
-  authorNotes: "",
 });
 
 export const isListPanel = (panel: AnyPanel): panel is ListPanel => {

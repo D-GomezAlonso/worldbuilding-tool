@@ -20,7 +20,7 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsFillPersonDashFill } from "react-icons/bs";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { createCharacter, ProjectFormType } from "@/form-utils";
+import { createPanelPage, ProjectFormType } from "@/form-utils";
 import { uuid } from "uuidv4";
 import { usePathname, useRouter } from "next/navigation";
 import { useDisclosure } from "@nextui-org/modal";
@@ -89,7 +89,7 @@ export const Toolbar = ({
 
   const createFile = () => {
     const id = uuid();
-    append(createCharacter(`New ${pageData[pageKey].label}`, id));
+    append(createPanelPage(`New ${pageData[pageKey].label}`, id));
   };
 
   const renameFile = useCallback(

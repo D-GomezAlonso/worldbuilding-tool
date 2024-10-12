@@ -27,9 +27,8 @@ export const InputModal = ({
 
   const onSave = useCallback(() => {
     renameFile(inputValue);
-    setInputValue("");
-    onClose();
-  }, [inputValue]);
+    closeAndClear();
+  }, [inputValue, closeAndClear]);
 
   return (
     <Modal size={"sm"} isOpen={isOpen} onClose={closeAndClear}>
