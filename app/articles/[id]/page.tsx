@@ -17,7 +17,7 @@ export type Fields =
   | "sidebarTopContent"
   | "sidebarBottom"
   | "sidebarBottomContent"
-  | "footnotes"
+  | "footnotes";
 
 export default function ArticlesPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -27,11 +27,12 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
     (value) => value.id === params.id
   );
 
-  const onChange = (field: Fields | "name", value: string) => {
-    if (articleIndex !== -1) {
-      setValue(`articles.${articleIndex}.${field}`, value);
-    }
-  };
+  const onChange =
+    (field: `articles.${number}.${Fields | "name"}`) => (value: string) => {
+      if (articleIndex !== -1) {
+        setValue(field, value);
+      }
+    };
 
   return (
     <div className="flex flex-col w-full h-full ">
@@ -43,7 +44,9 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
             classNames={{ input: "text-3xl" }}
             placeholder="Article Title"
             variant="underlined"
-            onChange={(e) => onChange("name", e.currentTarget.value)}
+            onChange={(e) =>
+              setValue(`articles.${articleIndex}.name`, e.currentTarget.value)
+            }
           />
           <Button onClick={() => router.push(`${params.id}/view`)}>
             Go to View Mode
@@ -61,7 +64,10 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
             }}
           >
             <Tab title="Content" className="flex-1 flex flex-col gap-3">
-              <RichTextEditor updateFieldValue={onChange} fieldName="content" />
+              <RichTextEditor
+                fieldName={`articles.${articleIndex}.content`}
+                updateFieldValue={onChange(`articles.${articleIndex}.content`)}
+              />
             </Tab>
             <Tab title="Header" className="flex-1">
               <div className="flex flex-col gap-6 ">
@@ -72,36 +78,49 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
                   classNames={{ label: "text-lg font-bold" }}
                   value={watch(`articles.${articleIndex}.subheading`) ?? ""}
                   onChange={(e) =>
-                    onChange("subheading", e.currentTarget.value)
+                    setValue(
+                      `articles.${articleIndex}.subheading`,
+                      e.currentTarget.value
+                    )
                   }
                 />
                 <EditorWithLabel
                   label="CREDITS"
-                  updateFieldValue={onChange}
-                  fieldName="credits"
+                  fieldName={`articles.${articleIndex}.credits`}
+                  updateFieldValue={onChange(
+                    `articles.${articleIndex}.credits`
+                  )}
                 />
               </div>
             </Tab>
             <Tab title="Sidebar">
               <div className="flex-1 flex flex-col gap-6 py-5">
                 <EditorWithLabel
-                  updateFieldValue={onChange}
-                  fieldName="sidebarTop"
+                  fieldName={`articles.${articleIndex}.sidebarTop`}
+                  updateFieldValue={onChange(
+                    `articles.${articleIndex}.sidebarTop`
+                  )}
                   label="SIDEBAR: TOP"
                 />
                 <EditorWithLabel
-                  updateFieldValue={onChange}
-                  fieldName="sidebarTopContent"
+                  fieldName={`articles.${articleIndex}.sidebarTopContent`}
+                  updateFieldValue={onChange(
+                    `articles.${articleIndex}.sidebarTopContent`
+                  )}
                   label="SIDEBAR: CONTENT PANEL TOP"
                 />
                 <EditorWithLabel
-                  updateFieldValue={onChange}
-                  fieldName="sidebarBottom"
+                  fieldName={`articles.${articleIndex}.sidebarBottom`}
+                  updateFieldValue={onChange(
+                    `articles.${articleIndex}.sidebarBottom`
+                  )}
                   label="SIDEBAR: BOTTOM"
                 />
                 <EditorWithLabel
-                  updateFieldValue={onChange}
-                  fieldName="sidebarBottomContent"
+                  fieldName={`articles.${articleIndex}.sidebarBottomContent`}
+                  updateFieldValue={onChange(
+                    `articles.${articleIndex}.sidebarBottomContent`
+                  )}
                   label="SIDEBAR: CONTENT PANEL BOTTOM"
                 />
               </div>
@@ -109,8 +128,10 @@ export default function ArticlesPage({ params }: { params: { id: string } }) {
             <Tab title="Footer" className="flex-1">
               <div className="flex-1 flex flex-col gap-6 py-5">
                 <EditorWithLabel
-                  fieldName="footnotes"
-                  updateFieldValue={onChange}
+                  fieldName={`articles.${articleIndex}.footnotes`}
+                  updateFieldValue={onChange(
+                    `articles.${articleIndex}.footnotes`
+                  )}
                   label="FOOTNOTES"
                 />
               </div>
@@ -127,9 +148,9 @@ const EditorWithLabel = ({
   updateFieldValue,
   fieldName,
 }: {
+  fieldName: `articles.${number}.${Fields}`;
   label: string;
-  updateFieldValue: (field: Fields, value: string) => void;
-  fieldName: Fields;
+  updateFieldValue: (value: string) => void;
 }) => {
   return (
     <div className="h-72 flex flex-col ">
@@ -138,8 +159,8 @@ const EditorWithLabel = ({
       </h1>
       <div className="flex-1">
         <RichTextEditor
-          updateFieldValue={updateFieldValue}
           fieldName={fieldName}
+          updateFieldValue={updateFieldValue}
         />
       </div>
     </div>

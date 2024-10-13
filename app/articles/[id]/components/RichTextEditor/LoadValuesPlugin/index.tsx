@@ -6,12 +6,16 @@ import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
 import { Fields } from "../../../page";
 import { useEffect } from "react";
 
-export const LoadValuesPlugin = ({ fieldName }: { fieldName: Fields }) => {
+export const LoadValuesPlugin = ({
+  fieldName,
+}: {
+  fieldName: `articles.${number}.${Fields}`;
+}) => {
   const { watch } = useFormContext<ProjectFormType>();
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    const model = watch(`articles.0.${fieldName}`);
+    const model = watch(fieldName);
     if (editor && model) {
       editor.update(() => {
         const root = $getRoot();
@@ -28,7 +32,7 @@ export const LoadValuesPlugin = ({ fieldName }: { fieldName: Fields }) => {
         }
       });
     }
-  }, [watch(`articles.0.${fieldName}`)]);
+  }, [watch(fieldName)]);
 
   return <></>;
 };

@@ -18,16 +18,14 @@ import { HeadingNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { Fields } from "../../page";
-import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
+import { $generateHtmlFromNodes } from "@lexical/html";
 import { useFormContext } from "react-hook-form";
-import { useEffect } from "react";
 import { ProjectFormType } from "@/form-utils";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { LoadValuesPlugin } from "./LoadValuesPlugin";
 
 type RichTextEditorProps = {
-  updateFieldValue: (field: Fields, value: string) => void;
-  fieldName: Fields;
+  updateFieldValue: (value: string) => void;
+  fieldName: `articles.${number}.${Fields}`;
 };
 
 export const RichTextEditor = ({
@@ -43,7 +41,7 @@ export const RichTextEditor = ({
   ) {
     editor.update(() => {
       const htmlString = $generateHtmlFromNodes(editor, null);
-      updateFieldValue(fieldName, htmlString);
+      updateFieldValue(htmlString);
     });
   }
 
