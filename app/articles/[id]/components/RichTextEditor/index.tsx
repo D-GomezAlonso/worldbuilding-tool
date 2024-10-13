@@ -4,13 +4,7 @@ import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import {
-  $createParagraphNode,
-  $getRoot,
-  EditorState,
-  LexicalEditor,
-  ParagraphNode,
-} from "lexical";
+import { EditorState, LexicalEditor, ParagraphNode } from "lexical";
 import { ToolbarPlugin } from "./ToolbarPlugin";
 import ExampleTheme from "./ExampleTheme";
 import "./styles.css";
@@ -19,8 +13,6 @@ import { ListItemNode, ListNode } from "@lexical/list";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { Fields } from "../../page";
 import { $generateHtmlFromNodes } from "@lexical/html";
-import { useFormContext } from "react-hook-form";
-import { ProjectFormType } from "@/form-utils";
 import { LoadValuesPlugin } from "./LoadValuesPlugin";
 
 type RichTextEditorProps = {
@@ -32,8 +24,6 @@ export const RichTextEditor = ({
   updateFieldValue,
   fieldName,
 }: RichTextEditorProps) => {
-  const { watch } = useFormContext<ProjectFormType>();
-
   function onChange(
     _editorState: EditorState,
     editor: LexicalEditor,
