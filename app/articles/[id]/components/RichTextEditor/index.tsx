@@ -6,7 +6,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { EditorState, LexicalEditor, ParagraphNode } from "lexical";
 import { ToolbarPlugin } from "./ToolbarPlugin";
-import ExampleTheme from "./ExampleTheme";
+import Theme from "./Theme";
 import "./styles.css";
 import { HeadingNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
@@ -42,7 +42,7 @@ export const RichTextEditor = ({
   const initialConfig = {
     namespace: "MyEditor",
     nodes: [HeadingNode, ListNode, ListItemNode, ParagraphNode],
-    theme: ExampleTheme,
+    theme: Theme,
     onError,
   };
 
