@@ -35,7 +35,7 @@ export const AccordionItemBody = ({
       {formField?.map((value: { name: string; id: string }) => (
         <NavbarItem
           key={value.id}
-          className="flex align-middle rounded-md data-[active=true]:bg-navbar-selected hover:bg-navbar-hover"
+          className="flex align-middle rounded-md pl-2 dark:data-[active=true]:bg-navbar-selected  data-[active=true]:bg-[#864c16b7]  hover:bg-divider"
           isActive={`${item.href}/${value.id}` === activeId}
         >
           <NextLink
@@ -53,7 +53,9 @@ export const AccordionItemBody = ({
         </NavbarItem>
       ))}
 
-      {!formField?.length && <p> {`No ${item.label} entry`}</p>}
+      {!formField?.length && (
+        <p className="pl-2"> {`No ${item.label} entry`}</p>
+      )}
     </ul>
   );
 };

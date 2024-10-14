@@ -6,7 +6,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
-import { useRef } from "react";
+import { MutableRefObject, useRef } from "react";
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -28,6 +28,7 @@ import {
 } from "react-icons/bs";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import {
+  $createParagraphNode,
   $getSelection,
   $isRangeSelection,
   CAN_REDO_COMMAND,
@@ -49,7 +50,12 @@ import {
   ListNode,
   REMOVE_LIST_COMMAND,
 } from "@lexical/list";
-import { $isHeadingNode } from "@lexical/rich-text";
+import {
+  $createHeadingNode,
+  $isHeadingNode,
+  HeadingTagType,
+} from "@lexical/rich-text";
+import { $setBlocksType } from "@lexical/selection";
 
 const LowPriority = 1;
 
@@ -195,7 +201,7 @@ export const ToolbarPlugin = () => {
           <BsArrowClockwise className={iconStyle} />
         </Button>
         <Divider orientation="vertical" className="h-8 max-h-8" />
-        <TextTypeDropdown />
+        <TextTypeDropdown editor={editor} blockType={blockType} />
         <Divider orientation="vertical" className="h-8 max-h-8" />
         <Button
           variant="light"
@@ -266,42 +272,26 @@ const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
         <DropdownItem
-          startContent={
-            <BsTextLeft
-              className={iconStyle}
-              onClick={() => alignCommand("left")}
-            />
-          }
+          onClick={() => alignCommand("left")}
+          startContent={<BsTextLeft className={iconStyle} />}
         >
           Left Align
         </DropdownItem>
         <DropdownItem
-          startContent={
-            <BsTextCenter
-              className={iconStyle}
-              onClick={() => alignCommand("center")}
-            />
-          }
+          onClick={() => alignCommand("center")}
+          startContent={<BsTextCenter className={iconStyle} />}
         >
           Center Align
         </DropdownItem>
         <DropdownItem
-          startContent={
-            <BsTextRight
-              className={iconStyle}
-              onClick={() => alignCommand("right")}
-            />
-          }
+          onClick={() => alignCommand("right")}
+          startContent={<BsTextRight className={iconStyle} />}
         >
           Right Align
         </DropdownItem>
         <DropdownItem
-          startContent={
-            <BsJustify
-              className={iconStyle}
-              onClick={() => alignCommand("justify")}
-            />
-          }
+          onClick={() => alignCommand("justify")}
+          startContent={<BsJustify className={iconStyle} />}
         >
           Justify
         </DropdownItem>
@@ -310,7 +300,37 @@ const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
   );
 };
 
-const TextTypeDropdown = () => {
+const TextTypeDropdown = ({
+  editor,
+  blockType,
+}: {
+  editor: LexicalEditor;
+  blockType: string;
+}) => {
+  useEffect(() => console.log(blockType), [blockType]);
+
+  const formatParagraph = () => {
+    if (blockType !== "paragraph") {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          $setBlocksType(selection, () => $createParagraphNode());
+        }
+      });
+    }
+  };
+
+  const formatHeader = (headingTag: HeadingTagType) => {
+    if (blockType !== headingTag) {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          $setBlocksType(selection, () => $createHeadingNode(headingTag));
+        }
+      });
+    }
+  };
+
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -321,16 +341,28 @@ const TextTypeDropdown = () => {
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        <DropdownItem startContent={<BsType className={iconStyle} />}>
+        <DropdownItem
+          onClick={formatParagraph}
+          startContent={<BsType className={iconStyle} />}
+        >
           Normal
         </DropdownItem>
-        <DropdownItem startContent={<BsTypeH1 className={iconStyle} />}>
+        <DropdownItem
+          onClick={() => formatHeader("h1")}
+          startContent={<BsTypeH1 className={iconStyle} />}
+        >
           Heading 1
         </DropdownItem>
-        <DropdownItem startContent={<BsTypeH2 className={iconStyle} />}>
+        <DropdownItem
+          onClick={() => formatHeader("h2")}
+          startContent={<BsTypeH2 className={iconStyle} />}
+        >
           Heading 2
         </DropdownItem>
-        <DropdownItem startContent={<BsTypeH3 className={iconStyle} />}>
+        <DropdownItem
+          onClick={() => formatHeader("h3")}
+          startContent={<BsTypeH3 className={iconStyle} />}
+        >
           Heading 3
         </DropdownItem>
       </DropdownMenu>
