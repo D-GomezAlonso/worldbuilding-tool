@@ -6,7 +6,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
-import { MutableRefObject, useRef } from "react";
+import { MutableRefObject, useMemo, useRef } from "react";
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -26,10 +26,15 @@ import {
   BsArrowClockwise,
   BsArrowCounterclockwise,
 } from "react-icons/bs";
-import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
+import {
+  $findMatchingParent,
+  $getNearestNodeOfType,
+  mergeRegister,
+} from "@lexical/utils";
 import {
   $createParagraphNode,
   $getSelection,
+  $isElementNode,
   $isRangeSelection,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
@@ -56,6 +61,7 @@ import {
   HeadingTagType,
 } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
+import { getSelectedNode } from "../../RichTextEditor/utils/getSelectedNodes";
 
 const LowPriority = 1;
 
@@ -69,17 +75,22 @@ const supportedBlockTypes = new Set([
   "ol",
 ]);
 
+type BlockTypes = "paragraph" | "h1" | "h2" | "h3";
+
 const blockTypeToBlockName = {
-  code: "Code Block",
-  h1: "Large Heading",
-  h2: "Small Heading",
-  h3: "Heading",
-  h4: "Heading",
-  h5: "Heading",
-  ol: "Numbered List",
-  paragraph: "Normal",
-  quote: "Quote",
-  ul: "Bulleted List",
+  paragraph: { label: "Normal", icon: BsType },
+  h1: { label: "Large Heading", icon: BsTypeH1 },
+  h2: { label: "Small Heading", icon: BsTypeH2 },
+  h3: { label: "Heading", icon: BsTypeH3 },
+};
+
+type LimitedAlignment = "right" | "left" | "center" | "justify";
+
+const alignmentTypeToAlignName = {
+  left: { label: "Left Align", icon: BsTextLeft },
+  center: { label: "Center Align", icon: BsTextCenter },
+  right: { label: "Right Align", icon: BsTextRight },
+  justify: { label: "Justify Align", icon: BsJustify },
 };
 
 const iconStyle = "h-4 w-4";
@@ -126,6 +137,25 @@ export const ToolbarPlugin = () => {
       setIsItalic(selection.hasFormat("italic"));
       setIsUnderline(selection.hasFormat("underline"));
       setIsStrikethrough(selection.hasFormat("strikethrough"));
+
+      const node = getSelectedNode(selection);
+      const parent = node.getParent();
+
+      let matchingParent;
+      if ($isListNode(parent)) {
+        matchingParent = $findMatchingParent(
+          node,
+          (parentNode) => $isElementNode(parentNode) && !parentNode.isInline()
+        );
+      }
+
+      setElementFormat(
+        $isElementNode(matchingParent)
+          ? matchingParent.getFormatType()
+          : $isElementNode(node)
+            ? node.getFormatType()
+            : parent?.getFormatType() || "left"
+      );
     }
   }, []);
 
@@ -249,23 +279,41 @@ export const ToolbarPlugin = () => {
           Bullet List
         </Button>
         <Divider orientation="vertical" className="h-8 max-h-8" />
-        <AlignDropdown editor={editor} />
+        <AlignDropdown
+          editor={editor}
+          elementFormat={elementFormat as LimitedAlignment}
+        />
       </div>
       <Divider />
     </div>
   );
 };
 
-const AlignDropdown = ({ editor }: { editor: LexicalEditor }) => {
+const AlignDropdown = ({
+  editor,
+  elementFormat,
+}: {
+  editor: LexicalEditor;
+  elementFormat: "right" | "left" | "center" | "justify";
+}) => {
   const alignCommand = (alignment: "right" | "left" | "center" | "justify") =>
     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment);
+
+  const IconTrigger = useMemo(
+    () => alignmentTypeToAlignName[elementFormat].icon,
+    [elementFormat]
+  );
+  const LabelTrigger = useMemo(
+    () => alignmentTypeToAlignName[elementFormat].label,
+    [elementFormat]
+  );
 
   return (
     <Dropdown>
       <DropdownTrigger>
         <Button variant="light" className="flex items-center">
-          <BsTextLeft className={iconStyle} />
-          Left Align
+          <IconTrigger className={iconStyle} />
+          {LabelTrigger}
           <BsChevronDown className={iconStyle} />
         </Button>
       </DropdownTrigger>
@@ -328,12 +376,21 @@ const TextTypeDropdown = ({
     }
   };
 
+  const IconTrigger = useMemo(
+    () => blockTypeToBlockName[blockType as BlockTypes].icon,
+    [blockType]
+  );
+  const LabelTrigger = useMemo(
+    () => blockTypeToBlockName[blockType as BlockTypes].label,
+    [blockType]
+  );
+
   return (
     <Dropdown>
       <DropdownTrigger>
         <Button variant="light" className="flex items-center">
-          <BsType className={iconStyle} />
-          Normal
+          <IconTrigger className={iconStyle} />
+          {LabelTrigger}
           <BsChevronDown className={iconStyle} />
         </Button>
       </DropdownTrigger>
