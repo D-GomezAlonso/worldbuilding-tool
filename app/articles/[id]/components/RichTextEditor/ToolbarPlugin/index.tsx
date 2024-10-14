@@ -163,21 +163,20 @@ export const ToolbarPlugin = () => {
     );
   }, [editor, $updateToolbar]);
 
-  const formatBulletList = useCallback(() => {
-    if (blockType !== "ul") {
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-    } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-    }
-  }, [editor, blockType]);
-
-  const formatNumberedList = useCallback(() => {
-    if (blockType !== "ol") {
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
-    } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-    }
-  }, [editor, blockType]);
+  const formatList = useCallback(
+    (listType: "ul" | "ol") => {
+      if (blockType !== listType) {
+        const command =
+          listType === "ol"
+            ? INSERT_ORDERED_LIST_COMMAND
+            : INSERT_UNORDERED_LIST_COMMAND;
+        editor.dispatchCommand(command, undefined);
+      } else {
+        editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+      }
+    },
+    [editor, blockType]
+  );
 
   return (
     <div>
@@ -238,14 +237,14 @@ export const ToolbarPlugin = () => {
         <Button
           variant="light"
           startContent={<BsListOl className={iconStyle} />}
-          onClick={formatNumberedList}
+          onClick={() => formatList("ol")}
         >
           Ordered List
         </Button>
         <Button
           variant="light"
           startContent={<BsListUl className={iconStyle} />}
-          onClick={formatBulletList}
+          onClick={() => formatList("ul")}
         >
           Bullet List
         </Button>
@@ -307,8 +306,6 @@ const TextTypeDropdown = ({
   editor: LexicalEditor;
   blockType: string;
 }) => {
-  useEffect(() => console.log(blockType), [blockType]);
-
   const formatParagraph = () => {
     if (blockType !== "paragraph") {
       editor.update(() => {
