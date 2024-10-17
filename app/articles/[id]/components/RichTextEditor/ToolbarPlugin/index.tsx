@@ -296,15 +296,16 @@ const AlignDropdown = ({
   editor: LexicalEditor;
   elementFormat: "right" | "left" | "center" | "justify";
 }) => {
+  useEffect(() => console.log(elementFormat), [elementFormat]);
   const alignCommand = (alignment: "right" | "left" | "center" | "justify") =>
     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment);
 
   const IconTrigger = useMemo(
-    () => alignmentTypeToAlignName[elementFormat].icon,
+    () => alignmentTypeToAlignName[elementFormat || "left"].icon,
     [elementFormat]
   );
   const LabelTrigger = useMemo(
-    () => alignmentTypeToAlignName[elementFormat].label,
+    () => alignmentTypeToAlignName[elementFormat || "left"].label,
     [elementFormat]
   );
 
