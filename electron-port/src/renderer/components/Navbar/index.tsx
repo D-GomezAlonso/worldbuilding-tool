@@ -31,7 +31,7 @@ export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { watch, setValue, getValues, reset } = useFormContext();
   const [activeId, setActiveId] = useState('');
-  const [isNavbarOpen, setIsNavbarOpen] = useState(true);
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const navigate = useNavigate();
 
   const [selectedKeys, setSelectedKeys] = useState(
@@ -94,13 +94,22 @@ export const Navbar = () => {
           className="gap-4 flex flex-col pl-3 pt-3 pr-3 "
         >
           <NavbarItem
-            className="cursor-pointer py-1.5"
-            onClick={() => setIsNavbarOpen(!isNavbarOpen)}
+            className={`cursor-pointer py-1.5 ${watch('isProjectNull') ? 'disabled' : ''}`}
+            onClick={() =>
+              !watch('isProjectNull') && setIsNavbarOpen(!isNavbarOpen)
+            }
           >
-            {isNavbarOpen ? <BsChevronDoubleRight /> : <BsChevronDoubleLeft />}
+            {isNavbarOpen ? (
+              <BsChevronDoubleRight
+                className={`${watch('isProjectNull') ? 'text-gray-400' : ''}`}
+              />
+            ) : (
+              <BsChevronDoubleLeft
+                className={`${watch('isProjectNull') ? 'text-gray-400' : ''}`}
+              />
+            )}
           </NavbarItem>
-          <NavbarItem>
-          </NavbarItem>
+          <NavbarItem></NavbarItem>
           <NavbarItem className="h-7 cursor-pointer relative">
             <input
               type="file"

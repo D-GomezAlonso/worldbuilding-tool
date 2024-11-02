@@ -4,6 +4,7 @@ export type ProjectFormType = {
   places: PanelPage[];
   maps: PanelPage[];
   articles: ArticlePage[];
+  isProjectNull?: true;
 };
 
 export type ArticlePage = {

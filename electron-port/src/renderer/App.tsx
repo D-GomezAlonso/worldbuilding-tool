@@ -2,7 +2,7 @@ import 'tailwindcss/tailwind.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import { NextUIProvider } from '@nextui-org/system';
-import { formDefaultValues, ProjectFormType } from './form-utils/';
+import { formInitialValues, ProjectFormType } from './form-utils/';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Home } from './pages/Home';
 import { RootLayout } from './pages/RootLayout';
@@ -13,7 +13,7 @@ import ArticleViewPage from './pages/ArticleView';
 
 export default function App() {
   const methods = useForm<ProjectFormType>({
-    defaultValues: formDefaultValues,
+    defaultValues: formInitialValues,
   });
 
   const router = createBrowserRouter([

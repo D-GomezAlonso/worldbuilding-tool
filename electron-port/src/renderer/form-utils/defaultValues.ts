@@ -9,7 +9,16 @@ import {
   TextPanel,
 } from './types';
 
-export const formDefaultValues: ProjectFormType = {
+export const formInitialValues: ProjectFormType = {
+  name: '',
+  characters: [],
+  articles: [],
+  maps: [],
+  places: [],
+  isProjectNull: true
+};
+
+export const newFormDefaultValues: ProjectFormType = {
   name: 'New Project',
   characters: [
     {
