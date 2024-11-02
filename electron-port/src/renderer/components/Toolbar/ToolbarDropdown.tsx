@@ -16,7 +16,7 @@ type ToolbarDropdownProps = {
 
 export const ToolbarDropdown = ({panelDropdownItems, triggerLabel, onClick}: ToolbarDropdownProps) => {
   return (
-    <Dropdown>
+    <Dropdown className="dark">
       <DropdownTrigger>
         <Button variant="light" className="flex items-center ">
           <BsFillPlusSquareFill />

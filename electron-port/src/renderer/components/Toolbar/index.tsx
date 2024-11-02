@@ -77,7 +77,7 @@ export const Toolbar = ({
     control,
     name: pageKey,
   });
-  const pathname = window.location.pathname
+  const pathname = window.location.pathname;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
@@ -148,7 +148,7 @@ export const Toolbar = ({
       />
       <Divider orientation="vertical" className="max-h-7" />
 
-      <Dropdown>
+      <Dropdown className="dark">
         <DropdownTrigger>
           <Button variant="light" className="flex items-center ">
             <BsFileEarmarkTextFill />

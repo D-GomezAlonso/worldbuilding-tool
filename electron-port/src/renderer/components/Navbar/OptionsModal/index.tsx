@@ -15,7 +15,7 @@ export const OptionsModal = ({
   onClose: () => void;
 }) => {
   return (
-    <Modal size="5xl" isOpen={isOpen} onClose={onClose}>
+    <Modal className="dark" size="5xl" isOpen={isOpen} onClose={onClose}>
       <ModalContent>
         {(onClose) => (
           <>
