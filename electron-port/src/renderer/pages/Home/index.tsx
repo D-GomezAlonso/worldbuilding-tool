@@ -22,6 +22,7 @@ export function Home() {
           isPressable
           onClick={() => {
             reset(newFormDefaultValues);
+            window.electron.files.createNewProjectDir(JSON.stringify(newFormDefaultValues))
           }}
         >
           <CardBody className="overflow-visible p-0">

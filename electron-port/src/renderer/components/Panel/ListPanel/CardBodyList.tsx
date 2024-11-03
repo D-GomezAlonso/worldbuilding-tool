@@ -88,7 +88,7 @@ export const CardBodyList = ({ fieldName }: CardBodyListProps) => {
 
   const deleteListItem = (id: string) => {
     const index = listItems.findIndex((item) => item.id === id);
-    if (index) {
+    if (index > -1) {
       remove(index);
     }
   };
@@ -268,7 +268,7 @@ function OptionsButton({
   ];
 
   return (
-    <Dropdown placement="bottom-end">
+    <Dropdown className="dark" placement="bottom-end">
       <DropdownTrigger>
         <Button
           isIconOnly

@@ -27,6 +27,19 @@ const electronHandler = {
     readProjectsDir: () => {
       return fs.readdirSync('C:/Users/Teje/Documents/Worldbuilder');
     },
+    createNewProjectDir: (data: string) => {
+      const dir = 'C:/Users/Teje/Documents/Worldbuilder/New Project';
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+
+      fs.writeFile(dir + '/data.json', data, (err) => {
+        if (err) console.log(err);
+        else {
+          console.log('File written successfully\n');
+        }
+      });
+    },
   },
 };
 
