@@ -1,14 +1,11 @@
 import { Card, CardBody, CardFooter } from '@nextui-org/card';
 import cardImage from '../../../../assets/article-header.jpg';
 import { Image } from '@nextui-org/image';
-import { useFormContext } from 'react-hook-form';
-import { newFormDefaultValues } from '../../form-utils';
 import { useDisclosure } from '@nextui-org/modal';
 import { InputModal } from './components/InputModal';
 
 export function Home() {
   const files = window.electron.files.readProjectsDir();
-  const { reset } = useFormContext();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
@@ -19,16 +16,12 @@ export function Home() {
         World building tool
       </h1>
 
-      <div className="flex gap-10">
+      <div className="flex flex-wrap align-center justify-center w-full gap-10">
         <Card
           shadow="sm"
           isPressable
           onClick={() => {
             onOpen();
-            // reset(newFormDefaultValues);
-            // window.electron.files.createNewProjectDir(
-            //   JSON.stringify(newFormDefaultValues),
-            // );
           }}
         >
           <CardBody className="overflow-visible p-0">
