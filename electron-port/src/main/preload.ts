@@ -2,6 +2,7 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import fs from 'node:fs';
+import os from 'node:os';
 
 export type Channels = 'ipc-example';
 
@@ -25,10 +26,15 @@ const electronHandler = {
   },
   files: {
     readProjectsDir: () => {
-      return fs.readdirSync('C:/Users/Teje/Documents/Worldbuilder');
+      return fs.readdirSync(os.homedir() + '/Documents/Worldbuilder');
     },
-    createNewProjectDir: (data: string) => {
-      const dir = 'C:/Users/Teje/Documents/Worldbuilder/New Project';
+    checkIfProjectExists: (projectName: string) => {
+      return fs.existsSync(
+        os.homedir() + '/Documents/Worldbuilder/' + projectName,
+      );
+    },
+    createNewProject: (data: string, projectName: string) => {
+      const dir = 'C:/Users/Teje/Documents/Worldbuilder/' + projectName;
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }

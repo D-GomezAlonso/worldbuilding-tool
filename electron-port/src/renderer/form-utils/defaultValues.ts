@@ -15,7 +15,7 @@ export const formInitialValues: ProjectFormType = {
   articles: [],
   maps: [],
   places: [],
-  isProjectNull: true
+  isProjectNull: true,
 };
 
 export const newFormDefaultValues: ProjectFormType = {

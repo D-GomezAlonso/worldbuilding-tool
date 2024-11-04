@@ -1,6 +1,6 @@
 'use client';
 import { Divider } from '@nextui-org/divider';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { DndContext, DragEndEvent, useDroppable } from '@dnd-kit/core';
 import { Toolbar } from '../../components/Toolbar';
 import { useFieldArray, useFormContext } from 'react-hook-form';
