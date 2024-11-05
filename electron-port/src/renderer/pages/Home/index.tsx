@@ -3,10 +3,24 @@ import cardImage from '../../../../assets/article-header.jpg';
 import { Image } from '@nextui-org/image';
 import { useDisclosure } from '@nextui-org/modal';
 import { InputModal } from './components/InputModal';
+import { useProjectPathContext } from '../../context/projectPathContext';
+import { useFormContext } from 'react-hook-form';
 
 export function Home() {
   const files = window.electron.files.readProjectsDir();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const { setProjectPath } = useProjectPathContext();
+  const { reset } = useFormContext();
+
+  const handleLoadProject = (projectName: string) => {
+    const projectsDir = window.electron.files.getProjectsDirectory();
+    const formValues = window.electron.files.loadProject(projectName);
+
+    if (formValues) {
+      setProjectPath(projectsDir + projectName);
+      reset(JSON.parse(formValues));
+    }
+  };
 
   return (
     <section
@@ -39,7 +53,7 @@ export function Home() {
           </CardFooter>
         </Card>
         {files?.map((file) => (
-          <Card shadow="sm" isPressable>
+          <Card shadow="sm" isPressable onClick={() => handleLoadProject(file)}>
             <CardBody className="overflow-visible p-0">
               <Image
                 shadow="sm"

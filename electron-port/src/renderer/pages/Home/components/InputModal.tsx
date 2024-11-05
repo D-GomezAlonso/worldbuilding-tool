@@ -6,11 +6,11 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  useDisclosure,
 } from '@nextui-org/modal';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { newFormDefaultValues } from '../../../form-utils';
+import { useProjectPathContext } from '../../../context/projectPathContext';
 
 export function InputModal({
   isOpen,
@@ -24,6 +24,7 @@ export function InputModal({
   const [inputValue, setInputValue] = useState('');
   const [isInvalid, setIsInvalid] = useState(false);
   const { reset } = useFormContext();
+  const { setProjectPath } = useProjectPathContext();
 
   const onClose = () => {
     setInputValue('');
@@ -59,11 +60,15 @@ export function InputModal({
                     if (onSave(inputValue)) {
                       setIsInvalid(true);
                     } else {
-                      reset(newFormDefaultValues);
-                      window.electron.files.createNewProject(
-                        JSON.stringify(newFormDefaultValues),
+                      const formValues = newFormDefaultValues;
+                      formValues.name = inputValue;
+
+                      reset(formValues);
+                      const createdDir = window.electron.files.createNewProject(
+                        JSON.stringify(formValues),
                         inputValue,
                       );
+                      setProjectPath(createdDir);
                       close();
                     }
                   }}

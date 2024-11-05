@@ -10,6 +10,7 @@ import './styles/globals.css';
 import { PanelPage } from './pages/PanelPage/PanelPage';
 import ArticleEditPage from './pages/Articles';
 import ArticleViewPage from './pages/ArticleView';
+import ProjectPathProvider from './context/projectPathContext';
 
 export default function App() {
   const methods = useForm<ProjectFormType>({
@@ -51,9 +52,11 @@ export default function App() {
 
   return (
     <NextUIProvider>
-      <FormProvider {...methods}>
-        <RouterProvider router={router} />
-      </FormProvider>
+      <ProjectPathProvider>
+        <FormProvider {...methods}>
+          <RouterProvider router={router} />
+        </FormProvider>
+      </ProjectPathProvider>
     </NextUIProvider>
   );
 }

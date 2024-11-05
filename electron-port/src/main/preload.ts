@@ -6,6 +6,12 @@ import os from 'node:os';
 
 export type Channels = 'ipc-example';
 
+const PROJECTS_DIRECTORY = os.homedir() + '/Documents/Worldbuilder/';
+
+function checkIfProjectExists(projectName: string) {
+  return fs.existsSync(PROJECTS_DIRECTORY + projectName);
+}
+
 const electronHandler = {
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
@@ -26,25 +32,34 @@ const electronHandler = {
   },
   files: {
     readProjectsDir: () => {
-      return fs.readdirSync(os.homedir() + '/Documents/Worldbuilder');
+      return fs.readdirSync(PROJECTS_DIRECTORY);
     },
-    checkIfProjectExists: (projectName: string) => {
-      return fs.existsSync(
-        os.homedir() + '/Documents/Worldbuilder/' + projectName,
-      );
-    },
+    checkIfProjectExists,
     createNewProject: (data: string, projectName: string) => {
-      const dir = 'C:/Users/Teje/Documents/Worldbuilder/' + projectName;
+      const dir = PROJECTS_DIRECTORY + projectName;
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }
 
       fs.writeFile(dir + '/data.json', data, (err) => {
-        if (err) console.log(err);
-        else {
-          console.log('File written successfully\n');
-        }
+        if (err) return '';
       });
+
+      return dir + '/data.json';
+    },
+    loadProject: (projectName: string) => {
+      const doesProjectExist = checkIfProjectExists(projectName);
+      if (doesProjectExist) {
+        return fs.readFileSync(
+          PROJECTS_DIRECTORY + projectName + '/data.json',
+          'utf-8',
+        );
+      }
+
+      return '';
+    },
+    getProjectsDirectory: () => {
+      return PROJECTS_DIRECTORY;
     },
   },
 };

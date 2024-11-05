@@ -161,7 +161,7 @@ export const Navbar = () => {
           className={`overflow-hidden pt-3 transition-drawer ease-in-out duration-1000  ${isNavbarOpen ? 'w-60  pl-3' : 'w-0  pl-0'}`}
         >
           <Input
-            defaultValue="New Project"
+            defaultValue={watch('name')}
             variant="flat"
             classNames={{
               base: 'w-56 pr-3',
