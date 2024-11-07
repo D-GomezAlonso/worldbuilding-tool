@@ -39,6 +39,10 @@ export default function App() {
           element: <PanelPage pageKey="maps" />,
         },
         {
+          path: '/relationships/:id',
+          element: <PanelPage pageKey="relationships" />,
+        },
+        {
           path: '/articles/:id',
           element: <ArticleEditPage />,
         },

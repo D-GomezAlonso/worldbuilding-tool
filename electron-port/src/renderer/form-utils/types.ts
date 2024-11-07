@@ -3,6 +3,7 @@ export type ProjectFormType = {
   characters: PanelPage[];
   places: PanelPage[];
   maps: PanelPage[];
+  relationships: PanelPage[];
   articles: ArticlePage[];
   isProjectNull?: true;
 };

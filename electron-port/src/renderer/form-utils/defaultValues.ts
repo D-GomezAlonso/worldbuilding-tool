@@ -15,6 +15,7 @@ export const formInitialValues: ProjectFormType = {
   articles: [],
   maps: [],
   places: [],
+  relationships: [],
   isProjectNull: true,
 };
 
@@ -41,6 +42,7 @@ export const newFormDefaultValues: ProjectFormType = {
   ],
   places: [],
   maps: [],
+  relationships: [],
   articles: [],
 };
 

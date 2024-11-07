@@ -58,10 +58,7 @@ export const Navbar = () => {
     [selectedKeys, setSelectedKeys],
   );
 
-  const createNewItem = (
-    itemName: 'characters' | 'places' | 'maps' | 'articles',
-    id: string,
-  ) => {
+  const createNewItem = (itemName: string, id: string) => {
     const currentValue = watch(itemName);
 
     const newPage =
@@ -72,16 +69,11 @@ export const Navbar = () => {
     setValue(itemName, [...currentValue, newPage]);
   };
 
-  const createAndNavigate = (
-    href: string,
-    formRef: 'characters' | 'places' | 'maps' | 'articles' | 'relationships',
-  ) => {
-    if (formRef !== 'relationships') {
-      const id = uuid();
-      createNewItem(formRef, id);
-      navigate(`${href}/${id}`);
-      setActiveId(`${href}/${id}`);
-    }
+  const createAndNavigate = (href: string, formRef: string) => {
+    const id = uuid();
+    createNewItem(formRef, id);
+    navigate(`${href}/${id}`);
+    setActiveId(`${href}/${id}`);
   };
 
   return (
