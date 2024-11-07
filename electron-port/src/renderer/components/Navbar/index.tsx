@@ -94,20 +94,10 @@ export const Navbar = () => {
           className="gap-4 flex flex-col pl-3 pt-3 pr-3 "
         >
           <NavbarItem
-            className={`cursor-pointer py-1.5 ${watch('isProjectNull') ? 'disabled' : ''}`}
-            onClick={() =>
-              !watch('isProjectNull') && setIsNavbarOpen(!isNavbarOpen)
-            }
+            className="cursor-pointer py-1.5"
+            onClick={() => setIsNavbarOpen(!isNavbarOpen)}
           >
-            {isNavbarOpen ? (
-              <BsChevronDoubleRight
-                className={`${watch('isProjectNull') ? 'text-gray-400' : ''}`}
-              />
-            ) : (
-              <BsChevronDoubleLeft
-                className={`${watch('isProjectNull') ? 'text-gray-400' : ''}`}
-              />
-            )}
+            {isNavbarOpen ? <BsChevronDoubleRight /> : <BsChevronDoubleLeft />}
           </NavbarItem>
           <NavbarItem></NavbarItem>
           <NavbarItem className="h-7 cursor-pointer relative">

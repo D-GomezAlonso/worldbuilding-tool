@@ -52,8 +52,13 @@ export function Home() {
             <b>Create New Project</b>
           </CardFooter>
         </Card>
-        {files?.map((file) => (
-          <Card shadow="sm" isPressable onClick={() => handleLoadProject(file)}>
+        {files?.map((file, index) => (
+          <Card
+            shadow="sm"
+            key={index}
+            isPressable
+            onClick={() => handleLoadProject(file)}
+          >
             <CardBody className="overflow-visible p-0">
               <Image
                 shadow="sm"

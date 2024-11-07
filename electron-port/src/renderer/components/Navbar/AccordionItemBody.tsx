@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
 import { useMemo } from 'react';
 import { IconType } from 'react-icons';
+import { NavLink } from 'react-router-dom';
 
 type Item = {
   label: string;
@@ -37,18 +38,18 @@ export const AccordionItemBody = ({
           className="flex align-middle rounded-md pl-2 dark:data-[active=true]:bg-navbar-selected  data-[active=true]:bg-[#864c16b7]  hover:bg-divider"
           isActive={`${item.href}/${value.id}` === activeId}
         >
-          <a
+          <NavLink
             className={clsx(
               linkStyles({ color: 'foreground' }),
               'data-[active=true]:text-primary data-[active=true]:font-medium gap-2',
               'w-full',
             )}
             color="foreground"
-            href={`${item.href}/${value.id}`}
+            to={`${item.href}/${value.id}`}
             onClick={() => setActiveId(`${item.href}/${value.id}`)}
           >
             <BsSquareFill className="w-2" /> {value.name}
-          </a>
+          </NavLink>
         </NavbarItem>
       ))}
 
