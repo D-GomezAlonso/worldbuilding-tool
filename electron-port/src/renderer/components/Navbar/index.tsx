@@ -7,7 +7,11 @@ import {
 import { siteConfig } from '../../config/site';
 import { ThemeSwitch } from '../../components/theme-switch';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
-import { BsChevronDoubleLeft, BsChevronRight } from 'react-icons/bs';
+import {
+  BsChevronDoubleLeft,
+  BsChevronRight,
+  BsFloppyFill,
+} from 'react-icons/bs';
 import { useCallback, useState } from 'react';
 import { IconType } from 'react-icons';
 import { useFormContext } from 'react-hook-form';
@@ -18,7 +22,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import { Indicator } from './Indicator';
 import { AccordionItemBody } from './AccordionItemBody';
-import { BsChevronDoubleRight, BsDownload, BsUpload } from 'react-icons/bs';
+import { BsChevronDoubleRight, BsUpload } from 'react-icons/bs';
 import { Divider } from '@nextui-org/divider';
 import { BsGearFill } from 'react-icons/bs';
 import { toSingularCapitalised, userDownloadFile } from './utils';
@@ -26,6 +30,7 @@ import { useDisclosure } from '@nextui-org/modal';
 import { OptionsModal } from './OptionsModal';
 import { Input } from '@nextui-org/input';
 import { useNavigate } from 'react-router-dom';
+import { useProjectPathContext } from '../../context/projectPathContext';
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,7 +38,7 @@ export const Navbar = () => {
   const [activeId, setActiveId] = useState('');
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const navigate = useNavigate();
-
+  const { projectPath } = useProjectPathContext();
   const [selectedKeys, setSelectedKeys] = useState(
     new Set<string | number>([]),
   );
@@ -129,16 +134,12 @@ export const Navbar = () => {
             <BsUpload />
           </NavbarItem>
           <NavbarItem className="h-7 cursor-pointer">
-            <BsDownload
+            <BsFloppyFill
               onClick={() => {
-                const blob = [
-                  new Blob([JSON.stringify(getValues())], {
-                    type: 'application/json',
-                  }),
-                ];
-
-                const file = new File(blob, 'data.json');
-                userDownloadFile(file);
+                window.electron.files.saveProject(
+                  projectPath ?? '',
+                  JSON.stringify(getValues()),
+                );
               }}
             />
           </NavbarItem>

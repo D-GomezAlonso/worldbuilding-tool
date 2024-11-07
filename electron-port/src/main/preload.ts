@@ -1,6 +1,6 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
-import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { contextBridge } from 'electron';
 import fs from 'node:fs';
 import os from 'node:os';
 
@@ -8,34 +8,18 @@ export type Channels = 'ipc-example';
 
 const PROJECTS_DIRECTORY = os.homedir() + '/Documents/Worldbuilder/';
 
-function checkIfProjectExists(projectName: string) {
-  return fs.existsSync(PROJECTS_DIRECTORY + projectName);
-}
-
 const electronHandler = {
-  ipcRenderer: {
-    sendMessage(channel: Channels, ...args: unknown[]) {
-      ipcRenderer.send(channel, ...args);
-    },
-    on(channel: Channels, func: (...args: unknown[]) => void) {
-      const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
-        func(...args);
-      ipcRenderer.on(channel, subscription);
-
-      return () => {
-        ipcRenderer.removeListener(channel, subscription);
-      };
-    },
-    once(channel: Channels, func: (...args: unknown[]) => void) {
-      ipcRenderer.once(channel, (_event, ...args) => func(...args));
-    },
-  },
   files: {
-    readProjectsDir: () => {
+    getProjectsDirectory() {
+      return PROJECTS_DIRECTORY;
+    },
+    readProjectsDir() {
       return fs.readdirSync(PROJECTS_DIRECTORY);
     },
-    checkIfProjectExists,
-    createNewProject: (data: string, projectName: string) => {
+    checkIfProjectExists(projectName: string) {
+      return fs.existsSync(PROJECTS_DIRECTORY + projectName);
+    },
+    createNewProject(data: string, projectName: string) {
       const dir = PROJECTS_DIRECTORY + projectName;
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
@@ -47,19 +31,24 @@ const electronHandler = {
 
       return dir + '/data.json';
     },
-    loadProject: (projectName: string) => {
-      const doesProjectExist = checkIfProjectExists(projectName);
-      if (doesProjectExist) {
-        return fs.readFileSync(
-          PROJECTS_DIRECTORY + projectName + '/data.json',
-          'utf-8',
-        );
+    loadProject(projectName: string) {
+      const dir = PROJECTS_DIRECTORY + projectName;
+      if (fs.existsSync(dir)) {
+        return fs.readFileSync(dir + '/data.json', 'utf-8');
       }
-
       return '';
     },
-    getProjectsDirectory: () => {
-      return PROJECTS_DIRECTORY;
+    saveProject(projectDir: string, data: string) {
+      const dir = projectDir;
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+
+      fs.writeFile(dir + '/data.json', data, (err) => {
+        if (err) return 'error';
+      });
+
+      return dir + '/data.json';
     },
   },
 };
