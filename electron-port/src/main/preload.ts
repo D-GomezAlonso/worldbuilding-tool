@@ -50,6 +50,22 @@ const electronHandler = {
 
       return dir + '/data.json';
     },
+    saveImage(projectDir: string, image: File) {
+      console.log(image);
+      const destinationDir = `${projectDir}/images/${image.name}`;
+      if (!fs.existsSync(`${projectDir}/images/`)) {
+        fs.mkdirSync(`${projectDir}/images/`);
+      }
+
+      fs.copyFile(image.path, destinationDir, function callback(err) {
+        if (err) throw err;
+      });
+
+      return destinationDir;
+    },
+    readSavedImage(imagePath: string) {
+     return fs.readFileSync(imagePath).toString('base64');
+    },
   },
 };
 

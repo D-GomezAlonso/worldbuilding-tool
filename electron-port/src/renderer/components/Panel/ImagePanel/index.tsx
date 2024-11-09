@@ -10,6 +10,7 @@ import { useFormContext } from 'react-hook-form';
 import { ProjectFormType } from '../../../form-utils';
 import { BsImage } from 'react-icons/bs';
 import { FormPanelPages } from '../types';
+import { useProjectPathContext } from '../../../context/projectPathContext';
 
 export const ImagePanel = ({
   id,
@@ -24,11 +25,34 @@ export const ImagePanel = ({
     id: id,
   });
   const { watch, setValue } = useFormContext<ProjectFormType>();
+  const { projectPath } = useProjectPathContext();
 
-  const fileToString = (e: ChangeEvent<HTMLInputElement>) => {
+  function saveImage(e: ChangeEvent<HTMLInputElement>) {
     const upload = e.target.files?.[0];
-    return upload ? URL.createObjectURL(upload) : '';
-  };
+    if (upload) {
+      const savedImagePath = window.electron.files.saveImage(
+        projectPath ?? '',
+        upload,
+      );
+      setValue(`${fieldName}.image`, savedImagePath);
+    }
+  }
+
+  function readImageAsBase64() {
+    const placeholder = 'https://via.placeholder.com/300x300';
+
+    if (
+      watch(`${fieldName}.image`) &&
+      watch(`${fieldName}.image`) !== placeholder
+    ) {
+      const base64 = window.electron.files.readSavedImage(
+        watch(`${fieldName}.image`),
+      );
+      return `data:image/jpg;base64,${base64}`;
+    }
+
+    return placeholder;
+  }
 
   return (
     <PanelWrapper
@@ -70,10 +94,7 @@ export const ImagePanel = ({
                 ],
                 img: 'object-cover w-full h-full z-5',
               }}
-              src={
-                watch(`${fieldName}.image`) ||
-                'https://via.placeholder.com/300x300'
-              }
+              src={readImageAsBase64()}
             />
             <div className="h-full  w-full" />
           </div>
@@ -84,9 +105,7 @@ export const ImagePanel = ({
             type="file"
             name="myImage"
             className="opacity-0 p-2 w-full h-full z-20 cursor-pointer"
-            onChange={(e) => {
-              setValue(`${fieldName}.image`, fileToString(e));
-            }}
+            onChange={saveImage}
           />
           <div className="flex items-center gap-2 absolute left-3 z-10">
             <BsImage /> Upload Image
