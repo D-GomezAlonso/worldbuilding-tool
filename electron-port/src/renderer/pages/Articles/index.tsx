@@ -46,9 +46,7 @@ export default function ArticleEditPage() {
               setValue(`articles.${articleIndex}.name`, e.currentTarget.value)
             }
           />
-          <Button
-            onClick={() => navigate(`/articles-view/${id}`)}
-          >
+          <Button onClick={() => navigate(`/articles-view/${id}`)}>
             Go to View Mode
           </Button>
         </div>

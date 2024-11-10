@@ -1,6 +1,10 @@
 import { Button } from '@nextui-org/button';
 import clsx from 'clsx';
-import { BsFillHouseFill } from 'react-icons/bs';
+import {
+  BsFillHouseFill,
+  BsChevronDown,
+  BsFileEarmarkTextFill,
+} from 'react-icons/bs';
 import { link as linkStyles } from '@nextui-org/theme';
 import { Divider } from '@nextui-org/divider';
 import {
@@ -9,66 +13,26 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/dropdown';
-import { BsChevronDown } from 'react-icons/bs';
-import { BsListUl } from 'react-icons/bs';
-import { BsType } from 'react-icons/bs';
-import { BsFillImageFill } from 'react-icons/bs';
 import { ToolbarDropdown } from './ToolbarDropdown';
-import { BsFileEarmarkTextFill } from 'react-icons/bs';
-import { BsFillPersonPlusFill } from 'react-icons/bs';
-import { BsFillPersonDashFill } from 'react-icons/bs';
-import { BsFillPersonLinesFill } from 'react-icons/bs';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { createPanelPage, ProjectFormType } from '../../form-utils';
 import { v4 as uuid } from 'uuid';
 import { useDisclosure } from '@nextui-org/modal';
 import { InputModal } from './InputModal';
 import { useCallback, useEffect, useState } from 'react';
-import { FormPanelPages } from '../Panel/types';
+import { FormPanelPages, PanelType } from '../Panel/types';
 import { pageData } from '../../config/site';
 import { useNavigate } from 'react-router-dom';
-
-const panelDropdownItems = [
-  {
-    key: 'list' as 'list',
-    label: 'List panel',
-    icon: BsListUl,
-  },
-  {
-    key: 'text' as 'text',
-    label: 'Text panel',
-    icon: BsType,
-  },
-  {
-    key: 'image' as 'image',
-    label: 'Image panel',
-    icon: BsFillImageFill,
-  },
-];
-
-const baseFileDropdownItems = [
-  {
-    key: 'create' as 'create',
-    label: 'New $',
-    icon: BsFillPersonPlusFill,
-  },
-  {
-    key: 'rename' as 'rename',
-    label: 'Rename $',
-    icon: BsFillPersonLinesFill,
-  },
-  {
-    key: 'delete' as 'delete',
-    label: 'Delete $',
-    icon: BsFillPersonDashFill,
-  },
-];
+import {
+  baseFileDropdownItems,
+  panelDropdownItems,
+} from './ToolbarDropdown/dropdownItems';
 
 export const Toolbar = ({
   addNewPanel,
   pageKey,
 }: {
-  addNewPanel: (panelType: 'list' | 'text' | 'image') => void;
+  addNewPanel: (panelType: PanelType) => void;
   pageKey: FormPanelPages;
 }) => {
   const [activeId, setActiveId] = useState('');

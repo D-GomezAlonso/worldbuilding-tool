@@ -62,7 +62,7 @@ export const ImagePanel = ({
       transform={transform}
     >
       <Card
-        className="group flex-row -outline-offset-2 resize "
+        className="group flex-row -outline-offset-2 resize"
         classNames={{
           header: 'group hidden group-hover/:flex ',
           base: 'relative  h-96 w-96 overflow-hidden ',

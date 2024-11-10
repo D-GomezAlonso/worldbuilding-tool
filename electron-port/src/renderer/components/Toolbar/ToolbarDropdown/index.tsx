@@ -1,20 +1,24 @@
-import { Button } from "@nextui-org/button";
+import { Button } from '@nextui-org/button';
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/dropdown";
-import { BsFillPlusSquareFill } from "react-icons/bs";
-import { BsChevronDown } from "react-icons/bs";
+} from '@nextui-org/dropdown';
+import { BsFillPlusSquareFill } from 'react-icons/bs';
+import { BsChevronDown } from 'react-icons/bs';
 
 type ToolbarDropdownProps = {
   panelDropdownItems: any[];
   triggerLabel: string;
-  onClick:  (panelType: "list" | "text" | "image") => void
+  onClick: (panelType: 'list' | 'text' | 'image') => void;
 };
 
-export const ToolbarDropdown = ({panelDropdownItems, triggerLabel, onClick}: ToolbarDropdownProps) => {
+export const ToolbarDropdown = ({
+  panelDropdownItems,
+  triggerLabel,
+  onClick,
+}: ToolbarDropdownProps) => {
   return (
     <Dropdown className="dark">
       <DropdownTrigger>
@@ -28,7 +32,7 @@ export const ToolbarDropdown = ({panelDropdownItems, triggerLabel, onClick}: Too
         aria-label="Dynamic Actions"
         items={panelDropdownItems}
         itemClasses={{
-          title: "flex items-center gap-2",
+          title: 'flex items-center gap-2',
         }}
       >
         {(item) => (

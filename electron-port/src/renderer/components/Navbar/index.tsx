@@ -4,33 +4,24 @@ import {
   NavbarContent,
   NavbarItem,
 } from '@nextui-org/navbar';
-import { siteConfig } from '../../config/site';
-import { ThemeSwitch } from '../../components/theme-switch';
-import { Accordion, AccordionItem } from '@nextui-org/accordion';
-import {
-  BsChevronDoubleLeft,
-  BsChevronRight,
-  BsFloppyFill,
-} from 'react-icons/bs';
+import { PageConfig } from '../../config/site';
+import { BsChevronDoubleLeft, BsFloppyFill } from 'react-icons/bs';
 import { useCallback, useState } from 'react';
-import { IconType } from 'react-icons';
 import { useFormContext } from 'react-hook-form';
 import {
   createArticlelPage,
   createPanelPage,
 } from '../../form-utils/defaultValues';
 import { v4 as uuid } from 'uuid';
-import { Indicator } from './Indicator';
-import { AccordionItemBody } from './AccordionItemBody';
 import { BsChevronDoubleRight, BsUpload } from 'react-icons/bs';
 import { Divider } from '@nextui-org/divider';
 import { BsGearFill } from 'react-icons/bs';
-import { toSingularCapitalised, userDownloadFile } from './utils';
+import { toSingularCapitalised } from './utils';
 import { useDisclosure } from '@nextui-org/modal';
 import { OptionsModal } from './OptionsModal';
-import { Input } from '@nextui-org/input';
 import { useNavigate } from 'react-router-dom';
 import { useProjectPathContext } from '../../context/projectPathContext';
+import { NavbarAccordion } from './NavbarAcordion';
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,7 +35,7 @@ export const Navbar = () => {
   );
 
   const handleAccordionClick = useCallback(
-    (item: { label: string; href: string; Icon: IconType }, index: number) => {
+    (item: Omit<PageConfig, 'formRef'>, index: number) => {
       const key = `${item.label}-${index}`;
       const copySet = new Set(selectedKeys);
 
@@ -96,7 +87,6 @@ export const Navbar = () => {
           >
             {isNavbarOpen ? <BsChevronDoubleRight /> : <BsChevronDoubleLeft />}
           </NavbarItem>
-          <NavbarItem></NavbarItem>
           <NavbarItem className="h-7 cursor-pointer relative">
             <input
               type="file"
@@ -143,72 +133,20 @@ export const Navbar = () => {
         <div
           className={`overflow-hidden pt-3 transition-drawer ease-in-out duration-1000  ${isNavbarOpen ? 'w-60  pl-3' : 'w-0  pl-0'}`}
         >
-          <Input
-            defaultValue={watch('name')}
-            variant="flat"
-            classNames={{
-              base: 'w-56 pr-3',
-              inputWrapper: [
-                'bg-transparent',
-                'dark:bg-transparent',
-                'hover:bg-transparent',
-                'dark:hover:bg-transparent',
-                'group-data-[focus=true]/:bg-transparent',
-                'dark:group-data-[focus=true]/:bg-transparent',
-                '!cursor-text',
-              ],
-              innerWrapper: 'bg-transparent',
-              input: 'text-xl  font-bold bg-transparent hover:bg-transparent',
-            }}
-          />
+          <div className="h-10 w-56 flex items-center">
+            <p className="px-3 text-xl font-bold bg-transparent">
+              {watch('name')}
+            </p>
+          </div>
           <NavbarContent className="p-0 w-60">
             <ul className="flex flex-col h-full gap-4 justify-start p-0">
-              <Accordion
+              <NavbarAccordion
+                activeId={activeId}
+                setActiveId={setActiveId}
+                createAndNavigate={createAndNavigate}
+                handleAccordionClick={handleAccordionClick}
                 selectedKeys={selectedKeys}
-                selectionMode="multiple"
-                className="group px-0"
-                itemClasses={{
-                  base: ['group'],
-                  startContent: 'group-data-[open=true]/:rotate-90 transition',
-                }}
-              >
-                {siteConfig.navItems.map((item, index) => (
-                  <AccordionItem
-                    className="p-0 m-0"
-                    key={`${item.label}-${index}`}
-                    aria-label={`${item.label}-${index}`}
-                    startContent={
-                      <BsChevronRight
-                        onClick={() => handleAccordionClick(item, index)}
-                      />
-                    }
-                    indicator={
-                      <Indicator
-                        item={item}
-                        onClick={() =>
-                          createAndNavigate(item.href, item.formRef)
-                        }
-                      />
-                    }
-                    disableIndicatorAnimation
-                    title={
-                      <div
-                        onClick={() => handleAccordionClick(item, index)}
-                        className="flex items-center gap-3 min-w-40"
-                      >
-                        <item.Icon /> {item.label}
-                      </div>
-                    }
-                  >
-                    <AccordionItemBody
-                      activeId={activeId}
-                      setActiveId={setActiveId}
-                      formRef={item.formRef}
-                      item={item}
-                    />
-                  </AccordionItem>
-                ))}
-              </Accordion>
+              />
             </ul>
           </NavbarContent>
         </div>

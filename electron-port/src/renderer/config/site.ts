@@ -1,4 +1,5 @@
 export type SiteConfig = typeof siteConfig;
+import { IconType } from 'react-icons';
 import {
   BsPinMapFill,
   BsFillPersonFill,
@@ -23,37 +24,42 @@ export const pageData = {
   relationships: { label: 'Relationships', href: '/relationships' },
 };
 
-export const siteConfig = {
-  navItems: [
-    {
-      label: 'Places',
-      href: '/places',
-      Icon: BsPinMapFill,
-      formRef: 'places' as 'places',
-    },
-    {
-      label: 'Characters',
-      href: '/characters',
-      Icon: BsFillPersonFill,
-      formRef: 'characters' as 'characters',
-    },
-    {
-      label: 'Maps',
-      href: '/maps',
-      Icon: BsMap,
-      formRef: 'maps' as 'maps',
-    },
-    {
-      label: 'Articles',
-      href: '/articles',
-      Icon: BsLayoutTextWindow,
-      formRef: 'articles' as 'articles',
-    },
-    {
-      label: 'Relationships',
-      href: '/relationships',
-      Icon: BsFillPeopleFill,
-      formRef: 'relationships' as 'relationships',
-    },
-  ],
+export type PageConfig = {
+  label: string;
+  href: string;
+  Icon: IconType;
+  formRef: 'places' | 'characters' | 'maps' | 'articles' | 'relationships';
 };
+
+export const siteConfig: PageConfig[] = [
+  {
+    label: 'Places',
+    href: '/places',
+    Icon: BsPinMapFill,
+    formRef: 'places' as 'places',
+  },
+  {
+    label: 'Characters',
+    href: '/characters',
+    Icon: BsFillPersonFill,
+    formRef: 'characters' as 'characters',
+  },
+  {
+    label: 'Maps',
+    href: '/maps',
+    Icon: BsMap,
+    formRef: 'maps' as 'maps',
+  },
+  {
+    label: 'Articles',
+    href: '/articles',
+    Icon: BsLayoutTextWindow,
+    formRef: 'articles' as 'articles',
+  },
+  {
+    label: 'Relationships',
+    href: '/relationships',
+    Icon: BsFillPeopleFill,
+    formRef: 'relationships' as 'relationships',
+  },
+];

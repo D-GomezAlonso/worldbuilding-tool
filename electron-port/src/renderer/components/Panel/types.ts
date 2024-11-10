@@ -6,3 +6,5 @@ export declare type Transform = {
 };
 
 export type FormPanelPages = 'characters' | 'places' | 'maps' | 'relationships';
+
+export type PanelType =  'list' | 'text' | 'image'
