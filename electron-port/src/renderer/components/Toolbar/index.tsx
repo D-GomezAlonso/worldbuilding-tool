@@ -1,11 +1,5 @@
 import { Button } from '@nextui-org/button';
-import clsx from 'clsx';
-import {
-  BsFillHouseFill,
-  BsChevronDown,
-  BsFileEarmarkTextFill,
-} from 'react-icons/bs';
-import { link as linkStyles } from '@nextui-org/theme';
+import { BsChevronDown, BsFileEarmarkTextFill } from 'react-icons/bs';
 import { Divider } from '@nextui-org/divider';
 import {
   Dropdown,
@@ -90,21 +84,6 @@ export const Toolbar = ({
   return (
     <div className="flex flex-row dark:bg-gray-toolbar gap-2 items-center">
       <InputModal isOpen={isOpen} onClose={onClose} renameFile={renameFile} />
-
-      <a
-        className={clsx(
-          linkStyles({ color: 'foreground' }),
-          'data-[active=true]:text-primary data-[active=true]:font-medium gap-2',
-          'px-4',
-        )}
-        color="foreground"
-        href="/"
-      >
-        <BsFillHouseFill />
-        Home
-      </a>
-      <Divider orientation="vertical" className="max-h-7" />
-
       <ToolbarDropdown
         onClick={addNewPanel}
         panelDropdownItems={panelDropdownItems}

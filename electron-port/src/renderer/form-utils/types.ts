@@ -28,6 +28,7 @@ export type PanelPage = {
 };
 
 export interface Panel {
+  name: string;
   id: string;
   position: { x: number; y: number };
 }

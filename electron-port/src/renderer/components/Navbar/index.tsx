@@ -5,7 +5,11 @@ import {
   NavbarItem,
 } from '@nextui-org/navbar';
 import { PageConfig } from '../../config/site';
-import { BsChevronDoubleLeft, BsFloppyFill } from 'react-icons/bs';
+import {
+  BsChevronDoubleLeft,
+  BsFillHouseFill,
+  BsFloppyFill,
+} from 'react-icons/bs';
 import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
@@ -67,6 +71,13 @@ export const Navbar = () => {
     setActiveId(`${href}/${id}`);
   };
 
+  function saveProject() {
+    window.electron.files.saveProject(
+      projectPath ?? '',
+      JSON.stringify(getValues()),
+    );
+  }
+
   return (
     <NextUINavbar
       maxWidth="sm"
@@ -87,6 +98,7 @@ export const Navbar = () => {
           >
             {isNavbarOpen ? <BsChevronDoubleRight /> : <BsChevronDoubleLeft />}
           </NavbarItem>
+
           <NavbarItem className="h-7 cursor-pointer relative">
             <input
               type="file"
@@ -116,14 +128,16 @@ export const Navbar = () => {
             <BsUpload />
           </NavbarItem>
           <NavbarItem className="h-7 cursor-pointer">
-            <BsFloppyFill
+            <BsFillHouseFill
+              className="h-[18px] w-[18px]"
               onClick={() => {
-                window.electron.files.saveProject(
-                  projectPath ?? '',
-                  JSON.stringify(getValues()),
-                );
+                saveProject();
+                navigate('/');
               }}
             />
+          </NavbarItem>
+          <NavbarItem className="h-7 cursor-pointer">
+            <BsFloppyFill onClick={saveProject} />
           </NavbarItem>
           <NavbarItem className="h-7 cursor-pointer" onClick={onOpen}>
             <BsGearFill />

@@ -37,6 +37,10 @@ export const TextPanel = ({
       >
         <CardHeader className="z-0 flex gap-4">
           <Input
+            onInput={(e) =>
+              setValue(`${fieldName}.name`, e.currentTarget.value)
+            }
+            value={watch(`${fieldName}.name`)}
             defaultValue="Header"
             classNames={{
               inputWrapper: 'bg-transparent',

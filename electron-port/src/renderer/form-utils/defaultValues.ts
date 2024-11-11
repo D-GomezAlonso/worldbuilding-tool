@@ -27,6 +27,7 @@ export const newFormDefaultValues: ProjectFormType = {
       id: '1',
       panels: [
         {
+          name: '',
           id: '1',
           position: { x: 0, y: 0 },
           entries: [
@@ -51,6 +52,7 @@ export const createPanelPage = (name: string, id: string): PanelPage => ({
   id,
   panels: [
     {
+      name: '',
       id: '1',
       position: { x: 0, y: 0 },
       entries: [
@@ -91,6 +93,7 @@ export const isImagePanel = (panel: AnyPanel): panel is ImagePanel => {
 
 export const createListPanel = (): ListPanel => {
   return {
+    name: '',
     id: uuid(),
     position: { x: 0, y: 0 },
     entries: [{ title: '', description: '', id: uuid() }],
@@ -99,6 +102,7 @@ export const createListPanel = (): ListPanel => {
 
 export const createTextPanel = (): TextPanel => {
   return {
+    name: '',
     id: uuid(),
     position: { x: 0, y: 0 },
     text: '',
@@ -107,6 +111,7 @@ export const createTextPanel = (): TextPanel => {
 
 export const createImagePanel = (): ImagePanel => {
   return {
+    name: '',
     id: uuid(),
     position: { x: 0, y: 0 },
     image: '',

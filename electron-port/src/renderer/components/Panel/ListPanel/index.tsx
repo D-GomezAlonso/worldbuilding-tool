@@ -26,7 +26,7 @@ export const ListPanel = ({
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: id,
   });
-  const { control } = useFormContext<ProjectFormType>();
+  const { control, setValue, watch } = useFormContext<ProjectFormType>();
 
   const { append } = useFieldArray({
     control,
@@ -44,9 +44,13 @@ export const ListPanel = ({
       attributes={attributes}
       transform={transform}
     >
-      <Card className="max-w-sm min-h-96 top-0 left-0">
+      <Card className="min-w-80 min-h-96 top-0 left-0 resize">
         <CardHeader className="z-0 flex gap-4">
           <Input
+            onInput={(e) =>
+              setValue(`${fieldName}.name`, e.currentTarget.value)
+            }
+            value={watch(`${fieldName}.name`)}
             defaultValue="Header"
             classNames={{
               inputWrapper: 'bg-transparent',

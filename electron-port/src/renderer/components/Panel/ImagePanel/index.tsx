@@ -65,12 +65,16 @@ export const ImagePanel = ({
         className="group flex-row -outline-offset-2 resize"
         classNames={{
           header: 'group hidden group-hover/:flex ',
-          base: 'relative  h-96 w-96 overflow-hidden ',
+          base: 'relative h-96 w-96 overflow-hidden ',
           footer: 'group hidden  group-hover/:flex',
         }}
       >
         <CardHeader className="absolute top-0 gap-4 z-[1]">
           <Input
+            onInput={(e) =>
+              setValue(`${fieldName}.name`, e.currentTarget.value)
+            }
+            value={watch(`${fieldName}.name`)}
             defaultValue="Header"
             classNames={{
               inputWrapper: 'bg-transparen z-[1]',
