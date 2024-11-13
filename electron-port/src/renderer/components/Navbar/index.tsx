@@ -17,18 +17,15 @@ import {
   createPanelPage,
 } from '../../form-utils/defaultValues';
 import { v4 as uuid } from 'uuid';
-import { BsChevronDoubleRight, BsUpload } from 'react-icons/bs';
+import { BsChevronDoubleRight } from 'react-icons/bs';
 import { Divider } from '@nextui-org/divider';
-import { BsGearFill } from 'react-icons/bs';
 import { toSingularCapitalised } from './utils';
-import { useDisclosure } from '@nextui-org/modal';
 import { OptionsModal } from './OptionsModal';
 import { useNavigate } from 'react-router-dom';
 import { useProjectPathContext } from '../../context/projectPathContext';
 import { NavbarAccordion } from './NavbarAcordion';
 
 export const Navbar = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { watch, setValue, getValues, reset } = useFormContext();
   const [activeId, setActiveId] = useState('');
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -86,7 +83,6 @@ export const Navbar = () => {
         wrapper: 'flex flex-col w-auto h-full items-start px-0',
       }}
     >
-      <OptionsModal isOpen={isOpen} onClose={onClose} />
       <div className="flex h-full">
         <NavbarContent
           justify="start"
@@ -99,34 +95,6 @@ export const Navbar = () => {
             {isNavbarOpen ? <BsChevronDoubleRight /> : <BsChevronDoubleLeft />}
           </NavbarItem>
 
-          <NavbarItem className="h-7 cursor-pointer relative">
-            <input
-              type="file"
-              name="myImage"
-              className="opacity-0 p-2 w-full h-full z-20 cursor-pointer absolute"
-              onChange={(event) => {
-                const fileReader = new FileReader();
-                const { files } = event.target;
-
-                if (files) {
-                  fileReader.readAsText(files?.[0], 'UTF-8');
-                  fileReader.onload = (e) => {
-                    const content = e.target?.result;
-                    if (content) {
-                      var enc = new TextDecoder('utf-8');
-                      const fileText =
-                        typeof content === 'string'
-                          ? content
-                          : enc.decode(content);
-
-                      reset(JSON.parse(fileText));
-                    }
-                  };
-                }
-              }}
-            />
-            <BsUpload />
-          </NavbarItem>
           <NavbarItem className="h-7 cursor-pointer">
             <BsFillHouseFill
               className="h-[18px] w-[18px]"
@@ -138,9 +106,6 @@ export const Navbar = () => {
           </NavbarItem>
           <NavbarItem className="h-7 cursor-pointer">
             <BsFloppyFill onClick={saveProject} />
-          </NavbarItem>
-          <NavbarItem className="h-7 cursor-pointer" onClick={onOpen}>
-            <BsGearFill />
           </NavbarItem>
         </NavbarContent>
         <Divider orientation="vertical" />
