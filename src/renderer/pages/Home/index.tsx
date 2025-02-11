@@ -1,7 +1,7 @@
-import { Card, CardBody, CardFooter } from '@nextui-org/card';
+import { Card, CardBody, CardFooter } from "@heroui/card";
 import cardImage from '../../../../assets/article-header.jpg';
-import { Image } from '@nextui-org/image';
-import { useDisclosure } from '@nextui-org/modal';
+import { Image } from "@heroui/image";
+import { useDisclosure } from "@heroui/modal";
 import { InputModal } from './components/InputModal';
 import { useProjectPathContext } from '../../context/projectPathContext';
 import { useFormContext } from 'react-hook-form';

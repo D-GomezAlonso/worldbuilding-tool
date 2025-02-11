@@ -1,7 +1,7 @@
 'use client';
-import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
-import { Image } from '@nextui-org/image';
-import { Input } from '@nextui-org/input';
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Image } from "@heroui/image";
+import { Input } from "@heroui/input";
 import { ChangeEvent, CSSProperties } from 'react';
 import { BsArrowsMove } from 'react-icons/bs';
 import { PanelWrapper } from '../PanelWrapper';

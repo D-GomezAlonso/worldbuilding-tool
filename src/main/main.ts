@@ -75,6 +75,7 @@ const createWindow = async () => {
     height: 728,
     icon: getAssetPath('icons/logo.png'),
     webPreferences: {
+      webSecurity: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -82,7 +83,7 @@ const createWindow = async () => {
     },
   });
 
-  mainWindow.loadURL(resolveHtmlPath('/'));
+  mainWindow.loadURL(resolveHtmlPath('index.html'));
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
@@ -95,6 +96,8 @@ const createWindow = async () => {
     }
   });
 
+  mainWindow.webContents.openDevTools({ mode: 'bottom'} )
+  
   mainWindow.on('closed', () => {
     mainWindow = null;
   });

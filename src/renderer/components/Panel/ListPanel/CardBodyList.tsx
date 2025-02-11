@@ -1,13 +1,13 @@
-import { Button } from '@nextui-org/button';
-import { CardBody } from '@nextui-org/card';
-import { Divider } from '@nextui-org/divider';
+import { Button } from "@heroui/button";
+import { CardBody } from "@heroui/card";
+import { Divider } from "@heroui/divider";
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/dropdown';
-import { Input, Textarea } from '@nextui-org/input';
+} from "@heroui/dropdown";
+import { Input, Textarea } from "@heroui/input";
 import { BsArrowsMove, BsThreeDotsVertical } from 'react-icons/bs';
 import { ListItem } from './types';
 import {
@@ -284,7 +284,7 @@ function OptionsButton({
             key={item.key}
             color={item.key === 'delete' ? 'danger' : 'default'}
             className={item.key === 'delete' ? 'text-danger' : ''}
-            onClick={() => item.handler(index)}
+            onPress={() => item.handler(index)}
           >
             {item.label}
           </DropdownItem>

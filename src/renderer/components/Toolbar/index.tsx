@@ -1,17 +1,17 @@
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import { BsChevronDown, BsFileEarmarkTextFill } from 'react-icons/bs';
-import { Divider } from '@nextui-org/divider';
+import { Divider } from "@heroui/divider";
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/dropdown';
+} from "@heroui/dropdown";
 import { ToolbarDropdown } from './ToolbarDropdown';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { createPanelPage, ProjectFormType } from '../../form-utils';
 import { v4 as uuid } from 'uuid';
-import { useDisclosure } from '@nextui-org/modal';
+import { useDisclosure } from "@heroui/modal";
 import { InputModal } from './InputModal';
 import { useCallback, useEffect, useState } from 'react';
 import { FormPanelPages, PanelType } from '../Panel/types';

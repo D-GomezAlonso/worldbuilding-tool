@@ -1,10 +1,10 @@
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/dropdown';
+} from "@heroui/dropdown";
 import { BsFillPlusSquareFill } from 'react-icons/bs';
 import { BsChevronDown } from 'react-icons/bs';
 
