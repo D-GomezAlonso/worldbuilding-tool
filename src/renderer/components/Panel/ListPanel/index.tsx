@@ -1,13 +1,13 @@
 'use client';
 import { useDraggable } from '@dnd-kit/core';
-import { Card, CardFooter, CardHeader } from '@nextui-org/card';
-import { Divider } from '@nextui-org/divider';
-import { Input } from '@nextui-org/input';
+import { Card, CardFooter, CardHeader } from "@heroui/card";
+import { Divider } from "@heroui/divider";
+import { Input } from "@heroui/input";
 import { CSSProperties } from 'react';
 import { BsArrowsMove } from 'react-icons/bs';
 import { BsPlusLg } from 'react-icons/bs';
 import { PanelWrapper } from '../PanelWrapper';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import { CardBodyList } from './CardBodyList';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ProjectFormType } from '../../../form-utils';
@@ -64,7 +64,7 @@ export const ListPanel = ({
         <Divider />
         <CardBodyList fieldName={`${fieldName}.entries`} />
         <CardFooter className="flex justify-between">
-          <Button isIconOnly onClick={addListItem}>
+          <Button isIconOnly onPress={addListItem}>
             <BsPlusLg />
           </Button>
         </CardFooter>

@@ -1,7 +1,7 @@
 import 'tailwindcss/tailwind.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
-import { NextUIProvider } from '@nextui-org/system';
+import { HeroUIProvider } from "@heroui/system";
 import { formInitialValues, ProjectFormType } from './form-utils/';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Home } from './pages/Home';
@@ -55,12 +55,12 @@ export default function App() {
   ]);
 
   return (
-    <NextUIProvider>
+    <HeroUIProvider>
       <ProjectPathProvider>
         <FormProvider {...methods}>
           <RouterProvider router={router} />
         </FormProvider>
       </ProjectPathProvider>
-    </NextUIProvider>
+    </HeroUIProvider>
   );
 }

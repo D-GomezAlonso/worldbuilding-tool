@@ -1,12 +1,12 @@
-import { Button } from '@nextui-org/button';
-import { Input } from '@nextui-org/input';
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
 import {
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from '@nextui-org/modal';
+} from "@heroui/modal";
 import { useCallback, useState } from 'react';
 
 export const InputModal = ({

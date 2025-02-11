@@ -1,6 +1,6 @@
-import { Card, CardBody } from '@nextui-org/card';
-import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
-import { Tab, Tabs } from '@nextui-org/tabs';
+import { Card, CardBody } from "@heroui/card";
+import { Modal, ModalBody, ModalContent, ModalHeader } from "@heroui/modal";
+import { Tab, Tabs } from "@heroui/tabs";
 
 export const OptionsModal = ({
   isOpen,

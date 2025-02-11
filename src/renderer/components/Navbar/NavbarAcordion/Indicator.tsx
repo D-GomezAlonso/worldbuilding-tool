@@ -1,9 +1,9 @@
-import { NavbarItem } from '@nextui-org/navbar';
+import { NavbarItem } from "@heroui/navbar";
 import clsx from 'clsx';
 import { MouseEventHandler } from 'react';
 import { IconType } from 'react-icons';
 import { BsPlus } from 'react-icons/bs';
-import { link as linkStyles } from '@nextui-org/theme';
+import { link as linkStyles } from "@heroui/theme";
 
 type Item = {
   label: string;

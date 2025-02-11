@@ -3,7 +3,7 @@ import {
   Navbar as NextUINavbar,
   NavbarContent,
   NavbarItem,
-} from '@nextui-org/navbar';
+} from "@heroui/navbar";
 import { PageConfig } from '../../config/site';
 import {
   BsChevronDoubleLeft,
@@ -18,7 +18,7 @@ import {
 } from '../../form-utils/defaultValues';
 import { v4 as uuid } from 'uuid';
 import { BsChevronDoubleRight } from 'react-icons/bs';
-import { Divider } from '@nextui-org/divider';
+import { Divider } from "@heroui/divider";
 import { toSingularCapitalised } from './utils';
 import { OptionsModal } from './OptionsModal';
 import { useNavigate } from 'react-router-dom';

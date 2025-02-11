@@ -1,6 +1,6 @@
-import { NavbarItem } from '@nextui-org/navbar';
+import { NavbarItem } from "@heroui/navbar";
 import { BsSquareFill } from 'react-icons/bs';
-import { link as linkStyles } from '@nextui-org/theme';
+import { link as linkStyles } from "@heroui/theme";
 import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
 import { useMemo } from 'react';

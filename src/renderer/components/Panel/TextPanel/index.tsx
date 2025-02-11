@@ -1,7 +1,7 @@
 'use client';
-import { Card, CardBody, CardHeader } from '@nextui-org/card';
-import { Divider } from '@nextui-org/divider';
-import { Input, Textarea } from '@nextui-org/input';
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Divider } from "@heroui/divider";
+import { Input, Textarea } from "@heroui/input";
 import { CSSProperties } from 'react';
 import { BsArrowsMove } from 'react-icons/bs';
 import { PanelWrapper } from '../PanelWrapper';

@@ -1,4 +1,4 @@
-import { Accordion, AccordionItem } from '@nextui-org/accordion';
+import { Accordion, AccordionItem } from "@heroui/accordion";
 import { Indicator } from './Indicator';
 import { AccordionItemBody } from './AccordionEntryBody';
 import { PageConfig, siteConfig } from '../../../config/site';

@@ -1,5 +1,5 @@
 'use client';
-import { Divider } from '@nextui-org/divider';
+import { Divider } from "@heroui/divider";
 import { useMemo } from 'react';
 import { DndContext, DragEndEvent, useDroppable } from '@dnd-kit/core';
 import { Toolbar } from '../../components/Toolbar';

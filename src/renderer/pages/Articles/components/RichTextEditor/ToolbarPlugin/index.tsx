@@ -1,11 +1,11 @@
-import { Button } from '@nextui-org/button';
-import { Divider } from '@nextui-org/divider';
+import { Button } from '@heroui/button';
+import { Divider } from '@heroui/divider';
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/dropdown';
+} from '@heroui/dropdown';
 import { useMemo, useRef } from 'react';
 import {
   BsTypeBold,
@@ -214,7 +214,7 @@ export const ToolbarPlugin = () => {
         <Button
           variant="light"
           isIconOnly
-          onClick={() => {
+          onPress={() => {
             editor.dispatchCommand(UNDO_COMMAND, undefined);
           }}
         >
@@ -223,7 +223,7 @@ export const ToolbarPlugin = () => {
         <Button
           variant="light"
           isIconOnly
-          onClick={() => {
+          onPress={() => {
             editor.dispatchCommand(REDO_COMMAND, undefined);
           }}
         >
@@ -235,7 +235,7 @@ export const ToolbarPlugin = () => {
         <Button
           variant="light"
           isIconOnly
-          onClick={() => {
+          onPress={() => {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
           }}
         >
@@ -244,7 +244,7 @@ export const ToolbarPlugin = () => {
         <Button
           variant="light"
           isIconOnly
-          onClick={() => {
+          onPress={() => {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
           }}
         >
@@ -253,7 +253,7 @@ export const ToolbarPlugin = () => {
         <Button
           variant="light"
           isIconOnly
-          onClick={() => {
+          onPress={() => {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
           }}
         >
@@ -267,14 +267,14 @@ export const ToolbarPlugin = () => {
         <Button
           variant="light"
           startContent={<BsListOl className={iconStyle} />}
-          onClick={() => formatList('ol')}
+          onPress={() => formatList('ol')}
         >
           Ordered List
         </Button>
         <Button
           variant="light"
           startContent={<BsListUl className={iconStyle} />}
-          onClick={() => formatList('ul')}
+          onPress={() => formatList('ul')}
         >
           Bullet List
         </Button>
@@ -289,17 +289,19 @@ export const ToolbarPlugin = () => {
   );
 };
 
+type Alignments = 'right' | 'left' | 'center' | 'justify';
+
 const AlignDropdown = ({
   editor,
   elementFormat,
 }: {
   editor: LexicalEditor;
-  elementFormat: 'right' | 'left' | 'center' | 'justify';
+  elementFormat: Alignments;
 }) => {
   const [blockTypeData, setBlockTypeData] = useState(
     alignmentTypeToAlignName.left,
   );
-  const alignCommand = (alignment: 'right' | 'left' | 'center' | 'justify') =>
+  const alignCommand = (alignment: Alignments) =>
     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment);
 
   useEffect(() => {
@@ -318,27 +320,30 @@ const AlignDropdown = ({
           <BsChevronDown className={iconStyle} />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions">
+      <DropdownMenu
+        aria-label="Static Actions"
+        onAction={(key) => alignCommand(key as Alignments)}
+      >
         <DropdownItem
-          onClick={() => alignCommand('left')}
+          key="left"
           startContent={<BsTextLeft className={iconStyle} />}
         >
           Left Align
         </DropdownItem>
         <DropdownItem
-          onClick={() => alignCommand('center')}
+          key="center"
           startContent={<BsTextCenter className={iconStyle} />}
         >
           Center Align
         </DropdownItem>
         <DropdownItem
-          onClick={() => alignCommand('right')}
+          key="right"
           startContent={<BsTextRight className={iconStyle} />}
         >
           Right Align
         </DropdownItem>
         <DropdownItem
-          onClick={() => alignCommand('justify')}
+          key="justify"
           startContent={<BsJustify className={iconStyle} />}
         >
           Justify
@@ -366,25 +371,25 @@ const TextTypeDropdown = ({
     }
   }, [blockType]);
 
-  const formatParagraph = () => {
-    if (blockType !== 'paragraph') {
-      editor.update(() => {
-        const selection = $getSelection();
-        if ($isRangeSelection(selection)) {
-          $setBlocksType(selection, () => $createParagraphNode());
-        }
-      });
-    }
-  };
-
-  const formatHeader = (headingTag: HeadingTagType) => {
-    if (blockType !== headingTag) {
-      editor.update(() => {
-        const selection = $getSelection();
-        if ($isRangeSelection(selection)) {
-          $setBlocksType(selection, () => $createHeadingNode(headingTag));
-        }
-      });
+  const formatHeader = (headingTag: HeadingTagType | 'p') => {
+    if (headingTag === 'p') {
+      if (blockType !== 'paragraph') {
+        editor.update(() => {
+          const selection = $getSelection();
+          if ($isRangeSelection(selection)) {
+            $setBlocksType(selection, () => $createParagraphNode());
+          }
+        });
+      }
+    } else {
+      if (blockType !== headingTag) {
+        editor.update(() => {
+          const selection = $getSelection();
+          if ($isRangeSelection(selection)) {
+            $setBlocksType(selection, () => $createHeadingNode(headingTag));
+          }
+        });
+      }
     }
   };
 
@@ -397,27 +402,27 @@ const TextTypeDropdown = ({
           <BsChevronDown className={iconStyle} />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions">
-        <DropdownItem
-          onClick={formatParagraph}
-          startContent={<BsType className={iconStyle} />}
-        >
+      <DropdownMenu
+        aria-label="Static Actions"
+        onAction={(key) => formatHeader(key as HeadingTagType | 'p')}
+      >
+        <DropdownItem key="p" startContent={<BsType className={iconStyle} />}>
           Normal
         </DropdownItem>
         <DropdownItem
-          onClick={() => formatHeader('h1')}
+          key="h1"
           startContent={<BsTypeH1 className={iconStyle} />}
         >
           Heading 1
         </DropdownItem>
         <DropdownItem
-          onClick={() => formatHeader('h2')}
+          key="h2"
           startContent={<BsTypeH2 className={iconStyle} />}
         >
           Heading 2
         </DropdownItem>
         <DropdownItem
-          onClick={() => formatHeader('h3')}
+          key="h3"
           startContent={<BsTypeH3 className={iconStyle} />}
         >
           Heading 3

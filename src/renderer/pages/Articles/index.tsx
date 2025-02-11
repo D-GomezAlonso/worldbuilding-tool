@@ -1,10 +1,10 @@
-import { Divider } from '@nextui-org/divider';
+import { Divider } from "@heroui/divider";
 import { useFormContext } from 'react-hook-form';
 import { ProjectFormType } from '../../form-utils';
-import { Input } from '@nextui-org/input';
+import { Input } from "@heroui/input";
 import { RichTextEditor } from './components/RichTextEditor';
-import { Tab, Tabs } from '@nextui-org/tabs';
-import { Button } from '@nextui-org/button';
+import { Tab, Tabs } from "@heroui/tabs";
+import { Button } from "@heroui/button";
 import { useNavigate, useParams } from 'react-router-dom';
 
 export type Fields =
@@ -46,7 +46,7 @@ export default function ArticleEditPage() {
               setValue(`articles.${articleIndex}.name`, e.currentTarget.value)
             }
           />
-          <Button onClick={() => navigate(`/articles-view/${id}`)}>
+          <Button onPress={() => navigate(`/articles-view/${id}`)}>
             Go to View Mode
           </Button>
         </div>

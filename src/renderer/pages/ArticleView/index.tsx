@@ -2,11 +2,11 @@ import { useFormContext } from 'react-hook-form';
 import { ProjectFormType } from '../../form-utils';
 import texture from '../../../../assets/paper.jpg';
 import headerDefaultImage from '../../../../assets/article-header.jpg';
-import { Image } from '@nextui-org/image';
+import { Image } from "@heroui/image";
 import parse from 'html-react-parser';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import { BsPencilSquare } from 'react-icons/bs';
-import { Divider } from '@nextui-org/divider';
+import { Divider } from "@heroui/divider";
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function ArticleViewPage() {

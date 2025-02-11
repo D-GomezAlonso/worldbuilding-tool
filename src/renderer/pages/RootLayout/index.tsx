@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Navbar } from '../../components/Navbar';
-import { Divider } from '@nextui-org/divider';
+import { Divider } from "@heroui/divider";
 import { Outlet } from 'react-router-dom';
 import { useProjectPathContext } from '../../context/projectPathContext';
 
