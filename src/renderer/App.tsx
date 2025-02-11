@@ -1,7 +1,11 @@
 import 'tailwindcss/tailwind.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouterProvider,
+} from 'react-router-dom';
 import './App.css';
-import { HeroUIProvider } from "@heroui/system";
+import { HeroUIProvider } from '@heroui/system';
 import { formInitialValues, ProjectFormType } from './form-utils/';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Home } from './pages/Home';
@@ -17,7 +21,7 @@ export default function App() {
     defaultValues: formInitialValues,
   });
 
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     {
       path: '',
       element: <RootLayout />,
